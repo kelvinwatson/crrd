@@ -1,3 +1,5 @@
+Businesses = new Mongo.Collection('businesses');
+
 if (Meteor.isClient) {
 
   // counter starts at 0
