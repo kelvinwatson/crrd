@@ -1,6 +1,16 @@
 if (Meteor.isClient) {
 
+
+  Template.android.rendered = function(){
+    $.material.init();
+  };
+
+  Template.admin.rendered = function(){
+    $.material.init();
+  };
   // counter starts at 0
+
+
   Session.setDefault('counter', 0);
 
   Template.hello.helpers({
@@ -15,6 +25,8 @@ if (Meteor.isClient) {
       Session.set('counter', Session.get('counter') + 1);
     }
   });
+
+
 }
 
 if (Meteor.isServer) {
