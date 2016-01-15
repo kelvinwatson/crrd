@@ -1,14 +1,11 @@
 if (Meteor.isClient) {
-
-
+  /* Initialize ripple effect */
   Template.android.rendered = function(){
     $.material.init();
   };
-
   Template.admin.rendered = function(){
     $.material.init();
   };
-  // counter starts at 0
 
 
   Session.setDefault('counter', 0);
