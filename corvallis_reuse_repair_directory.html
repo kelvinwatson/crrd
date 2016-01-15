@@ -1,0 +1,276 @@
+<head>
+  <title>Corvallis Reuse and Repair Directory</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Material Design fonts -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- Bootstrap Material Design -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/css/bootstrap-material-design.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/css/ripples.css" rel="stylesheet">
+
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/material.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/ripples.js"></script>
+  <!--<link href="http://cdn.rawgit.com/FezVrasta/dropdown.js/master/jquery.dropdown.css" rel="stylesheet">-->
+  <script>
+  $(function() {
+    $.material.init();
+  });</script>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">LOGO</a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="javascript:void(0)">Active</a></li>
+          <li><a href="javascript:void(0)">Link</a></li>
+          <li class="dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+              <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:void(0)">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="javascript:void(0)">Something else here</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Dropdown header</li>
+              <li><a href="javascript:void(0)">Separated link</a></li>
+              <li><a href="javascript:void(0)">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input type="text" class="form-control col-md-8" placeholder="Search">
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="javascript:void(0)">Link</a></li>
+          <li class="dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+              <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:void(0)">Action</a></li>
+              <li><a href="javascript:void(0)">Another action</a></li>
+              <li><a href="javascript:void(0)">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="javascript:void(0)">Separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="javascript:void(0)">Home</a></li>
+      <li><a href="javascript:void(0)">Reuse</a></li>
+      <li class="active">Businesses</li>
+    </ul>
+  </div>
+
+
+  <h1>Corvallis Reuse and Recycle Directory</h1>
+  {{> hello}}
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title">Reuse</h3>
+            </div>
+            <div class="panel-body">
+              Find business that will resell your items!
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Repair</h3>
+            </div>
+            <div class="panel-body">
+              Find business that will repair your items!
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Recycle</h3>
+            </div>
+            <div class="panel-body">
+              No businesses that will resell or repair your items?
+              No problem! Republic Services will recycle them for you!
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h2>List Groups</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="bs-component">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="least-content">15m</div>
+              <h4 class="list-group-item-heading">Appliances, Large</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="least-content">10m</div>
+              <h4 class="list-group-item-heading">Appliances, Small</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="least-content">8m</div>
+              <h4 class="list-group-item-heading">Tile with a label</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="bs-component">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="action-secondary"><i class="material-icons">info</i></div>
+              <h4 class="list-group-item-heading">Tile with an icon</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="action-secondary"><i class="material-icons">info</i></div>
+              <h4 class="list-group-item-heading">Tile with an icon</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="action-secondary"><i class="material-icons">info</i></div>
+              <h4 class="list-group-item-heading">Tile with an icon</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="bs-component">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="row-picture">
+              <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+            </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">Tile with avatar</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-picture">
+              <img class="circle" src="http://lorempixel.com/56/56/people/7/" alt="icon">
+            </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">Tile with another avatar</h4>
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary checkbox">
+              <label><input type="checkbox"></label>
+            </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">Tile with a checkbox in it</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html
+    </div>
+  </div>
+</body>
+
+
+<template name="hello">
+  <a href="javascript:void(0)" class="btn btn-raised btn-primary">Button</a>
+  <!--<p>You've pressed the button {{counter}} times.</p>-->
+</template>
