@@ -1,10 +1,62 @@
 <template name="android">
-  {{> android_nav_bar}}
-  {{> android_bread_crumbs}}
-  {{>hello}}
-  <h1>Android App</h1>
-  {{> reuse_repair_recycle_panels}}
-  {{> android_list_group}}
+  {{> android_nav_bar }}
+    {{> yield "bread_crumbs"}}
+    <!--{{> android_bread_crumbs}}-->
+    {{> yield "main_content" }}
+      <!--{{> reuse_repair_recycle_panels }}
+      {{> android_list_group}}-->
+</template>
+
+<template name="content_template">
+
+</template>
+
+
+<template name="reuse_repair_recycle_panels">
+  <h1>Corvallis Reuse and Recycle Directory</h1>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <a href="/reuse">
+          <div data-template="reuse_panel" class="panel panel-warning">
+              <div class="panel-heading">
+                <h3 class="panel-title">Reuse</h3>
+              </div>
+              <div class="panel-body">
+                Find business that will resell your items!
+              </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-info">
+            <div data-template="repair_panel" class="panel-heading">
+              <h3 class="panel-title">Repair</h3>
+            </div>
+            <div class="panel-body">
+              Find business that will repair your items!
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div data-template="recycle_panel" class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Recycle</h3>
+            </div>
+            <div class="panel-body">
+              No businesses that will resell or repair your items?
+              No problem! Republic Services will recycle them for you!
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="android_nav_bar">
@@ -71,50 +123,23 @@
 </template>
 
 
-<template name="reuse_repair_recycle_panels">
-  <h1>Corvallis Reuse and Recycle Directory</h1>
-  <div class="row">
-    <div class="col-xs-6 col-md-6">
-      <div class="bs-component">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-              <h3 class="panel-title">Reuse</h3>
-            </div>
-            <div class="panel-body">
-              Find business that will resell your items!
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-6 col-md-6">
-      <div class="bs-component">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title">Repair</h3>
-            </div>
-            <div class="panel-body">
-              Find business that will repair your items!
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-6 col-md-6">
-      <div class="bs-component">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">Recycle</h3>
-            </div>
-            <div class="panel-body">
-              No businesses that will resell or repair your items?
-              No problem! Republic Services will recycle them for you!
-            </div>
-        </div>
-      </div>
-    </div>
+<template name="android_reuse_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="javascript:void(0)">Home</a></li>
+      <li><a href="javascript:void(0)">Reuse</a></li>
+    </ul>
   </div>
 </template>
+
+<template name="android_home_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="javascript:void(0)">Home</a></li>
+    </ul>
+  </div>
+</template>
+
 
 <template name="android_list_group">
   <div class="row">
