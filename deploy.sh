@@ -1,2 +1,2 @@
 #!/bin/sh
-meteor deploy corvallis_reuse_repair_directory.meteor.com
+meteor deploy crrd.meteor.com
