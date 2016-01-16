@@ -1,0 +1,253 @@
+<template name="android">
+  {{> android_nav_bar}}
+  {{> android_bread_crumbs}}
+  {{>hello}}
+  <h1>Android App</h1>
+  {{> reuse_repair_recycle_panels}}
+  {{> android_list_group}}
+</template>
+
+<template name="android_nav_bar">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">LOGO</a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="javascript:void(0)">Active</a></li>
+          <li><a href="javascript:void(0)">Link</a></li>
+          <li class="dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+              <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:void(0)">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="javascript:void(0)">Something else here</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Dropdown header</li>
+              <li><a href="javascript:void(0)">Separated link</a></li>
+              <li><a href="javascript:void(0)">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input type="text" class="form-control col-md-8" placeholder="Search">
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="javascript:void(0)">Link</a></li>
+          <li class="dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+              <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:void(0)">Action</a></li>
+              <li><a href="javascript:void(0)">Another action</a></li>
+              <li><a href="javascript:void(0)">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="javascript:void(0)">Separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<template name="android_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="javascript:void(0)">Home</a></li>
+      <li><a href="javascript:void(0)">Reuse</a></li>
+      <li class="active">Businesses</li>
+    </ul>
+  </div>
+</template>
+
+
+<template name="reuse_repair_recycle_panels">
+  <h1>Corvallis Reuse and Recycle Directory</h1>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title">Reuse</h3>
+            </div>
+            <div class="panel-body">
+              Find business that will resell your items!
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Repair</h3>
+            </div>
+            <div class="panel-body">
+              Find business that will repair your items!
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <div class="bs-component">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Recycle</h3>
+            </div>
+            <div class="panel-body">
+              No businesses that will resell or repair your items?
+              No problem! Republic Services will recycle them for you!
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="android_list_group">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>List Groups</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="bs-component">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="least-content">15m</div>
+              <h4 class="list-group-item-heading">Appliances, Large</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="least-content">10m</div>
+              <h4 class="list-group-item-heading">Appliances, Small</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="least-content">8m</div>
+              <h4 class="list-group-item-heading">Tile with a label</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="bs-component">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="action-secondary"><i class="material-icons">info</i></div>
+              <h4 class="list-group-item-heading">Tile with an icon</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="action-secondary"><i class="material-icons">info</i></div>
+              <h4 class="list-group-item-heading">Tile with an icon</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary">
+              <i class="material-icons">folder</i>
+            </div>
+            <div class="row-content">
+              <div class="action-secondary"><i class="material-icons">info</i></div>
+              <h4 class="list-group-item-heading">Tile with an icon</h4>
+
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="bs-component">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="row-picture">
+              <img class="circle" src="http://lorempixel.com/56/56/people/1" alt="icon">
+            </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">Tile with avatar</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-picture">
+              <img class="circle" src="http://lorempixel.com/56/56/people/7/" alt="icon">
+            </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">Tile with another avatar</h4>
+              <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+          <div class="list-group-item">
+            <div class="row-action-primary checkbox">
+              <label><input type="checkbox"></label>
+            </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">Tile with a checkbox in it</h4>
+
+              <p class="list-group-item-text">Donec id elit non mi risus varius blandit.</p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="hello">
+  <a href="javascript:void(0)" class="btn btn-raised btn-primary">Button</a>
+</template>
