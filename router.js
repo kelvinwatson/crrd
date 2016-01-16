@@ -16,6 +16,7 @@ Router.route('/reuse', function(){
   });
   this.render('android_list_group',{
     to: 'main_content'
+    //,data: function(){return Businesses.find().fetch()}
   });
 });
 
