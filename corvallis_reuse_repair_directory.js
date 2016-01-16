@@ -1,3 +1,20 @@
+Businesses = new Mongo.Collection('businesses');
+
+Businesses.insert({business_category: 'repair',
+  business_name: 'Book Binding',
+  phone: 5417579861,
+  street: '108 SW 3rd St',
+  city: 'Corvallis',
+  state: 'OR',
+  country: 'US',
+  zip: 97333,
+  operating_hours: [],
+  website: "www.cornerstoneassociates.com/bj-bookbinding-about-us.html",
+  latitude: 45.564466,
+  longitude: -123.261360,
+  items:['books']});
+
+  
 if (Meteor.isClient) {
   /* Initialize ripple effect */
   Template.android.rendered = function(){
