@@ -42,19 +42,25 @@ if (Meteor.isClient) {
   /**/
 
   Template.reuse_repair_recycle_panels.events({
-    'click #repair_panel': function(){
-      Router.go('/repair');
-    },
     'click #reuse_panel': function(){
+      Session.set('selectedAction','Reuse');
       Router.go('/reuse');
     },
+    'click #repair_panel': function(){
+      Session.set('selectedAction','Repair');
+      Router.go('/repair');
+    },
     'click #recycle_panel':function(){
+      Session.set('selectedAction','Recycle');
       Router.go('/recycle');
     }
   });
 
   Template.android_list_group.helpers({
-    'repairItems': function(){
+    'title': function(){
+      return Session.get('selectedAction')+" your item";
+    },
+    'items': function(){
       return this.repairItems;
     }
   });
