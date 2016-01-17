@@ -1,6 +1,6 @@
 /*Iron Router*/
 Router.route('/', function(){ //when user navigates to /
-  this.layout('android'); //use the layout called template name="android"
+  this.layout('android'); //use layout called template name="android"
   this.render('android_home_bread_crumbs',{
     to: 'bread_crumbs'
   }); //render android_home_bread_crumbs template into yield breadcrubs
@@ -10,13 +10,40 @@ Router.route('/', function(){ //when user navigates to /
 });
 
 Router.route('/reuse', function(){
-  this.layout('android');
+  this.layout('android'); //use layout called template name="android"
   this.render('android_reuse_bread_crumbs',{
+    to: 'bread_crumbs'
+  }); //render android_reuse_bread_crumbs template into yield breadcrubs
+  this.render('android_list_group',{
+    to: 'main_content',
+    data: function() {
+      return ReuseItemCategories.find().fetch();
+    }
+  });
+});
+
+Router.route('/repair', function(){
+  this.layout('android');
+  this.render('android_repair_bread_crumbs',{
     to: 'bread_crumbs'
   });
   this.render('android_list_group',{
+    to: 'main_content', //yield main_content
+    data: function() {
+      return {
+        repairItems : RepairItemCategories.find().fetch()
+      };
+    }
+  });
+});
+
+Router.route('/recycle', function(){
+  this.layout('android');
+  this.render('android_recycle_bread_crumbs',{
+    to: 'bread_crumbs'
+  });
+  this.render('android_list_group', {
     to: 'main_content'
-    //,data: function(){return Businesses.find().fetch()}
   });
 });
 
