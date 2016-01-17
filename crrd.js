@@ -42,19 +42,20 @@ if (Meteor.isClient) {
   /**/
 
   Template.reuse_repair_recycle_panels.events({
-    'click #reuse_panel': function(){
+    'touchstart #reuse_panel, click #reuse_panel': function(){
       Session.set('selectedAction','reuse');
       Router.go('/reuse');
     },
-    'click #repair_panel': function(){
+    'touchstart #repair_panel, click #repair_panel': function(){
       Session.set('selectedAction','repair');
       Router.go('/repair');
     },
-    'click #recycle_panel':function(){
+    'touchstart #recycle_panel, click #recycle_panel':function(){
       Session.set('selectedAction','recycle');
       Router.go('/recycle');
     }
   });
+
 
   Template.android_list_group.helpers({
     'title': function(){
@@ -66,10 +67,10 @@ if (Meteor.isClient) {
   });
 
   Template.android_list_group.events({
-    'click .list-group-item': function(){
+    'touchstart .list-group-item, click .list-group-item': function(){
       console.log(this); //figure out what the object is that was clicked
       Router.go('/'+Session.get('selectedAction')+"?itemCat="+this.name);
-    }
+    },
   });
 
   /*Session.setDefault('counter', 0);
