@@ -43,15 +43,15 @@ if (Meteor.isClient) {
 
   Template.reuse_repair_recycle_panels.events({
     'click #reuse_panel': function(){
-      Session.set('selectedAction','Reuse');
+      Session.set('selectedAction','reuse');
       Router.go('/reuse');
     },
     'click #repair_panel': function(){
-      Session.set('selectedAction','Repair');
+      Session.set('selectedAction','repair');
       Router.go('/repair');
     },
     'click #recycle_panel':function(){
-      Session.set('selectedAction','Recycle');
+      Session.set('selectedAction','recycle');
       Router.go('/recycle');
     }
   });
@@ -65,6 +65,12 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.android_list_group.events({
+    'click .list-group-item': function(){
+      console.log(this); //figure out what the object is that was clicked
+      Router.go('/'+Session.get('selectedAction')+"?itemCat="+this.name);
+    }
+  });
 
   /*Session.setDefault('counter', 0);
 
