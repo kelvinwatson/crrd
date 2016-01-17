@@ -1,88 +1,20 @@
-<div class="col-md-4">
-  <div class="bs-component">
-    <div class="list-group">
-      <div class="list-group-item">
-        <div class="row-action-primary">
-          <i class="material-icons">folder</i>
-        </div>
-        <div class="row-content">
-          <div class="least-content">15m</div>
-          <h4 class="list-group-item-heading">Appliances, Large</h4>
-          <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
-        </div>
-      </div>
-      <div class="list-group-separator"></div>
+<!-- Material Design fonts -->
+<!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">-->
+<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 
-      <div class="list-group-item">
-        <div class="row-action-primary">
-          <i class="material-icons">folder</i>
-        </div>
-        <div class="row-content">
-          <div class="least-content">10m</div>
-          <h4 class="list-group-item-heading">Appliances, Small</h4>
+<!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
 
-          <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-        </div>
-      </div>
+<!-- Bootstrap Material Design -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/css/bootstrap-material-design.css" rel="stylesheet">-->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/css/ripples.css" rel="stylesheet">-->
 
-      <div class="list-group-separator"></div>
-
-      <div class="list-group-item">
-        <div class="row-action-primary">
-          <i class="material-icons">folder</i>
-        </div>
-        <div class="row-content">
-          <div class="least-content">8m</div>
-          <h4 class="list-group-item-heading">Tile with a label</h4>
-
-          <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-        </div>
-      </div>
-      <div class="list-group-separator"></div>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-4">
-  <div class="bs-component">
-    <div class="list-group">
-      <div class="list-group-item">
-        <div class="row-action-primary">
-          <i class="material-icons">folder</i>
-        </div>
-        <div class="row-content">
-          <div class="action-secondary"><i class="material-icons">info</i></div>
-          <h4 class="list-group-item-heading">Tile with an icon</h4>
-
-          <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
-        </div>
-      </div>
-      <div class="list-group-separator"></div>
-      <div class="list-group-item">
-        <div class="row-action-primary">
-          <i class="material-icons">folder</i>
-        </div>
-        <div class="row-content">
-          <div class="action-secondary"><i class="material-icons">info</i></div>
-          <h4 class="list-group-item-heading">Tile with an icon</h4>
-
-          <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-        </div>
-      </div>
-      <div class="list-group-separator"></div>
-      <div class="list-group-item">
-        <div class="row-action-primary">
-          <i class="material-icons">folder</i>
-        </div>
-        <div class="row-content">
-          <div class="action-secondary"><i class="material-icons">info</i></div>
-          <h4 class="list-group-item-heading">Tile with an icon</h4>
-
-          <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
-        </div>
-      </div>
-      <div class="list-group-separator"></div>
-    </div>
-  </div>
-</div>
+<!--  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/material.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.7/js/ripples.js"></script>-->
+<!--<link href="http://cdn.rawgit.com/FezVrasta/dropdown.js/master/jquery.dropdown.css" rel="stylesheet">-->
+<!--<script>
+$(function() {
+  $.material.init();
+});</script>-->
