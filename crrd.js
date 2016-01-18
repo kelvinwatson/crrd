@@ -1,3 +1,4 @@
+
 ReuseBusinesses = new Mongo.Collection('reuseBusinesses');
 RepairBusinesses = new Mongo.Collection('repairBusinesses');
 ReuseItemCategories = new Mongo.Collection('reuseItemCategories');
@@ -31,6 +32,7 @@ RecycleItemCategories = new Mongo.Collection('recycleItemCategories');
 });*/
 
 if (Meteor.isClient) {
+  callOSU();
   /* Initialize ripple effect */
   Template.android.rendered = function(){
     $.material.init();
@@ -94,5 +96,8 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    var url="http://web.engr.oregonstate.edu/~watsokel/cs340/final/tfile.php";
+    var resp = HTTP.get(url);
+    console.log(resp);
   });
 }
