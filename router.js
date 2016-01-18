@@ -47,8 +47,14 @@ Router.route('/recycle', function(){
   });
 });
 
-Router.route('/admin'); //when user navigates to /admin, render template="admin"
+//Router.route('/admin'); //when user navigates to /admin, render template="admin"
 
+Router.route('/admin', function(){
+  this.layout('admin');
+  this.render('admin_login_form',{
+    to: 'admin_content'
+  });
+});
 
 //Use a session variable to determine which service (reuse, repair, recycle)
 

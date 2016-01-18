@@ -1,6 +1,28 @@
 <template name="admin">
   {{> admin_nav_bar}}
   <h1>Corvallis Reuse Repair Directory Administrator Portal</h1>
+  {{> yield "admin_content" }}
+</template>
+
+<template name="admin_login_form">
+  <form class="form horizontal">
+    <div class="form-group">
+      <label for="inputEmail" class="col-md-2 control-label">Email</label>
+      <div class="col-md-10">
+        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-md-2 control-label">Password</label>
+      <div class="col-md-10">
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+      </div>
+    </div>
+    <div class="col-md-10 col-md-offset-2">
+      <button type="button" class="btn btn-default">Cancel</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
 </template>
 
 <template name="admin_nav_bar">
