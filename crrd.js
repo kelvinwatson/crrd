@@ -25,7 +25,8 @@ if (Meteor.isClient) {
     }
   });
 
-
+//https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
+//https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   Template.android_list_group.helpers({
     'title': function(){
       return Session.get('selectedAction')+" your item";

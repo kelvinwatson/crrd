@@ -19,7 +19,8 @@ CREATE TABLE business (
 DROP TABLES IF EXISTS item;
 CREATE TABLE item (
 id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(255) UNIQUE NOT NULL
+name VARCHAR(255) UNIQUE NOT NULL,
+url VARCHAR(255) DEFAULT NULL
 )ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS category;
@@ -90,7 +91,7 @@ INSERT INTO item(name) VALUES
 ("CD's"),("Cell phones"),("Computers"),("Curling irons"),("DVD players"),
 ("Game consoles"),("GPS systems"),("Hair dryers"),("Monitors"),("MP3 players"),
 ("Printers"),("Projectors"),("Receivers"),("Scanners"),("Speakers"),("Tablets"),
-("Telephones"),("TV''s"),("Backpacks"),("Balls"),("Barbells"),("Bicycles"),
+("Telephones"),("TV's"),("Backpacks"),("Balls"),("Barbells"),("Bicycles"),
 ("Bike tires"),("Camping equipment"),("Day packs"),("Dumbbells"),
 ("Exercise equipment"),("Golf clubs"),("Helmets"),("Hiking boots"),
 ("Skateboards"),("Skis"),("Small boats"),("Snowshoes"),("Sporting goods"),
