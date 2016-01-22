@@ -4,50 +4,49 @@ ini_set('display_errors',1);
 header('Content-Type: application/json');
 include 'dbp.php';
 
-$itemName = $_GET['item']
-
-$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
+$itemName=$_GET['item'];
+$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watss
+okel-db');
 
 if ($mysqli->connect_errno) {
-	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqlii
+->connect_error;
 }
 
-if (!($stmt = $mysqli->prepare("SELECT b.name,b.street,b.city,b.state,b.zipcode,
-  b.phone,b.latitude,b.longitude FROM business b
-	INNER JOIN business_category_item bci ON bci.bid=b.id
-	INNER JOIN item i ON i.id=bci.iid
+if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcc
+ode, b.latitude, b.longitude, i.name FROM business b
+  INNER JOIN business_category_item bci ON bci.bid=b.id
+  INNER JOIN item i ON i.id=bci.iid
   INNER JOIN category c ON c.id=bci.cid
-	WHERE c.name='Repair Items' AND b.type='Repair' AND i.name=$itemName"))) {
-	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+  WHERE b.type='Repair' AND i.name='".$itemName."'"
+  ))) {
+  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
 
-if(!$stmt->bind_result($bName,$bStr,$bCity,$bState,$bZip,$bTel,$bLat,$bLng)){
-	echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
+if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng,$iN)){
+  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
 }
 
 $arr = array();
 $i=0;
 
 while($stmt->fetch()){
-	//echo $repair_item_name;
-	$obj = new stdClass();
-	$obj->name = $bName;
-	$obj->street = $bStr;
-  $obj->city = $bCity;
-  $obj->state = $bState;
-  $obj->zip = $bZip;
-  $obj->tel = $bTel;
+  $obj = new stdClass();
+  $obj->name = $bN;
+  $obj->street = $bStr;
+  $obj->city = $bC;
+  $obj->state = $bSta;
+  $obj->zip = $bZ;
   $obj->lat = $bLat;
   $obj->lng = $bLng;
-	$arr[$i++] = $obj;
+  $arr[$i++] = $obj;
 }
 
 echo json_encode($arr);
 
 $stmt->close();
-
 ?>
