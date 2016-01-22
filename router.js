@@ -22,10 +22,16 @@ Router.route('/reuse', {where:"server"},function(){
   });
 });
 
+
+
 Router.route('/repair', function(){
-  //waitOn: function(){
-  //  return Meteor.subscribe('repairItems');
-  //};
+  console.log(this.params.query);
+  let repairTitle, selectedItem;
+  if(this.params.query.item){ //user selected item on item page
+    selectedItem = this.params.query.item;
+  } else {
+    repairTitle = 'Select Item to be Repaired';
+  }
   this.layout('android');
   this.render('android_repair_bread_crumbs',{
     to: 'bread_crumbs'
@@ -33,17 +39,14 @@ Router.route('/repair', function(){
   this.render('android_list_group',{
     to: 'main_content', //yield main_content
     data: function() {
+      console.log("selectedItem:");
+      console.log(selectedItem);
       return {
-        //page: this.page
-        repairTitle : 'Select Item to be Repaired'
+        repairTitle: repairTitle,
+        selectedItem: selectedItem,
       };
     }
   });
-  //this.subscriptions = function() {
-  //  return Meteor.subscribe('allData',"repairItems", function(){
-  //    console.log("data is ready!");
-  //  });
-  //}
 });
 
 Router.route('/recycle', function(){

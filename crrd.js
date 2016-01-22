@@ -25,65 +25,62 @@ if (Meteor.isClient) {
     }
   });
 
-//https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
-//https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
+  //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
+  //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   Template.android_list_group.helpers({
     'title': function(){
-      return this.repairTitle;
+      if(this.repairTitle){
+        return this.repairTitle;
+      } else if (this.selectedItem){
+        return this.selectedItem;
+      }
     },
     'items': function(){
-      //if this.page ==
-      if(!Session.get('repairItems')){
-        Meteor.call('getRepairItems', function (err, data) {
-          if (!err) {
-            //console.log("data="+data);
-            Session.set('repairItems', data);
-          }
-        })
+      if(this.repairTitle){
+        if(!Session.get('repairItems')){
+          Meteor.call('getRepairItems', function (err, data) {
+            if (!err) {
+              Session.set('repairItems', data);
+            }
+          })
+        }
+        return Session.get('repairItems');
+      } else if(this.selectedItem){
+        if(!Session.get('repairBusinesses')){
+          Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
+            if (!err) {
+              Session.set('repairBusinesses', data); //singular!
+            }
+          })
+        }
+        return Session.get('repairBusinesses');
       }
-      //console.log(Session.get('repairItems'));
-      return Session.get('repairItems');
     }
   });
 
   Template.android_list_group.events({
     'touchstart .list-group-item, click .list-group-item': function(){
       console.log(this); //figure out what the object is that was clicked
-      Router.go('/'+Session.get('selectedAction')+"?itemCat="+this.name);
+      Router.go('/'+Session.get('selectedAction')+"?item="+this.name);
     },
   });
-  /*Session.setDefault('counter', 0);
-
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
-
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });*/
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // code to run on server at startup
-    // var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
-    // var resp = HTTP.get(url);
-    // Session.set('repairItems',resp.data);
-    // console.log("retrieved repair items and printing...");
-    // console.dir(Session.get('repairItems'));
+
   });
   Meteor.methods({
     getRepairItems: function () {
       var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
       var resp = HTTP.get(url);
-      console.log("resp.data="+resp.data);
       return resp.data;
-    }
+    },
+    getRepairBusinesses: function (item) {
+      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_businesses.php?item="+item;
+      var resp = HTTP.get(url);
+      return resp.data;
+    },
   });
 
 }
