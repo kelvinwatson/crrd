@@ -1,38 +1,6 @@
-
-ReuseBusinesses = new Mongo.Collection('reuseBusinesses');
-RepairBusinesses = new Mongo.Collection('repairBusinesses');
-ReuseItemCategories = new Mongo.Collection('reuseItemCategories');
-RepairItemCategories = new Mongo.Collection('repairItemCategories');
-RecycleItemCategories = new Mongo.Collection('recycleItemCategories');
-
-/*ItemCategories.insert({
-  name: 'Books'
-});*/
-/*RepairBusinesses.insert({
-  business_name: 'Book Binding',
-  phone: 5417579861,
-  street: '108 SW 3rd St',
-  city: 'Corvallis',
-  state: 'OR',
-  country: 'US',
-  zip: 97333,
-  operating_hours: {
-    Sun: { from: -1, to: -1},
-    Mon: { from: 9, to: 17},
-    Tue: { from: 9, to: 17},
-    Wed: { from: 9, to: 17},
-    Thu: { from: 9, to: 17},
-    Fri: { from: 9, to: 17},
-    Sat: { from: -1, to: -1}
-  },
-  website: "http://www.cornerstoneassociates.com/bj-bookbinding.html",
-  latitude: 45.564466,
-  longitude: -123.261360,
-  items:['books']
-});*/
+repairItems = null;
 
 if (Meteor.isClient) {
-  callOSU();
   /* Initialize ripple effect */
   Template.android.rendered = function(){
     $.material.init();
@@ -41,7 +9,6 @@ if (Meteor.isClient) {
     $.material.init();
   };
 
-  /**/
 
   Template.reuse_repair_recycle_panels.events({
     'touchstart #reuse_panel, click #reuse_panel': function(){
@@ -64,7 +31,14 @@ if (Meteor.isClient) {
       return Session.get('selectedAction')+" your item";
     },
     'items': function(){
-      return this.repairItems;
+      Meteor.call('getRepairItems', function (err, data) {
+        if (!err) {
+          console.log("data="+data);
+          Session.set('repairItems', data);
+        }
+      })
+      console.log(Session.get('repairItems'));
+      return Session.get('repairItems');
     }
   });
 
@@ -74,7 +48,6 @@ if (Meteor.isClient) {
       Router.go('/'+Session.get('selectedAction')+"?itemCat="+this.name);
     },
   });
-
   /*Session.setDefault('counter', 0);
 
   Template.hello.helpers({
@@ -89,15 +62,24 @@ if (Meteor.isClient) {
       Session.set('counter', Session.get('counter') + 1);
     }
   });*/
-
-
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
-    var url="http://web.engr.oregonstate.edu/~watsokel/cs340/final/tfile.php";
-    var resp = HTTP.get(url);
-    console.log(resp);
+    // var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
+    // var resp = HTTP.get(url);
+    // Session.set('repairItems',resp.data);
+    // console.log("retrieved repair items and printing...");
+    // console.dir(Session.get('repairItems'));
   });
+  Meteor.methods({
+    getRepairItems: function () {
+      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
+      var resp = HTTP.get(url);
+      console.log("resp.data="+resp.data);
+      return resp.data;
+    }
+  });
+
 }

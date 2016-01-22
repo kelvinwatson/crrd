@@ -366,7 +366,7 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 (80,16,11),
 (81,16,164),
 (82,16,164),
-(82,16,168), --awaiitng client response
+(82,16,168), #awaiitng client response
 (83,16,74),
 (84,16,75),
 (84,16,69),

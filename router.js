@@ -9,7 +9,7 @@ Router.route('/', function(){ //when user navigates to /
   });
 });
 
-Router.route('/reuse', function(){
+Router.route('/reuse', {where:"server"},function(){
   this.layout('android'); //use layout called template name="android"
   this.render('android_reuse_bread_crumbs',{
     to: 'bread_crumbs'
@@ -22,7 +22,34 @@ Router.route('/reuse', function(){
   });
 });
 
+var data;
+
+
+/*Router.onBeforeAction(function(){
+  var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
+  var resp = HTTP.get(url);
+  data = resp.data;
+  console.log(data);
+  this.next();
+},{
+  only: ['repair']
+});*/
+
+// Router.route('/repair', function(){
+//   var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
+//   var resp = HTTP.get(url);
+//   data = resp.data;
+//   console.log(data);
+//   this.render('android_list_group',{
+//     to: 'main_content', //yield main_content
+//     data: data
+//   });
+// },{where: 'server'});
+
 Router.route('/repair', function(){
+  //waitOn: function(){
+  //  return Meteor.subscribe('repairItems');
+  //};
   this.layout('android');
   this.render('android_repair_bread_crumbs',{
     to: 'bread_crumbs'
@@ -31,10 +58,15 @@ Router.route('/repair', function(){
     to: 'main_content', //yield main_content
     data: function() {
       return {
-        repairItems : RepairItemCategories.find().fetch()
+        repairItems : repairItems
       };
     }
   });
+  //this.subscriptions = function() {
+  //  return Meteor.subscribe('allData',"repairItems", function(){
+  //    console.log("data is ready!");
+  //  });
+  //}
 });
 
 Router.route('/recycle', function(){
