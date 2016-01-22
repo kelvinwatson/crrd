@@ -26,15 +26,23 @@ Router.route('/reuse', {where:"server"},function(){
 
 Router.route('/repair', function(){
   console.log(this.params.query);
-  let repairTitle, selectedItem;
+  let repairTitle, selectedItem, breadCrumbs;
   if(this.params.query.item){ //user selected item on item page
     selectedItem = this.params.query.item;
+    breadCrumbs = 'android_repair_item_bread_crumbs';
   } else {
     repairTitle = 'Select Item to be Repaired';
+    breadCrumbs = 'android_repair_bread_crumbs';
   }
   this.layout('android');
-  this.render('android_repair_bread_crumbs',{
-    to: 'bread_crumbs'
+  this.render(breadCrumbs,{
+    to: 'bread_crumbs',
+    data: function(){
+      console.log("returning="+selectedItem);
+      return {
+        selectedItem: selectedItem
+      }
+    }
   });
   this.render('android_list_group',{
     to: 'main_content', //yield main_content

@@ -25,6 +25,14 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.android_repair_item_bread_crumbs.helpers({
+    'item': function(){
+      console.log("helper="+this.selectedItem);
+      return this.selectedItem;
+    }
+  });
+
+
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   Template.android_list_group.helpers({
@@ -46,13 +54,13 @@ if (Meteor.isClient) {
         }
         return Session.get('repairItems');
       } else if(this.selectedItem){
-        if(!Session.get('repairBusinesses')){
-          Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
-            if (!err) {
-              Session.set('repairBusinesses', data); //singular!
-            }
-          })
-        }
+        console.log("passing this.selectedItem="+this.selectedItem);
+        Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
+          if (!err) {
+            Session.set('repairBusinesses', data);
+          }
+        })
+
         return Session.get('repairBusinesses');
       }
     }

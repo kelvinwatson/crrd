@@ -5,6 +5,7 @@ header('Content-Type: application/json');
 include 'dbp.php';
 
 $itemName=$_GET['item'];
+
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watss
 okel-db');
 

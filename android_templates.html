@@ -1,7 +1,7 @@
 <template name="android">
   {{> android_nav_bar }}
     {{> yield "bread_crumbs"}}
-    <!--{{> android_bread_crumbs}}-->
+    {{> yield "map"}}
     {{> yield "main_content" }}
       <!--{{> reuse_repair_recycle_panels }}
       {{> android_list_group}}-->
@@ -138,6 +138,17 @@
     </ul>
   </div>
 </template>
+
+<template name="android_repair_item_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="javascript:void(0)">Home</a></li>
+      <li><a href="javascript:void(0)">Repair</a></li>
+      <li><a href="javascript:void(0)">{{item}}</a></li>
+    </ul>
+  </div>
+</template>
+
 
 <template name="android_recycle_bread_crumbs">
   <div class="col-md-12">
