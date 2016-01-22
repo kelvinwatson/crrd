@@ -29,16 +29,19 @@ if (Meteor.isClient) {
 //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   Template.android_list_group.helpers({
     'title': function(){
-      return Session.get('selectedAction')+" your item";
+      return this.repairTitle;
     },
     'items': function(){
-      Meteor.call('getRepairItems', function (err, data) {
-        if (!err) {
-          console.log("data="+data);
-          Session.set('repairItems', data);
-        }
-      })
-      console.log(Session.get('repairItems'));
+      //if this.page ==
+      if(!Session.get('repairItems')){
+        Meteor.call('getRepairItems', function (err, data) {
+          if (!err) {
+            //console.log("data="+data);
+            Session.set('repairItems', data);
+          }
+        })
+      }
+      //console.log(Session.get('repairItems'));
       return Session.get('repairItems');
     }
   });
