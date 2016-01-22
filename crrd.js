@@ -32,6 +32,19 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.android_map.helpers({
+    'someLat': function(){
+      return 45.528740;
+    },
+    'someLng': function(){
+      return -122.682002;
+    },
+    'someArr': function(){
+      var array = [ {lat:45.515769,lng:-122.681966}, {lat:45.540111,lng:-122.681888}, {lat:45.530011,lng:-122.658542}];
+      return array;
+    }
+  });
+
 
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
@@ -60,7 +73,6 @@ if (Meteor.isClient) {
             Session.set('repairBusinesses', data);
           }
         })
-
         return Session.get('repairBusinesses');
       }
     }
@@ -69,6 +81,7 @@ if (Meteor.isClient) {
   Template.android_list_group.events({
     'touchstart .list-group-item, click .list-group-item': function(){
       console.log(this); //figure out what the object is that was clicked
+      console.log(Session.get('selectedAction'));
       Router.go('/'+Session.get('selectedAction')+"?item="+this.name);
     },
   });

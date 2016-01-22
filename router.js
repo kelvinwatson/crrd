@@ -23,16 +23,48 @@ Router.route('/reuse', {where:"server"},function(){
 });
 
 
+/*Router.route('/repair/business', function(){
+  this.layout('android');
+  this.render('android_repair_business_bread_crumbs',{
+    to: 'bread_crumbs',
+    data: function(){
+      console.log("returning="+selectedItem);
+      return {
+        selectedItem: selectedItem
+      }
+    }
+  });
+  this.render('google_map',{
+    to: 'map',
+  });
+  this.render('android_list_group',{
+    to: 'main_content', //yield main_content
+    data: function() {
+      console.log("selectedItem:");
+      console.log(selectedItem);
+      return {
+        repairTitle: repairTitle,
+        selectedItem: selectedItem,
+      };
+    }
+  });
+});*/
+
 
 Router.route('/repair', function(){
   console.log(this.params.query);
-  let repairTitle, selectedItem, breadCrumbs;
+  let repairTitle, selectedItem, breadCrumbs, googleMap;
   if(this.params.query.item){ //user selected item on item page
     selectedItem = this.params.query.item;
     breadCrumbs = 'android_repair_item_bread_crumbs';
+    googleMap = 'android_map'; //show a map of businesses for that item
+  } else if(this.params.query.business){
+    console.log(this.params.query.business);
+    googleMap = 'blank_template';
   } else {
     repairTitle = 'Select Item to be Repaired';
     breadCrumbs = 'android_repair_bread_crumbs';
+    googleMap = 'blank_template';
   }
   this.layout('android');
   this.render(breadCrumbs,{
@@ -43,6 +75,9 @@ Router.route('/repair', function(){
         selectedItem: selectedItem
       }
     }
+  });
+  this.render(googleMap,{
+    to: 'map', //yield map
   });
   this.render('android_list_group',{
     to: 'main_content', //yield main_content

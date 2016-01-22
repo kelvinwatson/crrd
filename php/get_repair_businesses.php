@@ -37,6 +37,7 @@ $i=0;
 
 while($stmt->fetch()){
   $obj = new stdClass();
+  $obj->type = 'business';
   $obj->name = $bN;
   $obj->street = $bStr;
   $obj->city = $bC;

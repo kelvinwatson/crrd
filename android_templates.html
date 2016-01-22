@@ -11,6 +11,57 @@
 
 </template>
 
+<template name="blank_template">
+</template>
+
+<template name="android_map">
+  <div id="map">
+
+  </div>
+  <script type="text/javascript">
+  var map;
+
+  /*Store latitudes and longitudes in array*/
+  var latLngs = [];
+  {{#each someArr}}
+    console.log({{lat}},{{lng}});
+    var obj = {};
+    obj.lat = {{lat}};
+    obj.lng = {{lng}};
+    latLngs.push(obj);
+  {{/each}}
+  console.log(latLngs);
+
+  //var myLatLng=latLngs[0];
+  function initMap() {
+    var lati = {{someLat}};
+    console.log(lati);
+    var lngi = {{someLng}};
+    console.log(lngi);
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: lati, lng: lngi},
+      zoom: 13
+    });
+
+    for(var k=0; k<latLngs.length; k++){
+      console.log(latLngs[k]);
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latLngs[k].lat,latLngs[k].lng),
+        map:map,
+        title: 'coord'
+      });
+    }
+    /*var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: "Higgin's Restaurant!"
+    });*/
+  }
+  </script>
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACoyckzkQM3CtBBjbviS3zK9FOKxohTAU&callback=initMap">
+  </script>
+</template>
 
 <template name="reuse_repair_recycle_panels">
   <h1>Corvallis Reuse and Recycle Directory</h1>
@@ -185,7 +236,13 @@
               </div>
               <div class="row-content">
                 <h4 class="list-group-item-heading">{{ name }}</h4>
-                <p class="list-group-item-text"></p>
+                <p class="list-group-item-text">
+                  {{#if street}}{{street}}{{/if}}
+                  {{#if city}}{{city}}{{/if}}
+                  {{#if state}}{{state}}{{/if}}
+                  {{#if zip}}{{zip}}{{/if}}
+                </p>
+
               </div>
             </div>
             <div class="list-group-separator"></div>

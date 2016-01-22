@@ -31,6 +31,7 @@ $i=0;
 while($stmt->fetch()){
 	//echo $repair_item_name;
 	$obj = new stdClass();
+  $obj->type = 'item';
 	$obj->name = $repair_item_name;
 	$obj->url =  $repair_item_url;
 	$arr[$i++] = $obj;
