@@ -11,15 +11,15 @@ if (Meteor.isClient) {
 
 
   Template.reuse_repair_recycle_panels.events({
-    'touchstart #reuse_panel, click #reuse_panel': function(){
+    'click #reuse_panel': function(){
       Session.set('selectedAction','reuse');
       Router.go('/reuse');
     },
-    'touchstart #repair_panel, click #repair_panel': function(){
+    'click #repair_panel': function(){
       Session.set('selectedAction','repair');
       Router.go('/repair');
     },
-    'touchstart #recycle_panel, click #recycle_panel':function(){
+    'click #recycle_panel':function(){
       Session.set('selectedAction','recycle');
       Router.go('/recycle');
     }
@@ -34,20 +34,49 @@ if (Meteor.isClient) {
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
   });
-
-  Template.android_map.helpers({
-    'businesses': function(){
-      Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
-        if (!err) {
-          Session.set('repairBusinesses', data);
-        }
-      });
-      console.log("map helper got how many?");
-      console.log(Session.get('repairBusinesses').length);
-      return Session.get('repairBusinesses');//var array = [ {lat:45.515769,lng:-122.681966}, {lat:45.540111,lng:-122.681888}, {lat:45.530011,lng:-122.658542}];
-    }
+  //onRendereed -> helers -> onCreated
+  Template.android_map.onRendered(function(){
+    console.log("template rendered, printing this:");
+    console.log(this);
+    Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
+      if (!err) {
+        Session.set('repairBusinesses', data);
+      }
+    });
+    GoogleMaps.load();
   });
 
+
+  Template.android_map.onCreated(function() {
+    GoogleMaps.ready('businessesMap', function(map) {
+      console.log("map ready!");
+      var repairBusinesses = Session.get('repairBusinesses');
+      console.log(repairBusinesses);
+      if(repairBusinesses){
+        let bounds = new google.maps.LatLngBounds();
+        for(let k=0; k<repairBusinesses.length; k++){
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
+            map: map.instance
+          });
+          bounds.extend(marker.position);
+        }
+        map.instance.fitBounds(bounds);
+      }
+    });
+  });
+
+  Template.android_map.helpers({
+    'mapOptions': function(){
+      if (GoogleMaps.loaded()){
+        console.log("map loaded");
+        return{
+          center: new google.maps.LatLng(44.5667, -123.2833),
+          zoom:10
+        };
+      }
+    }
+  });
 
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
@@ -86,7 +115,10 @@ if (Meteor.isClient) {
   Template.android_list_group.events({
     'touchstart .list-group-item, click .list-group-item': function(){
       console.log(this); //figure out what the object is that was clicked
-      console.log(Session.get('selectedAction'));
+      if(this.type=='repairItem' || this.type=='repairBusiness'){
+        Session.set('selectedAction','repair');
+      }
+      console.log("Session.get('selectedAction')="+Session.get('selectedAction'));
       Router.go('/'+Session.get('selectedAction')+"?"+this.type+"="+this.name);
     },
   });

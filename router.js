@@ -22,35 +22,6 @@ Router.route('/reuse', {where:"server"},function(){
   });
 });
 
-
-/*Router.route('/repair/business', function(){
-  this.layout('android');
-  this.render('android_repair_business_bread_crumbs',{
-    to: 'bread_crumbs',
-    data: function(){
-      console.log("returning="+selectedItem);
-      return {
-        selectedItem: selectedItem
-      }
-    }
-  });
-  this.render('google_map',{
-    to: 'map',
-  });
-  this.render('android_list_group',{
-    to: 'main_content', //yield main_content
-    data: function() {
-      console.log("selectedItem:");
-      console.log(selectedItem);
-      return {
-        repairTitle: repairTitle,
-        selectedItem: selectedItem,
-      };
-    }
-  });
-});*/
-
-
 Router.route('/repair', function(){
   console.log(this.params.query);
   let repairTitle, selectedRepair, selectedItem, selectedBusiness, breadCrumbs, googleMap;
@@ -89,7 +60,7 @@ Router.route('/repair', function(){
       return { //one or both of selectedItem / selectedBusiness will be undefined
         repairTitle: repairTitle,
         selectedRepair: selectedRepair, //should be undefined
-        selectedItem: selectedItem, 
+        selectedItem: selectedItem,
         selectedBusiness: selectedBusiness //should be undefined
       };
     }

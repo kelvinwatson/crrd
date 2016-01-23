@@ -15,7 +15,11 @@
 </template>
 
 <template name="android_map">
-  <div id="map"></div>
+  <div class="map-container">
+    {{> googleMap name="businessesMap" options=mapOptions}}
+  </div>
+
+<!--
   <script type="text/javascript">
   var map;
   /*Store latitudes and longitudes in array*/
@@ -44,16 +48,11 @@
         title: 'coord'
       });
     }
-    /*var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: "Higgin's Restaurant!"
-    });*/
   }
   </script>
   <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACoyckzkQM3CtBBjbviS3zK9FOKxohTAU&callback=initMap">
-  </script>
+  </script>-->
 </template>
 
 <template name="reuse_repair_recycle_panels">
