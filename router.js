@@ -30,9 +30,9 @@ Router.route('/repair', function(){
     breadCrumbs = 'android_repair_item_bread_crumbs';
     googleMap = 'android_map'; //show a map of businesses for that item
     repairTitle = 'Businesses that repair '+selectedItem;
-  } else if(this.params.query.business){ //user selected a business
-    selectedBusiness = this.params.query.business;
-    console.log(this.params.query.business);
+  } else if(this.params.query.repairBusiness){ //user selected a business
+    selectedBusiness = this.params.query.repairBusiness;
+    console.log(this.params.query.repairBusiness);
     googleMap = 'blank_template';
   } else {
     selectedRepair = 'Repair';
