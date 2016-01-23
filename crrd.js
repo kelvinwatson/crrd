@@ -59,6 +59,15 @@ if (Meteor.isClient) {
             position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
             map: map.instance
           });
+          var infoStr = repairBusinesses[k].name+'<br>'+
+            repairBusinesses[k].street+' '+repairBusinesses[k].city+
+            ', '+repairBusinesses[k].state;
+          var infowindow = new google.maps.InfoWindow({
+            content: infoStr
+          });
+          marker.addListener('click', function(){
+            infowindow.open(map.instance,marker);
+          });
           bounds.extend(marker.position);
         }
         map.instance.fitBounds(bounds);
@@ -136,7 +145,7 @@ if (Meteor.isServer) {
       return resp.data;
     },
     getRepairBusinesses: function (item) {
-      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_businesses.php?item="+item;
+      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_businesses.php?repairItem="+item;
       var resp = HTTP.get(url);
       return resp.data;
     },

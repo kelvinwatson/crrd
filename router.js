@@ -26,6 +26,8 @@ Router.route('/repair', function(){
   console.log(this.params.query);
   let repairTitle, selectedRepair, selectedItem, selectedBusiness, breadCrumbs, googleMap;
   if(this.params.query.repairItem){ //user selected item on item page
+    console.log("this.params.query.repairItem=");
+    console.log(this.params.query.repairItem);
     selectedItem = this.params.query.repairItem;
     breadCrumbs = 'android_repair_item_bread_crumbs';
     googleMap = 'android_map'; //show a map of businesses for that item

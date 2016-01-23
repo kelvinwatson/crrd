@@ -4,7 +4,7 @@ ini_set('display_errors',1);
 header('Content-Type: application/json');
 include 'dbp.php';
 
-$itemName=$_GET['item'];
+$itemName=$_GET['repairItem'];
 
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 
