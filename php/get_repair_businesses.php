@@ -6,16 +6,14 @@ include 'dbp.php';
 
 $itemName=$_GET['item'];
 
-$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watss
-okel-db');
+$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqlii
 ->connect_error;
 }
 
-if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcc
-ode, b.latitude, b.longitude, i.name FROM business b
+if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude, i.name FROM business b
   INNER JOIN business_category_item bci ON bci.bid=b.id
   INNER JOIN item i ON i.id=bci.iid
   INNER JOIN category c ON c.id=bci.cid

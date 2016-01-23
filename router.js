@@ -53,15 +53,18 @@ Router.route('/reuse', {where:"server"},function(){
 
 Router.route('/repair', function(){
   console.log(this.params.query);
-  let repairTitle, selectedItem, breadCrumbs, googleMap;
+  let repairTitle, selectedRepair, selectedItem, selectedBusiness, breadCrumbs, googleMap;
   if(this.params.query.item){ //user selected item on item page
     selectedItem = this.params.query.item;
     breadCrumbs = 'android_repair_item_bread_crumbs';
     googleMap = 'android_map'; //show a map of businesses for that item
-  } else if(this.params.query.business){
+    repairTitle = 'Businesses that repair '+selectedItem;
+  } else if(this.params.query.business){ //user selected a business
+    selectedBusiness = this.params.query.business;
     console.log(this.params.query.business);
     googleMap = 'blank_template';
   } else {
+    selectedRepair = 'Repair';
     repairTitle = 'Select Item to be Repaired';
     breadCrumbs = 'android_repair_bread_crumbs';
     googleMap = 'blank_template';
@@ -71,13 +74,25 @@ Router.route('/repair', function(){
     to: 'bread_crumbs',
     data: function(){
       console.log("returning="+selectedItem);
-      return {
-        selectedItem: selectedItem
+      return { //one or both of selectedItem / selectedBusiness will be undefined
+        selectedRepair: selectedRepair,
+        selectedItem: selectedItem,
+        selectedBusiness: selectedBusiness
       }
     }
   });
   this.render(googleMap,{
     to: 'map', //yield map
+    data: function(){
+      console.log("Router, map render");
+      console.log(selectedItem);
+      return { //one or both of selectedItem / selectedBusiness will be undefined
+        repairTitle: repairTitle,
+        selectedRepair: selectedRepair, //should be undefined
+        selectedItem: selectedItem, 
+        selectedBusiness: selectedBusiness //should be undefined
+      };
+    }
   });
   this.render('android_list_group',{
     to: 'main_content', //yield main_content
@@ -86,7 +101,9 @@ Router.route('/repair', function(){
       console.log(selectedItem);
       return {
         repairTitle: repairTitle,
+        selectedRepair: selectedRepair,
         selectedItem: selectedItem,
+        selectedBusiness: selectedBusiness
       };
     }
   });
