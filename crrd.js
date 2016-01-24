@@ -1,6 +1,6 @@
-repairItems = null;
-
+/* CLIENT */
 if (Meteor.isClient) {
+
   /* Initialize ripple effect */
   Template.android.rendered = function(){
     $.material.init();
@@ -134,18 +134,19 @@ if (Meteor.isClient) {
   });
 }
 
+/* SERVER */
 if (Meteor.isServer) {
   Meteor.startup(function () {
 
   });
   Meteor.methods({
     getRepairItems: function () {
-      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_items.php";
+      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_items.php";
       var resp = HTTP.get(url);
       return resp.data;
     },
     getRepairBusinesses: function (item) {
-      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/get_repair_businesses.php?repairItem="+item;
+      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses.php?repairItem="+item;
       var resp = HTTP.get(url);
       return resp.data;
     },
