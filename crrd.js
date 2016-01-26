@@ -31,8 +31,8 @@ if (Meteor.isClient) {
     }
   });
 
-/* MAP */
-//created, helper, rendered
+  /* MAP */
+  //created, helper, rendered
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
     console.log("ON MAP CREATED, printing this:");
@@ -100,11 +100,6 @@ if (Meteor.isClient) {
     'items': function(){
       if(this.selectedRepair){
         if(!Session.get('repairItems')){
-          Meteor.call('getRepairItems', function (err, data) {
-            if (!err) {
-              Session.set('repairItems', data);
-            }
-          })
         }
         return Session.get('repairItems');
       } else if(this.selectedItem){
