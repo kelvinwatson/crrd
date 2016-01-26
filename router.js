@@ -42,7 +42,7 @@ Router.route('/repair/repairItem/:itemName', function(){
       }
     }
   });
-  this.render('loading_template',{
+  this.render('blank_template',{
     to:'main_content'
   });
   this.render('loading_template',{
