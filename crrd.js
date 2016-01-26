@@ -36,14 +36,9 @@ if (Meteor.isClient) {
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
     console.log("ON MAP CREATED, printing this:");
-    console.log(this);
-    var data = this.data;
     GoogleMaps.ready('businessesMap', function(map) {
       console.log("map ready!");
       var repairBusinesses = Session.get('repairBusinesses');
-      console.log('compare');
-      console.log(repairBusinesses);
-      console.log(data);
       if(repairBusinesses){
         let bounds = new google.maps.LatLngBounds();
         for(let k=0; k<repairBusinesses.length; k++){
@@ -101,14 +96,12 @@ if (Meteor.isClient) {
       }
     },
     'items': function(){
-      console.log('this=');
-      console.log(this);
-      if(this.selectedRepair){
-        return this.repairItems;
-      } else if(this.selectedItem){
-        this.repairBusinesses;
+      if(this.repairItems){
+        return Session.get('repairItems');
+      } else if(this.repairBusinesses){
+        return Session.get('repairBusinesses');
       } else if (this.selectedBusiness){
-          //f getBusinessProfile
+        return Session.get('selectedBusiness');
       }
     }
   });
