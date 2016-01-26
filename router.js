@@ -101,24 +101,37 @@ Router.route('/repair', function(){
   this.render('loading_template',{
     to: 'main_content'
   });
-  Meteor.call('getRepairItems', function (err, data) {
-    var repairItems = data;
-    console.log("printing repair items");
-    console.log(repairItems);
-    if (!err) {
-      Session.set('repairItems', data);
-      self.render('android_list_group',{
-        to: 'main_content', //yield main_content
-        data: function() {
-          return {
-            repairTitle: 'Select item to be repaired',
-            selectedRepair: 'Repair',
-            repairItems: repairItems
-          };
-        }
-      });
-    }
-  });
+  if(Session.get('repairItems')){
+    self.render('android_list_group',{
+      to: 'main_content', //yield main_content
+      data: function() {
+        return {
+          repairTitle: 'Select item to be repaired',
+          selectedRepair: 'Repair',
+          repairItems: Session.get('repairItems')
+        };
+      }
+    });
+  } else {
+    Meteor.call('getRepairItems', function (err, data) {
+      var repairItems = data;
+      console.log("printing repair items");
+      console.log(repairItems);
+      if (!err) {
+        Session.set('repairItems', data);
+        self.render('android_list_group',{
+          to: 'main_content', //yield main_content
+          data: function() {
+            return {
+              repairTitle: 'Select item to be repaired',
+              selectedRepair: 'Repair',
+              repairItems: repairItems
+            };
+          }
+        });
+      }
+    });
+  }
 });
 
 Router.route('/recycle', function(){
