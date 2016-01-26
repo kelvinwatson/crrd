@@ -31,23 +31,12 @@ if (Meteor.isClient) {
     }
   });
 
+/* MAP */
+//created, helper, rendered
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
-  });
-  //onRendereed -> helers -> onCreated
-  Template.android_map.onRendered(function(){
-    console.log("template rendered, printing this:");
+    console.log("ON MAP CREATED, printing this:");
     console.log(this);
-    Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
-      if (!err) {
-        Session.set('repairBusinesses', data);
-      }
-    });
-    GoogleMaps.load();
-  });
-
-
-  Template.android_map.onCreated(function() {
     GoogleMaps.ready('businessesMap', function(map) {
       console.log("map ready!");
       var repairBusinesses = Session.get('repairBusinesses');
@@ -60,7 +49,7 @@ if (Meteor.isClient) {
             map: map.instance
           });
           var infoStr = repairBusinesses[k].name+'<br>'+
-            repairBusinesses[k].street+' '+repairBusinesses[k].city+
+          repairBusinesses[k].street+' '+repairBusinesses[k].city+
             ', '+repairBusinesses[k].state;
           var infowindow = new google.maps.InfoWindow({
             content: infoStr
@@ -75,8 +64,10 @@ if (Meteor.isClient) {
     });
   });
 
+  //runs a second time
   Template.android_map.helpers({
     'mapOptions': function(){
+      console.log("MAP HELPER mapOptions");
       if (GoogleMaps.loaded()){
         console.log("map loaded");
         return{
@@ -87,6 +78,14 @@ if (Meteor.isClient) {
       }
     }
   });
+
+  Template.android_map.onRendered(function(){
+    Blaze._allowJavascriptUrls();
+    console.log("ON MAP RENDERED, printing THIS="+this);
+    console.log(this);
+    GoogleMaps.load();
+  });
+
 
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
@@ -109,7 +108,7 @@ if (Meteor.isClient) {
         }
         return Session.get('repairItems');
       } else if(this.selectedItem){
-        console.log("passing this.selectedItem="+this.selectedItem);
+        //console.log("passing this.selectedItem="+this.selectedItem);
         Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
           if (!err) {
             Session.set('repairBusinesses', data);
@@ -124,12 +123,17 @@ if (Meteor.isClient) {
 
   Template.android_list_group.events({
     'touchstart .list-group-item, click .list-group-item': function(){
-      console.log(this); //figure out what the object is that was clicked
-      if(this.type=='repairItem' || this.type=='repairBusiness'){
+      //console.log(this); //figure out what the object is that was clicked
+      var route;
+      if(this.type=='repairItem'){
+        console.log("event is /repairItem/actualITem");
         Session.set('selectedAction','repair');
+        route = '/'+Session.get('selectedAction')+'/repairItem/'+this.name;
+      } else if (this.type=='repairBusiness'){
+        Session.set('selectedAction','repair');
+        route='/'+Session.get('selectedAction')+'/repairBusiness/'+this.name;
       }
-      console.log("Session.get('selectedAction')="+Session.get('selectedAction'));
-      Router.go('/'+Session.get('selectedAction')+"?"+this.type+"="+this.name);
+      Router.go(route);
     },
   });
 }
@@ -148,6 +152,8 @@ if (Meteor.isServer) {
     getRepairBusinesses: function (item) {
       var url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses.php?repairItem="+item;
       var resp = HTTP.get(url);
+      console.log("for repairItem="+item+" sql returned=");
+      console.log(resp.data);
       return resp.data;
     },
   });

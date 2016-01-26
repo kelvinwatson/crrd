@@ -22,7 +22,70 @@ Router.route('/reuse', {where:"server"},function(){
   });
 });
 
+
+Router.route('/repair/repairItem/:itemName', function(){
+  var self = this;
+  console.log('new route for /repair?repairItem!');
+  console.log(this.params.itemName);
+  var selectedRepair = 'Repair';
+  var selectedItem = this.params.itemName;
+  var breadCrumbs = 'android_repair_item_bread_crumbs';
+  var googleMap = 'android_map'; //show a map of businesses for that item
+  var repairTitle = 'Businesses that repair '+selectedItem;
+  this.layout('android');
+  this.render(breadCrumbs,{
+    to: 'bread_crumbs',
+    data: function(){
+      return { //one or both of selectedItem / selectedBusiness will be undefined
+        selectedRepair: selectedRepair,
+        selectedItem: selectedItem,
+      }
+    }
+  });
+  this.render('blank_template',{
+    to:'map'
+  });
+  this.render('android_list_group',{
+    to:'main_content'
+  });
+  Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
+    console.log("getRepairBusinesses returned with data="+data);
+    if (!err) {
+      Session.set('repairBusinesses', data);
+      console.log('printing returned datas lat');
+      console.log(data[0].latitude);
+      self.render(googleMap,{
+        to: 'map', //yield map
+        data: function(){
+          console.log("Router, map render");
+          console.log(selectedItem);
+          return { //one or both of selectedItem / selectedBusiness will be undefined
+            repairTitle: repairTitle,
+            selectedRepair: selectedRepair, //should be undefined
+            selectedItem: selectedItem,
+          };
+        }
+      });
+      self.render('android_list_group',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          console.log("selectedItem:");
+          console.log(selectedItem);
+          return {
+            repairTitle: repairTitle,
+            selectedRepair: selectedRepair,
+            selectedItem: selectedItem,
+          };
+        }
+      });
+    }
+  });
+});
+
+
+
 Router.route('/repair', function(){
+  console.log("old repair route");
   console.log(this.params.query);
   let repairTitle, selectedRepair, selectedItem, selectedBusiness, breadCrumbs, googleMap;
   if(this.params.query.repairItem){ //user selected item on item page
@@ -46,7 +109,7 @@ Router.route('/repair', function(){
   this.render(breadCrumbs,{
     to: 'bread_crumbs',
     data: function(){
-      console.log("returning="+selectedItem);
+      //console.log("returning="+selectedItem);
       return { //one or both of selectedItem / selectedBusiness will be undefined
         selectedRepair: selectedRepair,
         selectedItem: selectedItem,
