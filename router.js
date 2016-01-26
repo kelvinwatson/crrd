@@ -49,6 +49,7 @@ Router.route('/repair/repairItem/:itemName', function(){
     to:'main_content'
   });
   Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
+    var repairBusinesses = data;
     console.log("getRepairBusinesses returned with data="+data);
     if (!err) {
       Session.set('repairBusinesses', data);
@@ -63,6 +64,7 @@ Router.route('/repair/repairItem/:itemName', function(){
             repairTitle: repairTitle,
             selectedRepair: selectedRepair, //should be undefined
             selectedItem: selectedItem,
+            repairBusinesses: repairBusinesses
           };
         }
       });
@@ -75,6 +77,7 @@ Router.route('/repair/repairItem/:itemName', function(){
             repairTitle: repairTitle,
             selectedRepair: selectedRepair,
             selectedItem: selectedItem,
+            repairBusinesses: repairBusinesses
           };
         }
       });
@@ -83,64 +86,34 @@ Router.route('/repair/repairItem/:itemName', function(){
 });
 
 
-
+/*User selected repair panel */
 Router.route('/repair', function(){
+  var self = this;
   console.log("old repair route");
   console.log(this.params.query);
-  let repairTitle, selectedRepair, selectedItem, selectedBusiness, breadCrumbs, googleMap;
-  if(this.params.query.repairItem){ //user selected item on item page
-    console.log("this.params.query.repairItem=");
-    console.log(this.params.query.repairItem);
-    selectedItem = this.params.query.repairItem;
-    breadCrumbs = 'android_repair_item_bread_crumbs';
-    googleMap = 'android_map'; //show a map of businesses for that item
-    repairTitle = 'Businesses that repair '+selectedItem;
-  } else if(this.params.query.repairBusiness){ //user selected a business
-    selectedBusiness = this.params.query.repairBusiness;
-    console.log(this.params.query.repairBusiness);
-    googleMap = 'blank_template';
-  } else {
-    selectedRepair = 'Repair';
-    repairTitle = 'Select Item to be Repaired';
-    breadCrumbs = 'android_repair_bread_crumbs';
-    googleMap = 'blank_template';
-  }
   this.layout('android');
-  this.render(breadCrumbs,{
+  this.render('android_repair_bread_crumbs',{
     to: 'bread_crumbs',
-    data: function(){
-      //console.log("returning="+selectedItem);
-      return { //one or both of selectedItem / selectedBusiness will be undefined
-        selectedRepair: selectedRepair,
-        selectedItem: selectedItem,
-        selectedBusiness: selectedBusiness
-      }
-    }
   });
-  this.render(googleMap,{
+  this.render('blank_template',{
     to: 'map', //yield map
-    data: function(){
-      console.log("Router, map render");
-      console.log(selectedItem);
-      return { //one or both of selectedItem / selectedBusiness will be undefined
-        repairTitle: repairTitle,
-        selectedRepair: selectedRepair, //should be undefined
-        selectedItem: selectedItem,
-        selectedBusiness: selectedBusiness //should be undefined
-      };
-    }
   });
-  this.render('android_list_group',{
-    to: 'main_content', //yield main_content
-    data: function() {
-      console.log("selectedItem:");
-      console.log(selectedItem);
-      return {
-        repairTitle: repairTitle,
-        selectedRepair: selectedRepair,
-        selectedItem: selectedItem,
-        selectedBusiness: selectedBusiness
-      };
+  Meteor.call('getRepairItems', function (err, data) {
+    var repairItems = data;
+    console.log("printing repair items");
+    console.log(repairItems);
+    if (!err) {
+      Session.set('repairItems', data);
+      self.render('android_list_group',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          return {
+            repairTitle: 'Select item to be repaired',
+            selectedRepair: 'Repair',
+            repairItems: repairItems
+          };
+        }
+      });
     }
   });
 });

@@ -37,10 +37,13 @@ if (Meteor.isClient) {
     Blaze._allowJavascriptUrls();
     console.log("ON MAP CREATED, printing this:");
     console.log(this);
+    var data = this.data;
     GoogleMaps.ready('businessesMap', function(map) {
       console.log("map ready!");
       var repairBusinesses = Session.get('repairBusinesses');
+      console.log('compare');
       console.log(repairBusinesses);
+      console.log(data);
       if(repairBusinesses){
         let bounds = new google.maps.LatLngBounds();
         for(let k=0; k<repairBusinesses.length; k++){
@@ -98,20 +101,14 @@ if (Meteor.isClient) {
       }
     },
     'items': function(){
+      console.log('this=');
+      console.log(this);
       if(this.selectedRepair){
-        if(!Session.get('repairItems')){
-        }
-        return Session.get('repairItems');
+        return this.repairItems;
       } else if(this.selectedItem){
-        //console.log("passing this.selectedItem="+this.selectedItem);
-        Meteor.call('getRepairBusinesses', this.selectedItem, function (err, data) {
-          if (!err) {
-            Session.set('repairBusinesses', data);
-          }
-        });
-        return Session.get('repairBusinesses');
+        this.repairBusinesses;
       } else if (this.selectedBusiness){
-          //meteor.call getBusinessProfile
+          //f getBusinessProfile
       }
     }
   });
