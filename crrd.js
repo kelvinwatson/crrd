@@ -86,7 +86,6 @@ if (Meteor.isClient) {
 
 
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
-  //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   Template.android_list_group.helpers({
     'title': function(){
       if(this.repairTitle){
@@ -97,7 +96,8 @@ if (Meteor.isClient) {
     },
     'items': function(){
       if(this.repairItems){
-        return Session.get('repairItems');
+        return this.repairItems;
+        //return Session.get('repairItems');
       } else if(this.repairBusinesses){
         return Session.get('repairBusinesses');
       } else if (this.selectedBusiness){

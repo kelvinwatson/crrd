@@ -42,11 +42,11 @@ Router.route('/repair/repairItem/:itemName', function(){
       }
     }
   });
-  this.render('blank_template',{
-    to:'map'
-  });
-  this.render('android_list_group',{
+  this.render('loading_template',{
     to:'main_content'
+  });
+  this.render('loading_template',{
+    to: 'map'
   });
   Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
     var repairBusinesses = data;
@@ -97,6 +97,9 @@ Router.route('/repair', function(){
   });
   this.render('blank_template',{
     to: 'map', //yield map
+  });
+  this.render('loading_template',{
+    to: 'main_content'
   });
   Meteor.call('getRepairItems', function (err, data) {
     var repairItems = data;
