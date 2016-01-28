@@ -74,7 +74,7 @@
           <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Logged In
             <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="javascript:void(0)">Profile</a></li>
+            <li><a href="javascript:void(0)"><i class="material-icons">account_circle</i> Profile</a></li>
             <li><a href="javascript:void(0)">Logout</a></li>
           </ul>
         </li>
@@ -86,15 +86,249 @@
 
 <!--LOGIN FORM-->
 <h1>Administrator Portal</h1>
-<div class="row">
-  <div class="col-xs-0 col-md-2"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">Manage REUSE Content</h3>
+        </div>
+        <div class="panel-body">
 
-  <div class="col-xs-12 col-md-8">
+          <h4>Reuse Businesses</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Add business</h5>
+                <p class="list-group-item-text">Create a new business and add it to the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">edit</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Edit business</h5>
+                <p class="list-group-item-text">Edit existing business information.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">remove_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Remove business</h5>
+                <p class="list-group-item-text">Delete a business from the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+          </div>
 
+          <h4>Reuse Item Categories</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Add item category</h5>
+                <p class="list-group-item-text">Create a new item category.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">edit</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Edit item category</h5>
+                <p class="list-group-item-text">Edit an existing item category.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">remove_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Remove item category</h5>
+                <p class="list-group-item-text">Delete an item category from the database.
+                  <span class="text-warning">Warning: removing a category removes all items within a category, and removes
+                  those items from businesses that currently accept those items.</span></p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+          </div>
+
+          <h4>Reuse Items</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Add item</h5>
+                <p class="list-group-item-text">Create a new item and add it to an existing item category.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">edit</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Edit item</h5>
+                <p class="list-group-item-text">Edit the name of an existing item.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">remove_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Remove item</h5>
+                <p class="list-group-item-text">Delete an item from the database.
+                  <span class="text-warning">Warning: removing an item removes it from all business that accept that item.</span></p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Manage REPAIR Content</h3>
+        </div>
+        <div class="panel-body">
+
+          <h4>Repair Businesses</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Add business</h5>
+                <p class="list-group-item-text">Create a new business and add it to the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">edit</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Edit business</h5>
+                <p class="list-group-item-text">Edit existing business information.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">remove_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Remove business</h5>
+                <p class="list-group-item-text">Delete a business from the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+          </div>
+
+
+          <h4>Repair Items</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Add item</h5>
+                <p class="list-group-item-text">Create a new item and add it to an existing item category.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">edit</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Edit item</h5>
+                <p class="list-group-item-text">Edit the name of an existing item.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">remove_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Remove item</h5>
+                <p class="list-group-item-text">Delete an item from the database.
+                  <span class="text-warning">Warning: removing an item removes it from all business that accept that item.</span></p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Manage RECYCLE Content</h3>
+        </div>
+        <div class="panel-body">
+
+          <h4>Recycle Links</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Add a new link</h5>
+                <p class="list-group-item-text">Add a new hyperlink to the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">edit</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Edit link</h5>
+                <p class="list-group-item-text">Edit an existing hyperlink.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">remove_circle_outline</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">Remove link</h5>
+                <p class="list-group-item-text">Delete a hyperlink from the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-xs-0 col-md-2"></div>
 </div>
-
 
 
 
