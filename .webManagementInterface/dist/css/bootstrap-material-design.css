@@ -2080,6 +2080,7 @@ legend {
   border: 0;
   border-radius: 0;
   padding: 0 16px;
+  margin-bottom:-15px
 }
 .list-group .list-group-item.baseline {
   border-bottom: 1px solid #cecece;
@@ -2117,7 +2118,6 @@ legend {
   border-radius: 100%;
   text-align: center;
   line-height: 56px;
-  font-size: 20px;
   color: white;
 }
 .list-group .list-group-item .row-picture label,

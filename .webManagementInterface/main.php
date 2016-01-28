@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Bootstrap -->
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="dist/css/bootstrap.css" rel="stylesheet">
   <!-- Bootstrap Material Design -->
   <link href="dist/css/bootstrap-material-design.css" rel="stylesheet">
   <link href="dist/css/ripples.min.css" rel="stylesheet">
@@ -99,6 +99,16 @@
           <div class="list-group">
             <div class="list-group-item">
               <div class="row-action-primary">
+                <i class="material-icons">visibility</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">View businesses</h5>
+                <p class="list-group-item-text">View existing businesses in the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
                 <i class="material-icons">add_circle_outline</i>
               </div>
               <div class="row-content">
@@ -133,6 +143,16 @@
           <div class="list-group">
             <div class="list-group-item">
               <div class="row-action-primary">
+                <i class="material-icons">visibility</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">View item categories</h5>
+                <p class="list-group-item-text">View existing item categories in the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
                 <i class="material-icons">add_circle_outline</i>
               </div>
               <div class="row-content">
@@ -162,11 +182,20 @@
                   those items from businesses that currently accept those items.</span></p>
               </div>
             </div>
-            <div class="list-group-separator"></div>
           </div>
 
           <h4>Reuse Items</h4>
           <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">visibility</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">View items</h5>
+                <p class="list-group-item-text">View existing items in the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
             <div class="list-group-item">
               <div class="row-action-primary">
                 <i class="material-icons">add_circle_outline</i>
@@ -214,6 +243,16 @@
           <div class="list-group">
             <div class="list-group-item">
               <div class="row-action-primary">
+                <i class="material-icons">visibility</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">View businesses</h5>
+                <p class="list-group-item-text">View all existing businesses.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
+            <div class="list-group-item">
+              <div class="row-action-primary">
                 <i class="material-icons">add_circle_outline</i>
               </div>
               <div class="row-content">
@@ -241,12 +280,21 @@
                 <p class="list-group-item-text">Delete a business from the database.</p>
               </div>
             </div>
-            <div class="list-group-separator"></div>
           </div>
 
 
           <h4>Repair Items</h4>
           <div class="list-group">
+            <div class="list-group-item">
+              <div class="row-action-primary">
+                <i class="material-icons">visibility</i>
+              </div>
+              <div class="row-content">
+                <h5 class="list-group-item-heading">View items</h5>
+                <p class="list-group-item-text">View existing items in the database.</p>
+              </div>
+            </div>
+            <div class="list-group-separator"></div>
             <div class="list-group-item">
               <div class="row-action-primary">
                 <i class="material-icons">add_circle_outline</i>
@@ -277,7 +325,6 @@
                   <span class="text-warning">Warning: removing an item removes it from all business that accept that item.</span></p>
               </div>
             </div>
-            <div class="list-group-separator"></div>
           </div>
 
         </div>
@@ -321,7 +368,6 @@
                 <p class="list-group-item-text">Delete a hyperlink from the database.</p>
               </div>
             </div>
-            <div class="list-group-separator"></div>
           </div>
 
         </div>
