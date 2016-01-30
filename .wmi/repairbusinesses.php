@@ -49,7 +49,7 @@ function computeLatLng(){
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Project name</a>
+      <a class="navbar-brand pull-left" href="#"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -229,24 +229,73 @@ function computeLatLng(){
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-business-id']); ?>">
-        <button type="submit" class="btn btn-primary" onclick="codeAddress(); return false;">Confirm Edit</button>
+        <button type="submit" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
       </div>
     </div>
     </form>
-  <?php endif; ?><?php endif; ?>
+  <?php endif; ?>
+ <?php endif; ?>
 
   </div><!--END EDIT ROW-->
 
   <div id="add"></div>
   <div class="row">
     <h3 style="padding-top: 70px;">Add Repair Business</h3>
-    <form action"" method="post">
-      Form goes here
+    <form class="form-horizontal" action="/">
+      
+      <div class="form-group">
+      <label for="bName" class="col-sm-2 control-label">Repair Business Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bName" placeholder="Repair business name">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bStreet" class="col-sm-2 control-label">Street</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bStreet" placeholder="Street address">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bCity" class="col-sm-2 control-label">City</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bCity" placeholder="City">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bState" class="col-sm-2 control-label">State</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bState" placeholder="State">
+      </div>
+      </div>  
+
+      <div class="form-group">
+      <label for="bZip" class="col-sm-2 control-label">Zip code</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bZip" placeholder="Zip code">
+      </div>
+      </div>    
+      
+      <div class="form-group">
+      <label for="bPhone" class="col-sm-2 control-label">Phone</label>
+      <div class="col-sm-10">
+        <input type="tel" class="form-control" id="bPhone" placeholder="Phone number">
+      </div>
+      </div>    
+          
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary" onclick="codeAddress('add'); return false;">Add Business</button>
+        </div>
+      </div>
+      
     </form>
   </div>
-
   
-
+  
+  
 </div> <!-- END CONTAINER -->
 
 <script src="js/toast.js"></script>
@@ -255,20 +304,27 @@ function computeLatLng(){
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?"></script> 
 <script type="text/javascript">
+  
+  Toast.defaults.width='600px';
+  Toast.defaults.displayDuration=7000;        
+  
   window.onload = function(){
     var queryStr = window.location.search;
-    debugger;
     if(queryStr=='?editSuccess=True'){
       Toast.success('Edit Successful!', 'Edit Confirmation');
     } else if(queryStr=='?editSuccess=False'){
-      Toast.error('There was an error in one of your inputs!', 'Edit Status');        
+      Toast.error('There was an error in one or more of your inputs!', 'Edit Status');        
     }
   }
   
-  
-  function codeAddress(){
+  function codeAddress(action){
+    console.log(action);
+    debugger;
     var geocoder = new google.maps.Geocoder();
-    var businessId = document.getElementById("bId").value;
+    var businessId; 
+    if(action=='edit'){
+      businessId = document.getElementById("bId").value;
+    }
     var businessName = document.getElementById("bName").value; //internal use only
     var street = document.getElementById("bStreet").value;
     var city = document.getElementById("bCity").value;
@@ -277,18 +333,20 @@ function computeLatLng(){
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
       if (status == google.maps.GeocoderStatus.OK){
-          console.log(businessId);//internal use only
-          console.log(businessName);
-          console.log(geoCodedResults[0].geometry.location.lat());
-          console.log(geoCodedResults[0].geometry.location.lng());
-          var latitude = geoCodedResults[0].geometry.location.lat();
-          var longitude = geoCodedResults[0].geometry.location.lng();
-          constructRequest(businessId, latitude, longitude);//make AJAX request to PHP file to store lat lng
+        console.log(businessId);//internal use only
+        console.log(businessName);
+        console.log(geoCodedResults[0].geometry.location.lat());
+        console.log(geoCodedResults[0].geometry.location.lng());
+        var latitude = geoCodedResults[0].geometry.location.lat();
+        var longitude = geoCodedResults[0].geometry.location.lng();
+        constructRequest(action, businessId, latitude, longitude);//make AJAX request to PHP file to store lat lng
+      } else{
+        constructRequest(action, businessId, null, null); //if not geocodable, transmit lat and lng as null
       }
     });
   }
   
-  function constructRequest(businessId, latitude, longitude){
+  function constructRequest(action, businessId, latitude, longitude){
     if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
     else if(window.ActiveXObject){
       try { 
@@ -307,7 +365,13 @@ function computeLatLng(){
     httpRequest.onreadystatechange = processResponse;
     httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeLatLng.php',true);
     httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    var postParams = 'business_id='+businessId+'&lat='+latitude+'&lat='+longitude;
+    
+    var postParams;
+    if(action=='edit'){  
+      postParams = 'action='+action+'business_id='+businessId+'&lat='+latitude+'&lat='+longitude;
+    } else if(action=='add'){
+      postParams = 'action='+action+'&lat='+latitude+'&lat='+longitude;  
+    }
     httpRequest.send(postParams);
   }
 
@@ -317,12 +381,14 @@ function computeLatLng(){
       if(httpRequest.readyState===4 && httpRequest.status===200){
         var response = JSON.parse(httpRequest.responseText);
         console.log(response);
-        Toast.defaults.width='600px';
-        Toast.defaults.displayDuration=7000;        
-        if(response=='success'){
+        if(response=='editSuccess'){
           window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True"; 
-        } else{
+        } else if (response=='editFailure'){
           window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=False"; 
+        } else if(response=='addSuccess'){
+          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=True";   
+        } else if (response=='addFailure'){
+          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=False"; 
         }
       }else console.log('Problem with the request');
     }

@@ -11,7 +11,7 @@ $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'wats
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 } else {
-  echo json_encode("success");
+  echo json_encode("editSuccess");
 }
 /*
 if($_SERVER['REQUEST_METHOD']==='GET'){ //Retrieve repair businesses based on repair item
