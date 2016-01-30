@@ -9,19 +9,6 @@ if ($mysqli->connect_errno) {
 }
 ?>
 
-<?php
-
-
-
-//store edited entry in database
-
-
-//functions
-function computeLatLng(){
-  
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,32 +44,43 @@ function computeLatLng(){
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quick Links<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li class="dropdown-header">REUSE</li>
+            <li><a href="#">Businesses</a></li>
+            <li><a href="#">Item Categories</a></li>
+            <li><a href="#">Items</a></li>
             <li role="separator" class="divider"></li>
-            <li class="dropdown-header">Nav header</li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
+            <li class="dropdown-header">REPAIR</li>
+            <li><a href="#">Businesses</a></li>
+            <li><a href="#">Item Categories</a></li>
+            <li><a href="#">Items</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">RECYCLE</li>
+            <li><a href="#">Links</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../navbar/">Default</a></li>
-        <li><a href="../navbar-static-top/">Static top</a></li>
-        <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged In<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><span class="glyphicon glyphicon-asterisk"></span>  Logged In</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
 </nav>
 
 
-
 <div class="container">
-<h1>Administrator Portal</h1>
-<!--ROW VIEW TABLE -->
+  <div class="row"> 
+    <h1>Administrator Portal</h1>
+  </div>
   <div class="row"> <!--START VIEW TABLE ROW -->
     <h3>View/Edit Repair Businesses</h3>
     <div class="table-responsive">
@@ -319,7 +317,6 @@ function computeLatLng(){
   
   function codeAddress(action){
     console.log(action);
-    debugger;
     var geocoder = new google.maps.Geocoder();
     var businessId; 
     if(action=='edit'){
@@ -347,6 +344,7 @@ function computeLatLng(){
   }
   
   function constructRequest(action, businessId, latitude, longitude){
+    debugger;
     if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
     else if(window.ActiveXObject){
       try { 
@@ -362,10 +360,10 @@ function computeLatLng(){
       alert('Unable to create XMLHTTP instance.');
       return false;
     }
+    
     httpRequest.onreadystatechange = processResponse;
     httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeLatLng.php',true);
-    httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    
+    httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
     var postParams;
     if(action=='edit'){  
       postParams = 'action='+action+'business_id='+businessId+'&lat='+latitude+'&lat='+longitude;
