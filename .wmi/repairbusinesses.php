@@ -139,7 +139,7 @@ function computeLatLng(){
                 $prevbLng = $bLng;
               } else {
                 echo 
-                "<tr><form action=\"#edit\" method=\"post\"><td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+                "<tr><form action=\"http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\"><td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
                 <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
                 <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
                 <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
