@@ -10,6 +10,12 @@ if ($mysqli->connect_errno) {
 ?>
 
 <?php
+
+
+
+//store edited entry in database
+
+
 //functions
 function computeLatLng(){
   
@@ -29,6 +35,7 @@ function computeLatLng(){
   <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
+  <link href="css/toast.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -159,7 +166,6 @@ function computeLatLng(){
                 $arr[$i++] = $iN;                
               }
             }
-            
             $stmt->close();
             ?>
           </tbody>
@@ -175,7 +181,7 @@ function computeLatLng(){
 <?php if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['user-action'])):?> 
   <?php if($_POST['user-action']=='edit-business'):?>
     <h3 style="padding-top: 70px;">Edit Repair Business</h3>
-    <form class="form-horizontal" action="" method="post">
+    <form class="form-horizontal" action="/">
       
       <div class="form-group">
       <label for="bName" class="col-sm-2 control-label">Repair Business Name</label>
@@ -223,7 +229,7 @@ function computeLatLng(){
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-business-id']); ?>">
-        <button type="submit" class="btn btn-primary" onclick="codeAddress();return false;">Confirm Edit</button>
+        <button type="submit" class="btn btn-primary" onclick="codeAddress(); return false;">Confirm Edit</button>
       </div>
     </div>
     </form>
@@ -243,12 +249,23 @@ function computeLatLng(){
 
 </div> <!-- END CONTAINER -->
 
-
+<script src="js/toast.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?"></script> 
 <script type="text/javascript">
+  window.onload = function(){
+    var queryStr = window.location.search;
+    debugger;
+    if(queryStr=='?editSuccess=True'){
+      Toast.success('Edit Successful!', 'Edit Confirmation');
+    } else if(queryStr=='?editSuccess=False'){
+      Toast.error('There was an error in one of your inputs!', 'Edit Status');        
+    }
+  }
+  
+  
   function codeAddress(){
     var geocoder = new google.maps.Geocoder();
     var businessId = document.getElementById("bId").value;
@@ -260,7 +277,6 @@ function computeLatLng(){
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
       if (status == google.maps.GeocoderStatus.OK){
-          debugger;
           console.log(businessId);//internal use only
           console.log(businessName);
           console.log(geoCodedResults[0].geometry.location.lat());
@@ -301,6 +317,13 @@ function computeLatLng(){
       if(httpRequest.readyState===4 && httpRequest.status===200){
         var response = JSON.parse(httpRequest.responseText);
         console.log(response);
+        Toast.defaults.width='600px';
+        Toast.defaults.displayDuration=7000;        
+        if(response=='success'){
+          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True"; 
+        } else{
+          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=False"; 
+        }
       }else console.log('Problem with the request');
     }
     catch(e){
