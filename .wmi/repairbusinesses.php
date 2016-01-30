@@ -69,7 +69,7 @@ if ($mysqli->connect_errno) {
 <div class="container">
 <h1>Administrator Portal</h1>
 <!--ROW VIEW TABLE -->
-  <div class="row">
+  <div class="row"> <!--START VIEW TABLE ROW -->
     <h3>View/Edit Repair Businesses</h3>
     <div class="table-responsive">
       <table class="table">
@@ -125,13 +125,13 @@ if ($mysqli->connect_errno) {
                 $prevbLng = $bLng;
               } else {
                 echo 
-                "<tr><form action=\"\" method=\"post\"><td><input class=\"radio\" type=\"submit\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+                "<tr><form action=\"#edit\" method=\"post\"><td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" value=\"".$prevbID."\"></td>
                 <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
                 <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
-                <td>".$prevbC."</td>
-                <td>".$prevbSta."</td>
-                <td>".$prevbZ."</td>
-                <td>".$prevbP."</td>
+                <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
+                <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
+                <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
+                <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
                 <td><ul>";
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
@@ -159,28 +159,76 @@ if ($mysqli->connect_errno) {
       </table>
     </div>
     
-  </div> <!--END ROW VIEW TABLE-->
+  </div> <!--END VIEW TABLE ROW-->
 
   <div id="edit"></div>
-  <div class="row">
-    <h3 style="padding-top: 70px;">Edit Repair Business</h3>
 
-<?php
-if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['user-action']=='edit-business'){
-  echo "aha!";
-  print_r($_POST);
-  
+  <div class="row"><!--EDIT ROW-->
 
-} else{
-  echo "oops";
-  echo $_SERVER['REQUEST_METHOD'];
-  var_dump($_POST);
-}
-?>
-    <form action="" method="post">
+<?php if ($_SERVER['REQUEST_METHOD']=='POST' && $_POST['user-action']=='edit-business'){ ?>
+  <h3 style="padding-top: 70px;">Edit Repair Business</h3>
+  <form class="form-horizontal" action="" method="post">
+    
+    <div class="form-group">
+    <label for="business-name" class="col-sm-2 control-label">Repair Business Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="business-name" value="<?php echo htmlspecialchars($_POST['repair-business-name']); ?>">
+    </div>
+    </div>
+    
+    <div class="form-group">
+    <label for="street" class="col-sm-2 control-label">Street</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="street" value="<?php echo htmlspecialchars($_POST['repair-business-street']); ?>">
+    </div>
+    </div>
+    
+    <div class="form-group">
+    <label for="city" class="col-sm-2 control-label">City</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="city" value="<?php echo htmlspecialchars($_POST['repair-business-city']); ?>">
+    </div>
+    </div>
+    
+    <div class="form-group">
+    <label for="state" class="col-sm-2 control-label">State</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($_POST['repair-business-state']); ?>">
+    </div>
+    </div>  
 
-    </form>
+    <div class="form-group">
+    <label for="zip" class="col-sm-2 control-label">Zip code</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="zip" value="<?php echo htmlspecialchars($_POST['repair-business-zip']); ?>">
+    </div>
+    </div>    
+    
+    <div class="form-group">
+    <label for="phone" class="col-sm-2 control-label">Phone</label>
+    <div class="col-sm-10">
+      <input type="tel" class="form-control" id="phone" placeholder="Zip code">
+    </div>
+    </div>    
+
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+      </div>
+    </div>
   </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">Confirm Edit</button>
+    </div>
+  </div>
+  </form>
+<?php }; ?>
+
+  </div><!--END EDIT ROW-->
 
   <div id="add"></div>
   <div class="row">
