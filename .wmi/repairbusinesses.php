@@ -7,24 +7,24 @@ $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'wats
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-    <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/navbar-fixed-top.css" rel="stylesheet">
-  </head>
 
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
+  <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/navbar-fixed-top.css" rel="stylesheet">
+</head>
+
+<body>
 
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
@@ -70,7 +70,7 @@ if ($mysqli->connect_errno) {
 <h1>Administrator Portal</h1>
 <!--ROW VIEW TABLE -->
   <div class="row">
-    <h3>View Repair Businesses</h3>
+    <h3>View/Edit Repair Businesses</h3>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -88,7 +88,7 @@ if ($mysqli->connect_errno) {
           <tbody>
             <?php
             if (!($stmt = $mysqli->prepare(
-              "SELECT b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.latitude, b.longitude, i.name FROM business b
+              "SELECT b.id, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.latitude, b.longitude, i.name FROM business b
               INNER JOIN business_category_item bci ON bci.bid=b.id
               INNER JOIN item i ON i.id=bci.iid
               INNER JOIN category c ON c.id=bci.cid
@@ -100,7 +100,7 @@ if ($mysqli->connect_errno) {
               echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
             
-            if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bP,$bLat,$bLng,$iN)){
+            if(!$stmt->bind_result($bID, $bN,$bStr,$bC,$bSta,$bZ,$bP,$bLat,$bLng,$iN)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
             }
             
@@ -114,6 +114,7 @@ if ($mysqli->connect_errno) {
               }
               if($bN == $prevbN) {
                 $arr[$i++] = $iN;
+                $prevbID = $bID;
                 $prevbN = $bN;
                 $prevbStr = $bStr;
                 $prevbC = $bC;
@@ -124,9 +125,9 @@ if ($mysqli->connect_errno) {
                 $prevbLng = $bLng;
               } else {
                 echo 
-                "<tr>
-                <td>".$prevbN."</td>
-                <td>".$prevbStr."</td>
+                "<tr><form action=\"\" method=\"post\"><td><input class=\"radio\" type=\"submit\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+                <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
+                <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
                 <td>".$prevbC."</td>
                 <td>".$prevbSta."</td>
                 <td>".$prevbZ."</td>
@@ -135,10 +136,11 @@ if ($mysqli->connect_errno) {
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
                 }
-                echo "</ul></td></tr>";
+                echo "</ul></td><input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
                 unset($arr);
                 $arr = array();
                 $i=0;
+                $prevbID = $bID;
                 $prevbN = $bN;
                 $prevbStr = $bStr;
                 $prevbC = $bC;
@@ -162,15 +164,28 @@ if ($mysqli->connect_errno) {
   <div id="edit"></div>
   <div class="row">
     <h3 style="padding-top: 70px;">Edit Repair Business</h3>
-    <form action="/" method="post">
-      Form goes here
+
+<?php
+if($_SERVER['REQUEST_METHOD']=='POST' && $_POST['user-action']=='edit-business'){
+  echo "aha!";
+  print_r($_POST);
+  
+
+} else{
+  echo "oops";
+  echo $_SERVER['REQUEST_METHOD'];
+  var_dump($_POST);
+}
+?>
+    <form action="" method="post">
+
     </form>
   </div>
 
   <div id="add"></div>
   <div class="row">
     <h3 style="padding-top: 70px;">Add Repair Business</h3>
-    <form action"/" method="post">
+    <form action"" method="post">
       Form goes here
     </form>
   </div>

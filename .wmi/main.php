@@ -242,7 +242,7 @@
         				</div>
           		</div>
             </a>
-            <a href="repairbusinesses.php#edit" class="list-group-item">
+            <a href="repairbusinesses.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-pencil"></span>
