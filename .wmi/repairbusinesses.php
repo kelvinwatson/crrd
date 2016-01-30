@@ -9,6 +9,13 @@ if ($mysqli->connect_errno) {
 }
 ?>
 
+<?php
+//functions
+function computeLatLng(){
+  
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,7 +132,7 @@ if ($mysqli->connect_errno) {
                 $prevbLng = $bLng;
               } else {
                 echo 
-                "<tr><form action=\"#edit\" method=\"post\"><td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" value=\"".$prevbID."\"></td>
+                "<tr><form action=\"#edit\" method=\"post\"><td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
                 <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
                 <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
                 <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
@@ -165,68 +172,62 @@ if ($mysqli->connect_errno) {
 
   <div class="row"><!--EDIT ROW-->
 
-<?php if ($_SERVER['REQUEST_METHOD']=='POST' && $_POST['user-action']=='edit-business'){ ?>
-  <h3 style="padding-top: 70px;">Edit Repair Business</h3>
-  <form class="form-horizontal" action="" method="post">
-    
-    <div class="form-group">
-    <label for="business-name" class="col-sm-2 control-label">Repair Business Name</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="business-name" value="<?php echo htmlspecialchars($_POST['repair-business-name']); ?>">
-    </div>
-    </div>
-    
-    <div class="form-group">
-    <label for="street" class="col-sm-2 control-label">Street</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="street" value="<?php echo htmlspecialchars($_POST['repair-business-street']); ?>">
-    </div>
-    </div>
-    
-    <div class="form-group">
-    <label for="city" class="col-sm-2 control-label">City</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="city" value="<?php echo htmlspecialchars($_POST['repair-business-city']); ?>">
-    </div>
-    </div>
-    
-    <div class="form-group">
-    <label for="state" class="col-sm-2 control-label">State</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($_POST['repair-business-state']); ?>">
-    </div>
-    </div>  
+<?php if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['user-action'])):?> 
+  <?php if($_POST['user-action']=='edit-business'):?>
+    <h3 style="padding-top: 70px;">Edit Repair Business</h3>
+    <form class="form-horizontal" action="" method="post">
+      
+      <div class="form-group">
+      <label for="bName" class="col-sm-2 control-label">Repair Business Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['repair-business-name']); ?>">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bStreet" class="col-sm-2 control-label">Street</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bStreet" value="<?php echo htmlspecialchars($_POST['repair-business-street']); ?>">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bCity" class="col-sm-2 control-label">City</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bCity" value="<?php echo htmlspecialchars($_POST['repair-business-city']); ?>">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bState" class="col-sm-2 control-label">State</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bState" value="<?php echo htmlspecialchars($_POST['repair-business-state']); ?>">
+      </div>
+      </div>  
 
+      <div class="form-group">
+      <label for="bZip" class="col-sm-2 control-label">Zip code</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bZip" value="<?php echo htmlspecialchars($_POST['repair-business-zip']); ?>">
+      </div>
+      </div>    
+      
+      <div class="form-group">
+      <label for="bPhone" class="col-sm-2 control-label">Phone</label>
+      <div class="col-sm-10">
+        <input type="tel" class="form-control" id="bPhone" value="<?php echo htmlspecialchars($_POST['repair-business-phone']); ?>">
+      </div>
+      </div>    
+      
+      
     <div class="form-group">
-    <label for="zip" class="col-sm-2 control-label">Zip code</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="zip" value="<?php echo htmlspecialchars($_POST['repair-business-zip']); ?>">
-    </div>
-    </div>    
-    
-    <div class="form-group">
-    <label for="phone" class="col-sm-2 control-label">Phone</label>
-    <div class="col-sm-10">
-      <input type="tel" class="form-control" id="phone" placeholder="Zip code">
-    </div>
-    </div>    
-
-    <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Remember me
-        </label>
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-business-id']); ?>">
+        <button type="submit" class="btn btn-primary" onclick="codeAddress();return false;">Confirm Edit</button>
       </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">Confirm Edit</button>
-    </div>
-  </div>
-  </form>
-<?php }; ?>
+    </form>
+  <?php endif; ?><?php endif; ?>
 
   </div><!--END EDIT ROW-->
 
@@ -243,9 +244,72 @@ if ($mysqli->connect_errno) {
 </div> <!-- END CONTAINER -->
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-  <script src="js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?"></script> 
+<script type="text/javascript">
+  function codeAddress(){
+    var geocoder = new google.maps.Geocoder();
+    var businessId = document.getElementById("bId").value;
+    var businessName = document.getElementById("bName").value; //internal use only
+    var street = document.getElementById("bStreet").value;
+    var city = document.getElementById("bCity").value;
+    var state = document.getElementById("bState").value;
+    //var zip = document.getElementById("bZip").value;
+    var address = street+", "+city+", "+state;
+    geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
+      if (status == google.maps.GeocoderStatus.OK){
+          debugger;
+          console.log(businessId);//internal use only
+          console.log(businessName);
+          console.log(geoCodedResults[0].geometry.location.lat());
+          console.log(geoCodedResults[0].geometry.location.lng());
+          var latitude = geoCodedResults[0].geometry.location.lat();
+          var longitude = geoCodedResults[0].geometry.location.lng();
+          constructRequest(businessId, latitude, longitude);//make AJAX request to PHP file to store lat lng
+      }
+    });
+  }
+  
+  function constructRequest(businessId, latitude, longitude){
+    if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
+    else if(window.ActiveXObject){
+      try { 
+        httpRequest = new ActiveXObject('Msxml2.XMLHTTP');
+      }
+      catch(e){
+        try{  
+          httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
+        } catch(e){}
+      }
+    }
+    if (!httpRequest){
+      alert('Unable to create XMLHTTP instance.');
+      return false;
+    }
+    httpRequest.onreadystatechange = processResponse;
+    httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeLatLng.php',true);
+    httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    var postParams = 'business_id='+businessId+'&lat='+latitude+'&lat='+longitude;
+    httpRequest.send(postParams);
+  }
+
+  function processResponse(){
+    try{
+      console.log(httpRequest.readyState);
+      if(httpRequest.readyState===4 && httpRequest.status===200){
+        var response = JSON.parse(httpRequest.responseText);
+        console.log(response);
+      }else console.log('Problem with the request');
+    }
+    catch(e){
+      console.log('Caught Exception: ' + e);
+    }
+  }
+</script> 
+  
+
 </body>
 </html>
 
