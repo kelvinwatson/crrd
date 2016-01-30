@@ -364,7 +364,7 @@ if ($mysqli->connect_errno) {
     }
     
     httpRequest.onreadystatechange = processResponse;
-    httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeLatLng.php',true);
+    httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairBusiness.php',true);
     httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
     var postParams;
     if(action=='edit'){  

@@ -82,7 +82,7 @@ if ($mysqli->connect_errno) {
   </div>
   
   <div class="row"> <!--START VIEW TABLE ROW -->
-    <h3>View/Edit Repair Businesses</h3>
+    <h3>View/Edit Repair Items</h3>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -111,7 +111,7 @@ if ($mysqli->connect_errno) {
             
             while($stmt->fetch()){
               echo 
-              "<tr><form action=\"http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairItems.php#edit\" method=\"post\">
+              "<tr><form action=\"http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php#edit\" method=\"post\">
               <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-item-id\" value=\"".$iID."\"></td>
               <td>".$iN."<input type=\"hidden\" name=\"repair-item-name\" value=\"".$iN."\"></td>
               <input type=\"hidden\" name=\"user-action\" value=\"edit-item\"></form></tr>";              
@@ -133,16 +133,16 @@ if ($mysqli->connect_errno) {
     <form class="form-horizontal" action="/">
       
       <div class="form-group">
-      <label for="bName" class="col-sm-2 control-label">Repair Item</label>
+      <label for="iName" class="col-sm-2 control-label">Repair Item</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['repair-item-name']); ?>">
+        <input type="text" class="form-control" id="iName" value="<?php echo htmlspecialchars($_POST['repair-item-name']); ?>">
       </div>
       </div>
       
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-item-id']); ?>">
-        <button type="submit" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
+        <input type="hidden" id="iId" value="<?php echo htmlspecialchars($_POST['repair-item-id']); ?>">
+        <button type="submit" class="btn btn-primary" onclick="manageRepairItem('edit'); return false;">Confirm Edit</button>
       </div>
     </div>
     </form>
@@ -158,9 +158,9 @@ if ($mysqli->connect_errno) {
     <form class="form-horizontal" action="/">
       
       <div class="form-group">
-      <label for="bName" class="col-sm-2 control-label">Repair Item Name</label>
+      <label for="iName" class="col-sm-2 control-label">Repair Item Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="repairItemName" placeholder="Repair item">
+        <input type="text" class="form-control" id="iName" placeholder="Repair item">
       </div>
       </div>
                 
@@ -172,9 +172,6 @@ if ($mysqli->connect_errno) {
       
     </form>
   </div><!-- END ADD ROW --> 
-  
-  
-  
 </div><!--END CONTAINER -->
 
 <!--SCRIPTS-->
@@ -190,15 +187,93 @@ if ($mysqli->connect_errno) {
   
   window.onload = function(){
     var queryStr = window.location.search;
-    /*if(queryStr=='?editSuccess=True'){
+    if(queryStr=='?editSuccess=True'){
       Toast.success('Edit Successful!', 'Edit Confirmation');
-    } else if(queryStr=='?editSuccess=False'){
-      Toast.error('There was an error in one or more of your inputs!', 'Edit Status');        
-    }*/
+    } else if(queryStr=='?editSuccess=False&err=NoItemName'){
+      Toast.error('You did not enter an item name', 'Edit Failed');        
+    } else if(queryStr=='?addSuccess=True'){
+      Toast.success('Item added successfully!', 'Add Confirmation');      
+    } else if(queryStr=='?addSuccess=False&err=NoItemName'){
+      Toast.error('You did not enter an item name.', 'Add Failed');        
+    } else if(queryStr=="?genSuccess=False&err=NoItemName"){
+      Toast.error('You did not enter an item name.', 'Failed');              
+    }
   }
   
   function manageRepairItem(action){
-    console.log(action);
+    var itemName = document.getElementById("iName").value;
+    if(action=='edit'){
+      console.log(action);
+      var itemId = document.getElementById("iId").value;
+      constructRequest('edit',itemId,itemName);
+    } else if (action=='add'){
+      console.log(action);
+      constructRequest('add',null,itemName);
+    }
+  }
+  
+  
+  
+  function constructRequest(action, itemId, itemName){
+    if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
+    else if(window.ActiveXObject){
+      try { 
+        httpRequest = new ActiveXObject('Msxml2.XMLHTTP');
+      }
+      catch(e){
+        try{  
+          httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
+        } catch(e){}
+      }
+    }
+    if (!httpRequest){
+      alert('Unable to create XMLHTTP instance.');
+      return false;
+    }
+    
+    httpRequest.onreadystatechange = processResponse;
+    httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
+    httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
+    var postParams;
+    if(action=='edit'){  
+      postParams = 'action='+action+'&item_id='+itemId+'&item_name='+itemName;
+    } else if(action=='add'){
+      postParams = 'action='+action+'&item_name='+itemName;
+    }
+    httpRequest.send(postParams);
+  }
+
+  function processResponse(){
+    try{
+      console.log(httpRequest.readyState);
+      if(httpRequest.readyState===4 && httpRequest.status===200){
+        var obj = JSON.parse(httpRequest.responseText);
+        console.log(obj);
+        if(obj.httpResponseCode==400){
+          if(obj.response=='editFailure'){
+             if(obj.errorMessage=='Missing item name.'){
+                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=False&err=NoItemName"; 
+             }
+          }else if (obj.response=='addFailure'){
+            if(obj.errorMessage=='Missing item name.'){
+                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=NoItemName"; 
+             }
+          } else if (obj.response=='failure'){
+            if(obj.errorMessage=='Item name is not set.'){
+                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?genSuccess=False&err=NoItemName"; 
+            }
+          }
+        } else{ //obj.httpResponseCode is 200
+          if(obj.response=='editSuccess'){
+            window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
+          } else if(obj.response=='addSuccess'){
+            window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
+          }
+        }
+      }else console.log('Problem with the request');
+    } catch(e){
+      console.log('Caught Exception: ' + e);
+    }
   }
   
 </script> 
