@@ -18,11 +18,11 @@ if ($mysqli->connect_errno) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" href="../../favicon.ico">
-  <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
-  <link href="css/toast.css" rel="stylesheet"/>
+  <link href="css/toast.css" rel="stylesheet">
+  <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
 </head>
 
 <body>
@@ -124,6 +124,57 @@ if ($mysqli->connect_errno) {
     
   </div> <!--END VIEW TABLE ROW-->
 
+  <div id="edit"></div>
+  <div class="row"><!--EDIT ROW-->
+
+<?php if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['user-action'])):?> 
+  <?php if($_POST['user-action']=='edit-item'):?>
+    <h3 style="padding-top: 70px;">Edit Repair Item</h3>
+    <form class="form-horizontal" action="/">
+      
+      <div class="form-group">
+      <label for="bName" class="col-sm-2 control-label">Repair Item</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['repair-item-name']); ?>">
+      </div>
+      </div>
+      
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-item-id']); ?>">
+        <button type="submit" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
+      </div>
+    </div>
+    </form>
+  <?php endif; ?>
+ <?php endif; ?>
+
+  </div><!--END EDIT ROW-->
+  
+  
+  <div id="add"></div>
+  <div class="row"> <!-- START ADD ROW -->
+    <h3 style="padding-top: 70px;">Add Repair Item</h3>
+    <form class="form-horizontal" action="/">
+      
+      <div class="form-group">
+      <label for="bName" class="col-sm-2 control-label">Repair Item Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="repairItemName" placeholder="Repair item">
+      </div>
+      </div>
+                
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary" onclick="manageRepairItem('add'); return false;">Add Item</button>
+        </div>
+      </div>
+      
+    </form>
+  </div><!-- END ADD ROW --> 
+  
+  
+  
 </div><!--END CONTAINER -->
 
 <!--SCRIPTS-->
@@ -145,6 +196,11 @@ if ($mysqli->connect_errno) {
       Toast.error('There was an error in one or more of your inputs!', 'Edit Status');        
     }*/
   }
+  
+  function manageRepairItem(action){
+    console.log(action);
+  }
+  
 </script> 
   
 
