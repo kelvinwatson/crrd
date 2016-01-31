@@ -328,6 +328,7 @@ if ($mysqli->connect_errno) {
     var street = document.getElementById("bStreet").value;
     var city = document.getElementById("bCity").value;
     var state = document.getElementById("bState").value;
+    
     //var zip = document.getElementById("bZip").value;
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
