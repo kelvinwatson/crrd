@@ -24,20 +24,35 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
   }
   
   
-  //$obj = new stdClass(); //for JSON output
-  //$obj->httpResponseCode = 200;
-  //$obj->response = "action=".$action."itemName".$itemName;
-  //$obj->errorMessage = 'Validated Input';
-  //echo json_encode($obj);
-  //return;
+  $obj = new stdClass(); //for JSON output
   
   if($action == 'edit') { //user wants to edit existing repair item
-    //$itemName = $_POST['item_name'];
+    $itemName = $_POST['item_name'];
+    $itemID = $_POST['item_id'];
     //$obj = new stdClass(); //for JSON output
+    
+    if (!($stmt = $mysqli->prepare("UPDATE item i SET i.name='".$itemName."' 
+      WHERE i.id='".$itemID."'"))) {
+		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+		}
+    $obj->httpResponseCode = 200;
+    $obj->response = "prepare passed";
+    $obj->errorMessage = 'Validated Input';
+    echo json_encode($obj);
+    return;
+		/*if (!$stmt->execute()) {
+			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+		}
+
+		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng,$iN)){
+		  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
+		}*/
+
+    
+    
     //$obj->httpResponseCode = 200;
     //$obj->response = "itemName=".$itemName;
     //$obj->errorMessage = 'Validated Input';
-    echo json_encode($_POST);
     return; 
   } else if ($action =='add'){
     
