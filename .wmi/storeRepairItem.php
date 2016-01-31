@@ -28,34 +28,39 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
   
   if($action == 'edit') { //user wants to edit existing repair item
     $itemName = $_POST['item_name'];
-    $itemID = $_POST['item_id'];
-    //$obj = new stdClass(); //for JSON output
+    $itemId = $_POST['item_id'];
     
-    if (!($stmt = $mysqli->prepare("UPDATE item i SET i.name='".$itemName."' 
-      WHERE i.id='".$itemID."'"))) {
+    if (!($stmt = $mysqli->prepare("UPDATE item i SET i.name=? WHERE i.id=?"))) {
 		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 		}
-    $obj->httpResponseCode = 200;
-    $obj->response = "prepare passed";
-    $obj->errorMessage = 'Validated Input';
-    echo json_encode($obj);
-    return;
-		/*if (!$stmt->execute()) {
+
+    if (!$stmt->bind_param("si", $itemName, $itemId)) {
+        echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+    }
+
+		if (!$stmt->execute()) {
 			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 		}
-
-		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng,$iN)){
-		  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
-		}*/
-
     
+    $obj->httpResponseCode = 200;
+    $obj->response = "editSuccess";
+    $obj->errorMessage = 'Edit item successful.';
+    echo json_encode($obj);
+    return;
     
-    //$obj->httpResponseCode = 200;
-    //$obj->response = "itemName=".$itemName;
-    //$obj->errorMessage = 'Validated Input';
-    return; 
   } else if ($action =='add'){
-    
+
+    $obj->httpResponseCode = 200;
+    $obj->response = "addSuccess";
+    $obj->errorMessage = 'Add item successful.';
+    echo json_encode($obj);
+    return;
+  } else{
+    $obj->httpResponseCode = 400;
+    $obj->response = "wrongAction";
+    $obj->errorMessage = 'Add item successful.';
+    echo json_encode($obj);
+    return;
   }
 }
   

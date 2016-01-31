@@ -196,11 +196,12 @@ if ($mysqli->connect_errno) {
     } else if(queryStr=='?addSuccess=False&err=NoItemName'){
       Toast.error('You did not enter an item name.', 'Add Failed');        
     } else if(queryStr=="?genSuccess=False&err=NoItemName"){
-      Toast.error('You did not enter an item name.', 'Failed');              
+      Toast.error('You did not enter an item name.', 'Failed');
     }
   }
   
   function manageRepairItem(action){
+    debugger;
     var itemName = document.getElementById("iName").value;
     if(action=='edit'){
       console.log(action);
@@ -238,6 +239,7 @@ if ($mysqli->connect_errno) {
     if(action=='edit'){  
       postParams = 'action='+action+'&item_id='+itemId+'&item_name='+itemName;
     } else if(action=='add'){
+      debugger;
       postParams = 'action='+action+'&item_name='+itemName;
     }
     httpRequest.send(postParams);
@@ -267,6 +269,7 @@ if ($mysqli->connect_errno) {
           if(obj.response=='editSuccess'){
             window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
           } else if(obj.response=='addSuccess'){
+            console.log("HERE?")
             window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
           }
         }
