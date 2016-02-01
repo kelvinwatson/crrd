@@ -1,11 +1,12 @@
 <template name="android">
   {{> android_nav_bar }}
+  <div class="container">
     {{> yield "bread_crumbs"}}
     {{> yield "map"}}
     {{> yield "main_content" }}
       <!--{{> reuse_repair_recycle_panels }}
       {{> android_list_group}}-->
-
+  </div>
 </template>
 
 <template name="content_template">
@@ -63,7 +64,6 @@
   <h1>Corvallis Reuse and Recycle Directory</h1>
   <div class="row">
     <div class="col-xs-6 col-md-6">
-      <div class="bs-component">
         <div id="reuse_panel" class="panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title">Reuse</h3>
@@ -72,10 +72,8 @@
               Find business that will resell your items!
             </div>
         </div>
-      </div>
     </div>
     <div class="col-xs-6 col-md-6">
-      <div class="bs-component">
         <div id="repair_panel" class="panel panel-info">
             <div class="panel-heading">
               <h3 class="panel-title">Repair</h3>
@@ -84,12 +82,10 @@
               Find business that will repair your items!
             </div>
         </div>
-      </div>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-6 col-md-6">
-      <div class="bs-component">
         <div id="recycle_panel" class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">Recycle</h3>
@@ -99,7 +95,6 @@
               No problem! Republic Services will recycle them for you!
             </div>
         </div>
-      </div>
     </div>
   </div>
 </template>
