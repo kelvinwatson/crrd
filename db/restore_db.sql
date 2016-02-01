@@ -379,4 +379,17 @@ INSERT INTO business(name,type) VALUES
 
 #generic_repair_business into bci table
 INSERT INTO business_category_item(bid,cid,iid) VALUES
+(86,16,81),
+(86,16,162),
 (86,16,3),
+(86,16,70),
+(86,16,82),
+(86,16,11),
+(86,16,163),
+(86,16,164),
+(86,16,165),
+(86,16,74),
+(86,16,75),
+(86,16,69),
+(86,16,166),
+(86,16,167);
