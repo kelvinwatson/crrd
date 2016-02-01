@@ -372,3 +372,11 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 (84,16,75),
 (84,16,69),
 (85,16,167);
+
+INSERT INTO business(name,type) VALUES
+('generic_repair_business', 'Repair'),
+('generic_reuse_business', 'Reuse');
+
+#generic_repair_business into bci table
+INSERT INTO business_category_item(bid,cid,iid) VALUES
+(86,16,3),
