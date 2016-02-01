@@ -23,6 +23,7 @@ $website = $_POST['website'];
 $latitude = $_POST['lat'];
 $longitude = $_POST['long'];
 $type = repair;
+$obj = new stdClass(); 
 if ($action == 'edit')
 {
   $businessId = $_POST['business_id'];
