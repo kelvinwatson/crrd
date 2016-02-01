@@ -116,7 +116,7 @@ if (Meteor.isClient) {
   });
 
   Template.android_list_group.events({
-    'touchstart .list-group-item, click .list-group-item': function(){
+    'click .list-group-item': function(){
       //console.log(this); //figure out what the object is that was clicked
       var route;
       if(this.type=='repairItem'){
