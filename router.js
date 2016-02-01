@@ -46,63 +46,37 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
+  //TODO: need a new way to cache each selected item?
+  Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
+    console.log('using NEW data');
+    var repairBusinesses = data;
+    if (!err) {
+      Session.setPersistent('repairBusinesses', data);
+      self.render(googleMap,{
+        to: 'map', //yield map
+        data: function(){
+          return { //one or both of selectedItem / selectedBusiness will be undefined
+            repairTitle: repairTitle,
+            selectedRepair: selectedRepair, //should be undefined
+            selectedItem: selectedItem,
+            repairBusinesses: repairBusinesses
+          };
+        }
+      });
+      self.render('android_list_group',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          return {
+            repairTitle: repairTitle,
+            selectedRepair: selectedRepair,
+            selectedItem: selectedItem,
+            repairBusinesses: repairBusinesses
+          };
+        }
+      });
+    }
+  });
 
-  if(Session.get('repairBusinesses')){
-    console.log('using CACHED data');
-    console.log(Session.get('repairBusinesses'));
-    self.render(googleMap,{
-      to: 'map', //yield map
-      data: function(){
-        return { //one or both of selectedItem / selectedBusiness will be undefined
-          repairTitle: repairTitle,
-          selectedRepair: selectedRepair, //should be undefined
-          selectedItem: selectedItem,
-          repairBusinesses: Session.get('repairBusinesses')
-        };
-      }
-    });
-    self.render('android_list_group',{
-      to: 'main_content', //yield main_content
-      data: function() {
-        return {
-          repairTitle: repairTitle,
-          selectedRepair: selectedRepair,
-          selectedItem: selectedItem,
-          repairBusinesses: Session.get('repairBusinesses')
-        };
-      }
-    });
-  }else{
-    Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
-      console.log('using NEW data');
-      var repairBusinesses = data;
-      if (!err) {
-        Session.setPersistent('repairBusinesses', data);
-        self.render(googleMap,{
-          to: 'map', //yield map
-          data: function(){
-            return { //one or both of selectedItem / selectedBusiness will be undefined
-              repairTitle: repairTitle,
-              selectedRepair: selectedRepair, //should be undefined
-              selectedItem: selectedItem,
-              repairBusinesses: repairBusinesses
-            };
-          }
-        });
-        self.render('android_list_group',{
-          to: 'main_content', //yield main_content
-          data: function() {
-            return {
-              repairTitle: repairTitle,
-              selectedRepair: selectedRepair,
-              selectedItem: selectedItem,
-              repairBusinesses: repairBusinesses
-            };
-          }
-        });
-      }
-    });
-  }
 });
 
 

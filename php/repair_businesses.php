@@ -41,7 +41,10 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		$i=0;
 
 		while($stmt->fetch()){
-		  $obj = new stdClass();
+      if($bN=='generic_repair_business'){
+        continue;
+      }
+      $obj = new stdClass();
 		  $obj->type = 'repairBusiness';
 		  $obj->name = $bN;
 		  $obj->street = $bStr;
