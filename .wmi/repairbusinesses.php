@@ -94,13 +94,14 @@ if ($mysqli->connect_errno) {
               <th>State</th>
               <th>Zip</th>
               <th>Phone</th>
+              <th>Website</th>
               <th>Items</th>
             </tr>
           </thead>
           <tbody>
             <?php
             if (!($stmt = $mysqli->prepare(
-              "SELECT b.id, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.latitude, b.longitude, i.name FROM business b
+              "SELECT b.id, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.latitude, b.longitude, i.name FROM business b
               INNER JOIN business_category_item bci ON bci.bid=b.id
               INNER JOIN item i ON i.id=bci.iid
               INNER JOIN category c ON c.id=bci.cid
@@ -145,6 +146,7 @@ if ($mysqli->connect_errno) {
                 <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
                 <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
                 <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
+                <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
                 <td><ul>";
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
@@ -224,7 +226,13 @@ if ($mysqli->connect_errno) {
       </div>
       </div>    
       
-      
+      <div class="form-group">
+      <label for="bWebsite" class="col-sm-2 control-label">Website</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bWebsite" value="<?php echo htmlspecialchars($_POST['repair-business-website']); ?>">
+      </div>
+      </div>  
+
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-business-id']); ?>">
@@ -282,7 +290,14 @@ if ($mysqli->connect_errno) {
       <div class="col-sm-10">
         <input type="tel" class="form-control" id="bPhone" placeholder="Phone number">
       </div>
-      </div>    
+      </div>   
+
+      <div class="form-group">
+      <label for="bWebsite" class="col-sm-2 control-label">Website</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bWebsite" placeholder="Website">
+      </div>
+      </div>  
           
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
@@ -329,7 +344,10 @@ if ($mysqli->connect_errno) {
     var city = document.getElementById("bCity").value;
     var state = document.getElementById("bState").value;
     
-    //var zip = document.getElementById("bZip").value;
+    var zip = document.getElementById("bZip").value;
+    var phone = document.getElementById("bPhone").value;
+    var website = document.getElementById("bWebsite").value;
+    constructRequest(action, businessId, latitude, longitude);
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
       if (status == google.maps.GeocoderStatus.OK){
@@ -339,14 +357,14 @@ if ($mysqli->connect_errno) {
         console.log(geoCodedResults[0].geometry.location.lng());
         var latitude = geoCodedResults[0].geometry.location.lat();
         var longitude = geoCodedResults[0].geometry.location.lng();
-        constructRequest(action, businessId, latitude, longitude);//make AJAX request to PHP file to store lat lng
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude);//make AJAX request to PHP file to store lat lng
       } else{
-        constructRequest(action, businessId, null, null); //if not geocodable, transmit lat and lng as null
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null); //if not geocodable, transmit lat and lng as null
       }
     });
   }
   
-  function constructRequest(action, businessId, latitude, longitude){
+  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude ){
     debugger;
     if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
     else if(window.ActiveXObject){
@@ -369,9 +387,9 @@ if ($mysqli->connect_errno) {
     httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
     var postParams;
     if(action=='edit'){  
-      postParams = 'action='+action+'business_id='+businessId+'&lat='+latitude+'&lat='+longitude;
+      postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude;
     } else if(action=='add'){
-      postParams = 'action='+action+'&lat='+latitude+'&lat='+longitude;  
+      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude;  
     }
     httpRequest.send(postParams);
   }
