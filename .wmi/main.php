@@ -134,7 +134,7 @@
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <!--<a class="list-group-item">
         			<div class="row">
         				<div class="col-xs-1">
         					<span class="glyphicon glyphicon-plus" style="margin-top:10px;"></span>
@@ -167,7 +167,7 @@
                   those items from businesses that currently accept those items.</span></p>
                 </div>
               </div>
-            </a>
+            </a>-->
           </div>
 
           <h4>Reuse Items</h4>
@@ -194,7 +194,7 @@
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <!--<a class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-pencil"></span>
@@ -215,7 +215,7 @@
                   <p class="list-group-item-text">Delete an item from the database.<span class="text-warning">Warning: removing an item removes it from all business that accept that item.</span></p>
                 </div>
               </div>
-            </a>
+            </a>-->
           </div>
 
         </div>
@@ -302,7 +302,7 @@
                 </div>
               </div>
             </a>
-            <a href="repairitems.php" class="list-group-item">
+<!--            <a href="repairitems.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-pencil"></span>
@@ -312,18 +312,7 @@
                   <p class="list-group-item-text">Edit the name of an existing item.</p>
                 </div>
               </div>
-            </a>
-            <a class="list-group-item">
-              <div class="row">
-                <div class="col-xs-1" style="margin-top:10px;">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </div>
-                <div class="col-xs-11">
-                  <h4 class="list-group-item-heading">Remove item</h4>
-                  <p class="list-group-item-text">Delete an item from the database.<span class="text-warning">Warning: removing an item removes it from all business that accept that item.</span></p>
-                </div>
-              </div>
-            </a>
+            </a>-->
           </div>
 
         </div>

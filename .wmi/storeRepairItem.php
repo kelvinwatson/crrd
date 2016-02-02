@@ -29,15 +29,27 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
     $itemId = $_POST['item_id'];
     
     if (!($stmt = $mysqli->prepare("UPDATE item i SET i.name=? WHERE i.id=?"))) {
-		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+		  $obj->httpResponseCode = 400;
+      $obj->response = "editFailure";
+      $obj->errorMessage = "Prepare failed (0):".$mysqli->error;
+      echo json_encode($obj);
+      return;
 		}
 
     if (!$stmt->bind_param("si", $itemName, $itemId)) {
-        echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+      $obj->httpResponseCode = 400;
+      $obj->response = "editFailure";
+      $obj->errorMessage = "Binding parameters failed (0):".$mysqli->error;
+      echo json_encode($obj);
+      return;
     }
 
 		if (!$stmt->execute()) {
-			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+			$obj->httpResponseCode = 400;
+      $obj->response = "editFailure";
+      $obj->errorMessage = "Execute failed (0):".$mysqli->error;
+      echo json_encode($obj);
+      return;
 		}
     
     $obj->httpResponseCode = 200;
@@ -51,7 +63,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
     
     /* Insert item */
     if (!($stmt = $mysqli->prepare("INSERT INTO item(name) VALUES (?)"))){
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
       $obj->errorMessage = "Prepare failed (1):".$mysqli->error;
       echo json_encode($obj);
@@ -59,7 +71,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
     }
     
     if (!$stmt->bind_param("s", $itemName)) {
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
       $obj->errorMessage = "Binding parameters failed (1):".$mysqli->error;
       echo json_encode($obj);
@@ -67,17 +79,12 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
     }
 
     if (!$stmt->execute()) {
-      $obj->httpResponseCode = $mysqli->errno;
-      $obj->response = "addFailure";
-      $obj->errorMessage = "Execute failed (1):".$mysqli->error;
-      echo json_encode($obj);
-      return;
     }
       
     /* Immediately query for item ID of item inserted */
     
     if (!($stmt = $mysqli->prepare("SELECT i.id FROM item i WHERE i.name='".$itemName."'"))){
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
       $obj->errorMessage = "Prepare failed (2):".$mysqli->error;
       echo json_encode($obj);
@@ -85,7 +92,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
     }
 
     if (!$stmt->execute()) {
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
       $obj->errorMessage = "Execute failed (2):".$mysqli->error;
       echo json_encode($obj);
@@ -95,7 +102,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
     $iID = NULL;
     
 		if(!$stmt->bind_result($iID)){
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
       $obj->errorMessage = "Bind failed (2):".$mysqli->error;
       echo json_encode($obj);
@@ -107,25 +114,25 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ //Retrieve repair businesses based on r
 		}
     
     if (!($stmt = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES (86,16,?)"))){
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
-      $obj->errorMessage = "Prepare failed (3):".$mysqli->error;
+      $obj->errorMessage = "Duplicate item.";
       echo json_encode($obj);
       return;
     }
     
     if (!$stmt->bind_param("i", $obj->itemID)) {
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
-      $obj->errorMessage = "Binding parameters failed (3):".$mysqli->error;
+      $obj->errorMessage ="Duplicate item.";
       echo json_encode($obj);
       return;
     }
 
     if (!$stmt->execute()) {
-      $obj->httpResponseCode = $mysqli->errno;
+      $obj->httpResponseCode = 400;
       $obj->response = "addFailure";
-      $obj->errorMessage = "Execute failed (3):".$mysqli->error;
+      $obj->errorMessage = "Duplicate item.";
       echo json_encode($obj);
       return;
     }

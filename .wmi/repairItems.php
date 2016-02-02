@@ -82,12 +82,12 @@ if ($mysqli->connect_errno) {
   </div>
   
   <div class="row"> <!--START VIEW TABLE ROW -->
-    <h3>View/Edit Repair Items</h3>
+    <h3>View Repair Items</h3>
     <div class="table-responsive">
       <table class="table">
         <thead>
             <tr>
-              <th>Edit</th>
+              <!--<th>Edit</th>-->
               <th>Item Name</th>
             </tr>
           </thead>
@@ -111,9 +111,7 @@ if ($mysqli->connect_errno) {
             
             while($stmt->fetch()){
               echo 
-              "<tr><form action=\"http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php#edit\" method=\"post\">
-              <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-item-id\" value=\"".$iID."\"></td>
-              <td>".$iN."<input type=\"hidden\" name=\"repair-item-name\" value=\"".$iN."\"></td>
+              "<tr><td>".$iN."<input type=\"hidden\" name=\"repair-item-name\" value=\"".$iN."\"></td>
               <input type=\"hidden\" name=\"user-action\" value=\"edit-item\"></form></tr>";              
             }
             $stmt->close();
@@ -155,7 +153,7 @@ if ($mysqli->connect_errno) {
   <div id="add"></div>
   <div class="row"> <!-- START ADD ROW -->
     <h3 style="padding-top: 70px;">Add Repair Item</h3>
-    <form class="form-horizontal" action="/">
+    <form class="form-horizontal" action="/" enctype="multipart/form-data">
       
       <div class="form-group">
       <label for="iName" class="col-sm-2 control-label">Repair Item Name</label>
@@ -163,7 +161,15 @@ if ($mysqli->connect_errno) {
         <input type="text" class="form-control" id="iName" placeholder="Repair item">
       </div>
       </div>
-                
+
+      <div class="form-group">
+      <label for="iImg" class="col-sm-2 control-label">Repair Item Image (Optional)</label>
+      <div class="col-sm-10">
+        <input type="file" class="btn btn-default" id="iFile" name="itemImg" accept="image/*"> <!--accepts only image files-->
+        <span class="">A default image will be used in the mobile application if no image is supplied.</span>
+      </div>
+      </div>
+      
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-primary" onclick="manageRepairItem('add'); return false;">Add Item</button>
@@ -186,6 +192,7 @@ if ($mysqli->connect_errno) {
   Toast.defaults.displayDuration=7000;        
   
   window.onload = function(){
+    debugger;
     var queryStr = window.location.search;
     if(queryStr=='?editSuccess=True'){
       Toast.success('Edit Successful!', 'Edit Confirmation');
@@ -197,54 +204,79 @@ if ($mysqli->connect_errno) {
       Toast.error('You did not enter an item name.', 'Add Failed');        
     } else if(queryStr=="?genSuccess=False&err=NoItemName"){
       Toast.error('You did not enter an item name.', 'Failed');
+    } else if(queryStr =="?addSuccess=False&err=Duplicate"){
+      Toast.error('Item already exists in database.', 'Failed');      
     }
   }
   
   function manageRepairItem(action){
-    debugger;
+    var upload = document.getElementById('iFile');
+    if(upload){
+      if(upload.files.length>1){
+        Toast.error('Sorry, you can only select one image per item.', 'Image upload failed');        
+        return;
+      } else if(upload.files.length==1){
+        var formData = new FormData(upload.files[0]);
+        constructRequest(action, null, null, formData);
+      }
+    }
     var itemName = document.getElementById("iName").value;
     if(action=='edit'){
       console.log(action);
       var itemId = document.getElementById("iId").value;
-      constructRequest('edit',itemId,itemName);
+      constructRequest('edit',itemId,itemName,null);
     } else if (action=='add'){
       console.log(action);
-      constructRequest('add',null,itemName);
+      constructRequest('add',null,itemName,null);
     }
   }
   
   
   
-  function constructRequest(action, itemId, itemName){
-    if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
-    else if(window.ActiveXObject){
-      try { 
-        httpRequest = new ActiveXObject('Msxml2.XMLHTTP');
+  function constructRequest(action, itemId, itemName, formData){
+      if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
+      else if(window.ActiveXObject){
+        try { 
+          httpRequest = new ActiveXObject('Msxml2.XMLHTTP');
+        }
+        catch(e){
+          try{  
+            httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
+          } catch(e){}
+        }
       }
-      catch(e){
-        try{  
-          httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
-        } catch(e){}
+      if (!httpRequest){
+        alert('Unable to create XMLHTTP instance.');
+        return false;
       }
-    }
-    if (!httpRequest){
-      alert('Unable to create XMLHTTP instance.');
-      return false;
-    }
-    
-    httpRequest.onreadystatechange = processResponse;
-    httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
-    httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
-    var postParams;
-    if(action=='edit'){  
-      postParams = 'action='+action+'&item_id='+itemId+'&item_name='+itemName;
-    } else if(action=='add'){
-      debugger;
-      postParams = 'action='+action+'&item_name='+itemName;
-    }
-    httpRequest.send(postParams);
+
+    if(!formData){      
+      httpRequest.onreadystatechange = processResponse;
+      httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
+      httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
+      var postParams;
+      if(action=='edit'){  
+        postParams = 'action='+action+'&item_id='+itemId+'&item_name='+itemName;
+      } else if(action=='add'){
+        debugger;
+        postParams = 'action='+action+'&item_name='+itemName;
+      }
+      httpRequest.send(postParams);
+
+    } else{ //image upload
+      httpRequest.open('POST', 'http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeImage.php', true);
+      httpRequest.onload = function(){
+        if(httpRequest.status===200){
+          Toast.success('Image upload successful!', 'Upload Confirmation');
+        }else {
+          Toast.error('Image upload unsuccessful!','Upload Error');
+        }
+      };
+      httpRequest.send(formData);
+   }
   }
 
+  
   function processResponse(){
     try{
       console.log(httpRequest.readyState);
@@ -259,6 +291,9 @@ if ($mysqli->connect_errno) {
           }else if (obj.response=='addFailure'){
             if(obj.errorMessage=='Missing item name.'){
                 window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=NoItemName"; 
+             }
+            if(obj.errorMessage=='Duplicate item.'){
+                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=Duplicate"; 
              }
           } else if (obj.response=='failure'){
             if(obj.errorMessage=='Item name is not set.'){
