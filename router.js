@@ -22,6 +22,16 @@ Router.route('/reuse', {where:"server"},function(){
   });
 });
 
+Router.route('/recycle', function(){ //when user navigates to /
+  this.layout('android'); //use layout called template name="android"
+  this.render('android_recycle_bread_crumbs',{
+    to: 'bread_crumbs'
+  }); //render android_home_bread_crumbs template into yield breadcrubs
+  this.render('recycle_links',{
+    to: 'main_content'
+  });
+});
+
 
 Router.route('/repair/repairItem/:itemName', function(){
   var self = this;
@@ -125,16 +135,6 @@ Router.route('/repair', function(){
       }
     });
   }
-});
-
-Router.route('/recycle', function(){
-  this.layout('android');
-  this.render('android_recycle_bread_crumbs',{
-    to: 'bread_crumbs'
-  });
-  this.render('android_list_group', {
-    to: 'main_content'
-  });
 });
 
 Router.route('/admin', function(){
