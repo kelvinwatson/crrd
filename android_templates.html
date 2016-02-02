@@ -205,27 +205,25 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
-      <div class="bs-component">
-        <div class="list-group">
-          {{ #each items }}
-            <div class="list-group-item">
-              <div class="row-picture">
-                <img class="circle" src="{{ url }}" alt="icon">
-              </div>
-              <div class="row-content">
-                <h4 class="list-group-item-heading">{{ name }}</h4>
-                <p class="list-group-item-text">
-                  {{#if street}}{{street}}{{/if}}
-                  {{#if city}}{{city}}{{/if}}
-                  {{#if state}}{{state}}{{/if}}
-                  {{#if zip}}{{zip}}{{/if}}
-                </p>
-              </div>
+    <div class="col-md-12">
+      <div class="list-group">
+        {{ #each items }}
+          <div class="list-group-item">
+            <div class="row-picture">
+              <img class="circle" src="{{ url }}" alt="icon">
             </div>
-            <div class="list-group-separator"></div>
-          {{ /each }}
-        </div>
+            <div class="row-content">
+              <h4 class="list-group-item-heading">{{ name }}</h4>
+              <p class="list-group-item-text">
+                {{#if street}}{{street}}{{/if}}
+                {{#if city}}{{city}}, {{/if}}
+                {{#if state}}{{state}}{{/if}}
+                {{#if zip}}{{zip}}{{/if}}
+              </p>
+            </div>
+          </div>
+          <div class="list-group-separator"></div>
+        {{ /each }}
       </div>
     </div>
   </div>
