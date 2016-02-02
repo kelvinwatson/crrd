@@ -29,7 +29,7 @@ Router.route('/repair/repairItem/:itemName', function(){
   var selectedItem = this.params.itemName;
   var breadCrumbs = 'android_repair_item_bread_crumbs';
   var googleMap = 'android_map'; //show a map of businesses for that item
-  var repairTitle = 'Businesses that repair '+selectedItem;
+  var repairTitle = 'Businesses that Repair '+selectedItem;
   this.layout('android');
   this.render(breadCrumbs,{
     to: 'bread_crumbs',
@@ -80,7 +80,7 @@ Router.route('/repair/repairItem/:itemName', function(){
 });
 
 
-/*User selected repair panel */
+/*User selected repair panel, load items */
 Router.route('/repair', function(){
   var self = this;
   this.layout('android');

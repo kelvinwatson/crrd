@@ -352,7 +352,7 @@ INSERT INTO close_hour(close_time) VALUES
 ('22:00:00'),('22:15:00'),('22:30:00'),('22:45:00'),
 ('23:00:00'),('23:15:00'),('23:30:00'),('23:45:00');
 
-
+#REPAIR
 INSERT INTO business_category_item(bid,cid,iid) VALUES
 (72,16,3),
 (73,16,81),
@@ -367,7 +367,7 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 (80,16,11),
 (81,16,164),
 (82,16,164),
-(82,16,168), #awaiitng client response
+(82,16,168),
 (83,16,74),
 (84,16,75),
 (84,16,69),
@@ -393,3 +393,16 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 (86,16,69),
 (86,16,166),
 (86,16,167);
+
+INSERT INTO business_category_item(bid,cid,iid) VALUES
+( , , ),  #Albany-Corvallis
+( , , ),  #Arc Thrist Stores
+( , , ),  #Beekman
+( , , ),  #Benton County Ext
+( , , ),  #Benton County Master Cardeners
+( , , ),  #Book Bin and Browser's
+( , , ),  #Browser's
+( , , ),  #Boys & Girls Club
+( , , ),  #Buckingham Palace
+( , , ),
+( , , ),

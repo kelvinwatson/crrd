@@ -1,11 +1,9 @@
 <template name="android">
   {{> android_nav_bar }}
+  {{> yield "bread_crumbs"}}
   <div class="container">
-    {{> yield "bread_crumbs"}}
     {{> yield "map"}}
     {{> yield "main_content" }}
-      <!--{{> reuse_repair_recycle_panels }}
-      {{> android_list_group}}-->
   </div>
 </template>
 
@@ -23,47 +21,12 @@
   <div class="map-container">
     {{> googleMap name="businessesMap" options=mapOptions}}
   </div>
-
-<!--
-  <script type="text/javascript">
-  var map;
-  /*Store latitudes and longitudes in array*/
-  var latLngs = [];
-  {{#each businesses}}
-    console.log({{lat}},{{lng}});
-    var obj = {};
-    obj.lat = {{lat}};
-    obj.lng = {{lng}};
-    latLngs.push(obj);
-  {{/each}}
-  console.log(latLngs);
-
-  var myLatLng=latLngs[0];
-  function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: myLatLng,
-      zoom: 13
-    });
-
-    for(var k=0; k<latLngs.length; k++){
-      console.log(latLngs[k]);
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(latLngs[k].lat,latLngs[k].lng),
-        map:map,
-        title: 'coord'
-      });
-    }
-  }
-  </script>
-  <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACoyckzkQM3CtBBjbviS3zK9FOKxohTAU&callback=initMap">
-  </script>-->
 </template>
 
 <template name="reuse_repair_recycle_panels">
   <h2>Corvallis Reuse and Repair Directory</h2>
   <div class="row">
-    <div class="col-xs-6 col-md-6">
+    <div class="col-xs-6 col-md-12">
         <div id="reuse_panel" class="panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title">Reuse</h3>
@@ -73,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-md-6">
+    <div class="col-xs-6 col-md-12">
         <div id="repair_panel" class="panel panel-info">
             <div class="panel-heading">
               <h3 class="panel-title">Repair</h3>
@@ -85,7 +48,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-6 col-md-6">
+    <div class="col-xs-6 col-md-12">
         <div id="recycle_panel" class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">Recycle</h3>
@@ -155,8 +118,8 @@
 <template name="android_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
-      <li><a href="javascript:void(0)">Home</a></li>
-      <li><a href="javascript:void(0)">Reuse</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/reuse">Reuse</a></li>
       <li class="active">Businesses</li>
     </ul>
   </div>
@@ -166,7 +129,7 @@
 <template name="android_reuse_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
-      <li><a href="javascript:void(0)">Home</a></li>
+      <li><a href="/">Home</a></li>
       <li><a href="javascript:void(0)">Reuse</a></li>
     </ul>
   </div>
@@ -175,8 +138,8 @@
 <template name="android_repair_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
-      <li><a href="javascript:void(0)">Home</a></li>
-      <li><a href="javascript:void(0)">Repair</a></li>
+      <li><a href="/">Home</a></li>
+      <li class="active">Repair</li>
     </ul>
   </div>
 </template>
@@ -184,9 +147,9 @@
 <template name="android_repair_item_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
-      <li><a href="javascript:void(0)">Home</a></li>
-      <li><a href="javascript:void(0)">Repair</a></li>
-      <li><a href="javascript:void(0)">{{item}}</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/repair">Repair</a></li>
+      <li class="active">{{item}}</li>
     </ul>
   </div>
 </template>
@@ -195,8 +158,8 @@
 <template name="android_recycle_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
-      <li><a href="javascript:void(0)">Home</a></li>
-      <li><a href="javascript:void(0)">Recycle</a></li>
+      <li><a href="/">Home</a></li>
+      <li class="active">Recycle</li>
     </ul>
   </div>
 </template>
@@ -204,7 +167,7 @@
 <template name="android_home_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
-      <li><a href="javascript:void(0)">Home</a></li>
+      <li class="active">Home</li>
     </ul>
   </div>
 </template>
@@ -233,7 +196,6 @@
                   {{#if state}}{{state}}{{/if}}
                   {{#if zip}}{{zip}}{{/if}}
                 </p>
-
               </div>
             </div>
             <div class="list-group-separator"></div>
@@ -242,8 +204,4 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="hello">
-  <a href="javascript:void(0)" class="btn btn-raised btn-primary">Button</a>
 </template>
