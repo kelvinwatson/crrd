@@ -269,7 +269,6 @@ if ($mysqli->connect_errno) {
           if(obj.response=='editSuccess'){
             window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
           } else if(obj.response=='addSuccess'){
-            console.log("HERE?")
             window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
           }
         }
