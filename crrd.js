@@ -9,7 +9,6 @@ if (Meteor.isClient) {
     $.material.init();
   };
 
-
   Template.reuse_repair_recycle_panels.events({
     'click #reuse_panel': function(){
       Session.set('selectedAction','reuse');
@@ -42,20 +41,23 @@ if (Meteor.isClient) {
       if(repairBusinesses){
         let bounds = new google.maps.LatLngBounds();
         for(let k=0; k<repairBusinesses.length; k++){
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
-            map: map.instance
-          });
-          var infoStr = repairBusinesses[k].name+'<br>'+
-          repairBusinesses[k].street+' '+repairBusinesses[k].city+
-            ', '+repairBusinesses[k].state;
-          var infowindow = new google.maps.InfoWindow({
-            content: infoStr
-          });
-          marker.addListener('click', function(){
-            infowindow.open(map.instance,marker);
-          });
-          bounds.extend(marker.position);
+          (function(){
+            var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
+              map: map.instance
+            });
+            new google.maps.event.addListener(marker, 'click', function(){
+              console.log('clicked map!');
+              var infoStr = repairBusinesses[k].name+'<br>'+
+              repairBusinesses[k].street+' '+repairBusinesses[k].city+
+                ', '+repairBusinesses[k].state;
+              var infowindow = new google.maps.InfoWindow({
+                content: infoStr
+              });
+              infowindow.open(map.instance,marker);
+            });
+            bounds.extend(marker.position);
+          }())
         }
         map.instance.fitBounds(bounds);
       }
@@ -79,8 +81,8 @@ if (Meteor.isClient) {
 
   Template.android_map.onRendered(function(){
     Blaze._allowJavascriptUrls();
-    console.log("ON MAP RENDERED, printing THIS="+this);
-    console.log(this);
+    //console.log("ON MAP RENDERED, printing THIS="+this);
+    //console.log(this);
     GoogleMaps.load();
   });
 
@@ -138,7 +140,7 @@ if (Meteor.isServer) {
   });
   Meteor.methods({
     getRepairItems: function () {
-      console.log('getting items!');
+      //console.log('getting items!');
       var url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_items.php";
       var resp = HTTP.get(url);
       var data = resp.data;
