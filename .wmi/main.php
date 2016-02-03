@@ -115,7 +115,8 @@
                 </div>
                 <div class="col-xs-11">
                   <h4 class="list-group-item-heading">Remove business</h4>
-                  <p class="list-group-item-text">Delete a business from the database.</p>
+                  <p class="list-group-item-text">Delete a business from the database.
+                  <span class="text-warning">Warning: This is irreversible.</span></p>
                 </div>
               </div>
             </a>
@@ -271,7 +272,7 @@
                 </div>
                 <div class="col-xs-11">
                   <h4 class="list-group-item-heading">Remove business</h4>
-                  <p class="list-group-item-text">Delete a business from the database.</p>
+                  <p class="list-group-item-text">Delete a business from the database. <span class="text-warning">Warning: This is irreversible.</span></p>
                 </div>
               </div>
             </a>
