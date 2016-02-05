@@ -540,4 +540,4 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 
 INSERT INTO business_category_item(bid,cid,iid) VALUES
 #Career Closet for Women
-(1,7,68),(1,7,69),(1,7,70),(1,7,71),(1,7,72),(1,7,73),(1,7,74),(1,7,75);
+(13,7,68),(13,7,69),(13,7,70),(13,7,71),(13,7,72),(13,7,73),(13,7,74),(13,7,75);
