@@ -501,8 +501,9 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 
 INSERT INTO business_category_item(bid,cid,iid) VALUES
 #Book Bin and Browser's
-(7,1,3),(7,3,3),
+(7,1,3),(7,3,3), 
 (7,8,79);
+
 
 INSERT INTO business_category_item(bid,cid,iid) VALUES
 #Boys & Girls Club
