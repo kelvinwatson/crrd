@@ -43,7 +43,7 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
-  //TODO: need a new way to cache each selected item?
+
   Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
     console.log('using NEW data');
     var repairBusinesses = data;
@@ -73,9 +73,7 @@ Router.route('/repair/repairItem/:itemName', function(){
       });
     }
   });
-
 });
-
 
 /*User selected repair panel, load items */
 Router.route('/repair', function(){

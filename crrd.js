@@ -1,6 +1,5 @@
 /* CLIENT */
 if (Meteor.isClient) {
-
   /* Initialize ripple effect */
   Template.android.rendered = function(){
     $.material.init();
@@ -31,12 +30,9 @@ if (Meteor.isClient) {
   });
 
   /* MAP */
-  //created, helper, rendered
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
-    //console.log("ON MAP CREATED, printing this:");
     GoogleMaps.ready('businessesMap', function(map) {
-      //console.log("map ready!");
       var repairBusinesses = Session.get('repairBusinesses');
       if(repairBusinesses){
         let bounds = new google.maps.LatLngBounds();
@@ -67,9 +63,7 @@ if (Meteor.isClient) {
   //runs a second time
   Template.android_map.helpers({
     'mapOptions': function(){
-      //console.log("MAP HELPER mapOptions");
       if (GoogleMaps.loaded()){
-        //console.log("map loaded");
         return{
           center: new google.maps.LatLng(44.5667, -123.2833),
           zoom:14,
@@ -81,8 +75,6 @@ if (Meteor.isClient) {
 
   Template.android_map.onRendered(function(){
     Blaze._allowJavascriptUrls();
-    //console.log("ON MAP RENDERED, printing THIS="+this);
-    //console.log(this);
     GoogleMaps.load();
   });
 
@@ -106,17 +98,15 @@ if (Meteor.isClient) {
       } else if (this.selectedBusiness){
         return Session.get('selectedBusiness');
       } else if(this.reuseCategories){
-        return Session.get('reuseCategories');      
+        return Session.get('reuseCategories');
       }
     }
   });
 
   Template.android_list_group.events({
     'click .list-group-item': function(){
-      //console.log(this); //figure out what the object is that was clicked
       var route;
       if(this.type=='repairItem'){
-        //console.log("event is /repairItem/actualITem");
         Session.set('selectedAction','repair');
         route = '/'+Session.get('selectedAction')+'/repairItem/'+this.name;
       } else if (this.type=='repairBusiness'){
