@@ -1,6 +1,5 @@
 /* CLIENT */
 if (Meteor.isClient) {
-
   /* Initialize ripple effect */
   Template.android.rendered = function(){
     $.material.init();
@@ -31,12 +30,9 @@ if (Meteor.isClient) {
   });
 
   /* MAP */
-  //created, helper, rendered
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
-    //console.log("ON MAP CREATED, printing this:");
     GoogleMaps.ready('businessesMap', function(map) {
-      //console.log("map ready!");
       var repairBusinesses = Session.get('repairBusinesses');
       if(repairBusinesses){
         let bounds = new google.maps.LatLngBounds();
@@ -67,9 +63,7 @@ if (Meteor.isClient) {
   //runs a second time
   Template.android_map.helpers({
     'mapOptions': function(){
-      //console.log("MAP HELPER mapOptions");
       if (GoogleMaps.loaded()){
-        //console.log("map loaded");
         return{
           center: new google.maps.LatLng(44.5667, -123.2833),
           zoom:14,
@@ -81,8 +75,6 @@ if (Meteor.isClient) {
 
   Template.android_map.onRendered(function(){
     Blaze._allowJavascriptUrls();
-    //console.log("ON MAP RENDERED, printing THIS="+this);
-    //console.log(this);
     GoogleMaps.load();
   });
 
@@ -94,45 +86,42 @@ if (Meteor.isClient) {
         return this.repairTitle;
       } else if (this.selectedItem){
         return this.selectedItem;
+      } else if (this.reuseTitle){
+        return this.repairTitle;
       }
     },
     'items': function(){
       if(this.repairItems){
-        //console.log('COUNT');
-        //console.log(LocalRepairItems.find().count());
-        //if(LocalRepairItems.find().count()==0){
-        //  for(let k=0; k<this.repairItems.length; k++){
-        //    LocalRepairItems.insert(this.repairItems[k]);
-        //  }
-        //}
-        //var arr = LocalRepairItems.find().fetch();
-        //console.log(arr);
         return this.repairItems;
-        //return LocalRepairItems.find().fetch();
       } else if(this.repairBusinesses){
         return Session.get('repairBusinesses');
       } else if (this.selectedBusiness){
         return Session.get('selectedBusiness');
+      } else if(this.reuseCategories){
+        return Session.get('reuseCategories');
       }
     }
   });
 
   Template.android_list_group.events({
     'click .list-group-item': function(){
-      //console.log(this); //figure out what the object is that was clicked
       var route;
       if(this.type=='repairItem'){
-        //console.log("event is /repairItem/actualITem");
         Session.set('selectedAction','repair');
         route = '/'+Session.get('selectedAction')+'/repairItem/'+this.name;
       } else if (this.type=='repairBusiness'){
         Session.set('selectedAction','repair');
         route='/'+Session.get('selectedAction')+'/repairBusiness/'+this.name;
+      } else if (this.type=="reuseCategory"){
+        Session.set('selectedAction','reuse');
+        route = '/'+Session.get('selectedAction')+'/reuseCat/'+this.name;
       }
       Router.go(route);
     },
   });
 }
+
+
 
 /* SERVER */
 if (Meteor.isServer) {
@@ -140,27 +129,19 @@ if (Meteor.isServer) {
   });
   Meteor.methods({
     getRepairItems: function () {
-      //console.log('getting items!');
-      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_items.php";
-      var resp = HTTP.get(url);
-      var data = resp.data;
-      //console.log(LocalRepairItems.find().count());
-      // if(LocalRepairItems.find().count()==0){
-      //   for(let k=0; k<resp.data.length; k++){
-      //     LocalRepairItems.insert(resp.data[k]);
-      //   }
-      // }
-      // var arr = LocalRepairItems.find().fetch();
-      // console.log(arr);
-      // console.log(LocalRepairItems.find().count());
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_items.php";
+      let resp = HTTP.get(url);
       return resp.data;
     },
     getRepairBusinesses: function (item) {
-      var url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses.php?repairItem="+item;
-      var resp = HTTP.get(url);
-
-      //console.log("for repairItem="+item+" sql returned=");
-      //console.log(resp.data);
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses.php?repairItem="+item;
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
+    getReuseCategories: function(){
+      console.log('getting cats!');
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_categories.php";
+      let resp = HTTP.get(url);
       return resp.data;
     },
   });
