@@ -18,7 +18,7 @@ if ($mysqli->connect_errno) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel= "shortcut icon" media="all" type="image/x-icon" href="http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
   <link href="css/toast.css" rel="stylesheet">
@@ -164,7 +164,7 @@ if ($mysqli->connect_errno) {
       
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary" onclick="manageRepairItem('add'); return false;">Add Item</button>
+          <button type="button" class="btn btn-primary" onclick="manageRepairItem('add'); return false;">Add Item</button>
         </div>
       </div>
       
@@ -232,7 +232,7 @@ if ($mysqli->connect_errno) {
         return false;
       }
       httpRequest.onreadystatechange = processResponse;
-      httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
+      httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
       httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
       var postParams;
       if(action=='edit'){  
@@ -254,25 +254,25 @@ if ($mysqli->connect_errno) {
         if(obj.httpResponseCode==400){
           if(obj.response=='editFailure'){
              if(obj.errorMessage=='Missing item name.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=False&err=NoItemName"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=False&err=NoItemName"; 
              }
           }else if (obj.response=='addFailure'){
             if(obj.errorMessage=='Missing item name.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=NoItemName"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=NoItemName"; 
              }
             if(obj.errorMessage=='Duplicate item.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=Duplicate"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=Duplicate"; 
              }
           } else if (obj.response=='failure'){
             if(obj.errorMessage=='Item name is not set.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?genSuccess=False&err=NoItemName"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?genSuccess=False&err=NoItemName"; 
             }
           }
         } else{ //obj.httpResponseCode is 200
           if(obj.response=='editSuccess'){
-            window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
           } else if(obj.response=='addSuccess'){
-            window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
           }
         }
       }else console.log('Problem with the request');

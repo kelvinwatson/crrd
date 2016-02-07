@@ -21,44 +21,74 @@ $zipcode = $_POST['zipcode'];
 $phone = $_POST['phone'];
 $website = $_POST['website'];
 $latitude = $_POST['lat'];
+if($latitude==''){
+  $latitude=null;
+}
 $longitude = $_POST['long'];
-$type = repair;
-$obj = new stdClass(); 
-if ($action == 'edit')
-{
+if($longitude==''){
+  $longitude=null;
+}
+$obj = new stdClass();
+
+if ($action == 'edit'){
   $businessId = $_POST['business_id'];
   if (!($stmt = $mysqli->prepare("UPDATE business SET name=?, street=?, city=?, state=?, zipcode=?, phone=?, website=?, latitude=?, longitude=? WHERE id=?"))) {
-      echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-    }
+    $obj->httpResponseCode = 400;
+    $obj->response = "editFailure";
+    $obj->errorMessage = 'Prepare failed.';
+    echo json_encode($obj);
+    return;
+  }
 
   if (!$stmt->bind_param("ssssissddi", $businessName, $street, $city, $state, $zipcode, $phone, $website, $latitude, $longitude, $businessId)) {
-        echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-    }
+    $obj->httpResponseCode = 400;
+    $obj->response = "editFailure";
+    $obj->errorMessage = 'Bind failed.';
+    echo json_encode($obj);
+    return;    
+  }
 
   if (!$stmt->execute()) {
-      echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-    }
+    $obj->httpResponseCode = 400;
+    $obj->response = "editFailure";
+    $obj->errorMessage = 'Execute failed.';
+    echo json_encode($obj);
+    return;   
+  }
     
   $obj->httpResponseCode = 200;
   $obj->response = "editSuccess";
   $obj->errorMessage = 'Edit item successful.';
   echo json_encode($obj);
   return;
-}
-else ($action == 'add')
-{
+  
+} else if ($action == 'add') {
+  $type = 'Repair';
   if (!($stmt = $mysqli->prepare("INSERT INTO business(name, street, city, state, zipcode, phone, website, type, latitude, longitude) VALUES (?,?,?,?,?,?,?,?,?,?)"))){
-    echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    $obj->httpResponseCode = 400;
+    $obj->response = "addFailure";
+    $obj->errorMessage = 'Prepare failed.';
+    echo json_encode($obj);
+    return;
   }
-
+  
   if (!$stmt->bind_param("ssssisssdd", $businessName, $street, $city, $state, $zipcode, $phone, $website, $type, $latitude, $longitude)) {
-    echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+    $obj->httpResponseCode = 400;
+    $obj->response = "addFailure";
+    $obj->errorMessage = 'Bind failed.';
+    echo json_encode($obj);
+    return;   
   }
 
+  
   if (!$stmt->execute()) {
-    echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+    $obj->httpResponseCode = 400;
+    $obj->response = "addFailure";
+    $obj->errorMessage = 'Execute failed.';
+    echo json_encode($obj);
+    return;
   }
-    
+  
   $obj->httpResponseCode = 200;
   $obj->response = "addSuccess";
   $obj->errorMessage = 'Add item successful.';
