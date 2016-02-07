@@ -104,7 +104,7 @@ if ($mysqli->connect_errno) {
               "SELECT b.id, b.type, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.latitude, b.longitude, i.name
               FROM business b LEFT JOIN business_category_item bci ON bci.bid = b.id
               LEFT JOIN item i ON i.id = bci.iid
-              WHERE b.type =  'Repair'"))) {
+              WHERE b.type =  'Repair' AND b.name != 'generic_repair_business'"))) {
               echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
             }
             
