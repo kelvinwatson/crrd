@@ -38,7 +38,7 @@ if (Meteor.isClient) {
     }
   });
 
-  
+
   /* MAP */
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
@@ -89,8 +89,11 @@ if (Meteor.isClient) {
   });
 
   Template.business_profile.helpers({
-    'title': function(){
-
+    'name': function(){
+      return this.title;
+    },
+    'address': function(){
+      return this.repairBusinessStreet;
     }
   });
 
@@ -161,12 +164,12 @@ if (Meteor.isServer) {
       return resp.data;
     },
     getRepairBusiness: function (business) {
-      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses.php?repairBusiness="+business;
+      console.log('getting business=!'+business);
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_business.php?repairBusiness="+business;
       let resp = HTTP.get(url);
       return resp.data;
     },
     getReuseCategories: function(){
-      console.log('getting cats!');
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_categories.php";
       let resp = HTTP.get(url);
       return resp.data;

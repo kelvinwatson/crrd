@@ -18,15 +18,21 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		$obj->error_description = 'A repair business was not selected.';
 		echo json_encode($obj);
 	} else{
-		$businessName=$_GET['repairBusiness'];
-    $obj->businessName= $businessName;
+		$businessName=htmlspecialchars($_GET['repairBusiness']);
+    $obj->businessName = $businessName;
 
 		if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude FROM business b
-		  WHERE b.name='".$businessName."'"))) {
+		  WHERE b.name=?"))) {
       $obj->http_response_code = 400;
   		$obj->error_description = 'Prepare failed.';
   		echo json_encode($obj);
 		}
+
+    if (!$stmt->bind_param("s", $businessName)) {
+      $obj->http_response_code = 400;
+  		$obj->error_description = 'Bind param failed.';
+  		echo json_encode($obj);
+    }
 
 		if (!$stmt->execute()) {
       $obj->http_response_code = 400;
@@ -36,7 +42,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 
 		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng)){
       $obj->http_response_code = 400;
-  		$obj->error_description = 'Bind failed.';
+  		$obj->error_description = 'Bind result failed.';
   		echo json_encode($obj);
 		}
 

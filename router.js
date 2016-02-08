@@ -49,6 +49,8 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
   Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
     console.log('getting business');
     var repairBusiness = data;
+    console.log('repairBusiness=');
+    console.log(repairBusiness);
     if (!err) {
       Session.setPersistent(selectedBusiness, data);
       self.render('business_profile',{
@@ -58,7 +60,8 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
             title: title,
             selectedRepair: selectedRepair,
             selectedItem: selectedItem,
-            repairBusiness: repairBusiness
+            repairBusinessName: repairBusiness.name,
+            repairBusinessStreet: repairBusiness.street,
           };
         }
       });
