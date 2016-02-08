@@ -153,7 +153,6 @@ if (Meteor.isClient) {
 }
 
 
-
 /* SERVER */
 if (Meteor.isServer) {
   Meteor.startup(function () {

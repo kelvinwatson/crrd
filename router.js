@@ -4,6 +4,9 @@ Router.route('/', function(){ //when user navigates to /
   this.render('android_home_bread_crumbs',{
     to: 'bread_crumbs'
   }); //render android_home_bread_crumbs template into yield breadcrubs
+  this.render('blank_template',{
+    to: 'map'
+  });
   this.render('reuse_repair_recycle_panels',{
     to: 'main_content'
   });
