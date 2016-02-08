@@ -60,8 +60,14 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
             title: title,
             selectedRepair: selectedRepair,
             selectedItem: selectedItem,
-            repairBusinessName: repairBusiness.name,
-            repairBusinessStreet: repairBusiness.street,
+            businessName: repairBusiness.name,
+            businessStreet: repairBusiness.street,
+            businessCity: repairBusiness.city,
+            businessState: repairBusiness.state,
+            businessZip: repairBusiness.zip,
+            businessLat: repairBusiness.lat,
+            businessLng: repairBusiness.lng,
+            businessInfo: repairBusiness.info,
           };
         }
       });

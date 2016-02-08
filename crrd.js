@@ -93,7 +93,13 @@ if (Meteor.isClient) {
       return this.title;
     },
     'address': function(){
-      return this.repairBusinessStreet;
+      return this.businessStreet+", "+this.businessCity+", "+this.businessState+
+      ", "+this.businessZip;
+    },
+    'info': function(){
+      if(this.businessInfo){
+        return this.businessInfo;
+      }
     }
   });
 
@@ -164,7 +170,6 @@ if (Meteor.isServer) {
       return resp.data;
     },
     getRepairBusiness: function (business) {
-      console.log('getting business=!'+business);
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_business.php?repairBusiness="+business;
       let resp = HTTP.get(url);
       return resp.data;
