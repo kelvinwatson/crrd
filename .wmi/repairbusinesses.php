@@ -101,11 +101,10 @@ if ($mysqli->connect_errno) {
           <tbody>
             <?php
             if (!($stmt = $mysqli->prepare(
-              "SELECT b.id, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.latitude, b.longitude, i.name FROM business b
-              INNER JOIN business_category_item bci ON bci.bid=b.id
-              INNER JOIN item i ON i.id=bci.iid
-              INNER JOIN category c ON c.id=bci.cid
-              WHERE b.type='Repair' AND c.id=16 "))) {
+              "SELECT b.id, b.type, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.latitude, b.longitude, i.name
+              FROM business b LEFT JOIN business_category_item bci ON bci.bid = b.id
+              LEFT JOIN item i ON i.id = bci.iid
+              WHERE b.type =  'Repair' AND b.name != 'generic_repair_business'"))) {
               echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
             }
             
@@ -113,11 +112,11 @@ if ($mysqli->connect_errno) {
               echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
             
-            if(!$stmt->bind_result($bID, $bN,$bStr,$bC,$bSta,$bZ,$bP,$bLat,$bLng,$iN)){
+            if(!$stmt->bind_result($bID,$bT,$bN,$bStr,$bC,$bSta,$bZ,$bP,$bW,$bLat,$bLng,$iN)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
             }
             
-            $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbLat = $prevbLng = NULL;
+            $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbLat = $prevbLng = NULL;
             $i=0;
             $arr = array();
             
@@ -134,11 +133,12 @@ if ($mysqli->connect_errno) {
                 $prevbSta = $bSta;
                 $prevbZ = $bZ;
                 $prevbP = $bP;
+                $prevbW = $bW;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
               } else {
                 echo 
-                "<tr><form action=\"http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
+                "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
                 <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
                 <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
                 <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
@@ -146,7 +146,7 @@ if ($mysqli->connect_errno) {
                 <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
                 <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
                 <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-                <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+                <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
                 <td><ul>";
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
@@ -162,6 +162,7 @@ if ($mysqli->connect_errno) {
                 $prevbSta = $bSta;
                 $prevbZ = $bZ;
                 $prevbP = $bP;
+                $prevbW = $bW;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
                 $arr[$i++] = $iN;                
@@ -236,7 +237,7 @@ if ($mysqli->connect_errno) {
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-business-id']); ?>">
-        <button type="submit" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
+        <button type="button" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
       </div>
     </div>
     </form>
@@ -301,7 +302,7 @@ if ($mysqli->connect_errno) {
           
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary" onclick="codeAddress('add'); return false;">Add Business</button>
+          <button type="button" class="btn btn-primary" onclick="codeAddress('add'); return false;">Add Business</button>
         </div>
       </div>
       
@@ -317,18 +318,23 @@ if ($mysqli->connect_errno) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?"></script> 
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?"></script> 
 <script type="text/javascript">
   
   Toast.defaults.width='600px';
   Toast.defaults.displayDuration=7000;        
   
   window.onload = function(){
+    debugger;
     var queryStr = window.location.search;
     if(queryStr=='?editSuccess=True'){
       Toast.success('Edit Successful!', 'Edit Confirmation');
     } else if(queryStr=='?editSuccess=False'){
       Toast.error('There was an error in one or more of your inputs!', 'Edit Status');        
+    } else if(queryStr=='?addSuccess=True'){
+      Toast.success('Add Successful!', 'Add Confirmation');
+    }else if(queryStr=='?addSuccess=False'){
+      Toast.error('There was an error in one or more of your inputs!', 'Add Status');        
     }
   }
   
@@ -344,10 +350,9 @@ if ($mysqli->connect_errno) {
     var city = document.getElementById("bCity").value;
     var state = document.getElementById("bState").value;
     
-    var zip = document.getElementById("bZip").value;
+    var zipcode = document.getElementById("bZip").value;
     var phone = document.getElementById("bPhone").value;
     var website = document.getElementById("bWebsite").value;
-    constructRequest(action, businessId, latitude, longitude);
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
       if (status == google.maps.GeocoderStatus.OK){
@@ -364,8 +369,7 @@ if ($mysqli->connect_errno) {
     });
   }
   
-  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude ){
-    debugger;
+  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude){
     if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
     else if(window.ActiveXObject){
       try { 
@@ -383,9 +387,15 @@ if ($mysqli->connect_errno) {
     }
     
     httpRequest.onreadystatechange = processResponse;
-    httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairBusiness.php',true);
+    httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairBusiness.php',true);
     httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
     var postParams;
+    if(latitude==null){
+      latitude='';
+    }
+    if(longitude==null){
+      longitude='';
+    }
     if(action=='edit'){  
       postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude;
     } else if(action=='add'){
@@ -398,20 +408,28 @@ if ($mysqli->connect_errno) {
     try{
       console.log(httpRequest.readyState);
       if(httpRequest.readyState===4 && httpRequest.status===200){
-        var response = JSON.parse(httpRequest.responseText);
-        console.log(response);
-        if(response=='editSuccess'){
-          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True"; 
-        } else if (response=='editFailure'){
-          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=False"; 
-        } else if(response=='addSuccess'){
-          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=True";   
-        } else if (response=='addFailure'){
-          window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=False"; 
+        debugger;
+        var obj = JSON.parse(httpRequest.responseText);
+        console.log(obj);
+        if(obj.httpResponseCode==400){
+          if(obj.response=='editFailure'){ 
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=False"; 
+          }else if (obj.response=='addFailure'){
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=False";
+          }
+        } else{ //obj.httpResponseCode is 200
+          if(obj.response=='editSuccess'){
+            debugger;
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True"; 
+          } else if(obj.response=='addSuccess'){
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=True";   
+          }
         }
-      }else console.log('Problem with the request');
-    }
-    catch(e){
+      }else {
+        console.log('Problem with the request');
+      
+      }
+    }catch(e){
       console.log('Caught Exception: ' + e);
     }
   }
@@ -420,65 +438,3 @@ if ($mysqli->connect_errno) {
 
 </body>
 </html>
-
-
-
-<!--
-CREATE TABLE business (
-   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   name VARCHAR(255) NOT NULL,
-   type VARCHAR(255) NOT NULL,
-   phone VARCHAR(255) DEFAULT NULL,
-   website VARCHAR(255) DEFAULT NULL,
-   street VARCHAR(255) DEFAULT NULL,
-   city VARCHAR(255) DEFAULT NULL,
-   state VARCHAR(255) DEFAULT NULL,
-   zipcode INT(11) DEFAULT NULL,
-   latitude FLOAT DEFAULT NULL,
-   longitude FLOAT DEFAULT NULL,
-   info VARCHAR(255) DEFAULT NULL
-)ENGINE=InnoDB;
-CREATE TABLE item (
-id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(255) UNIQUE NOT NULL,
-url VARCHAR(255) DEFAULT NULL
-)ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS category;
-CREATE TABLE category (
-id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(255) NOT NULL
-)ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS business_category_item;
-CREATE TABLE business_category_item (
-  bid INT(11) not null,
-  cid INT(11) not null,
-  iid INT(11) not null,
-  FOREIGN KEY(bid) REFERENCES business(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY(cid) REFERENCES category(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY(iid) REFERENCES item(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  PRIMARY KEY (bid,cid,iid)
-)ENGINE=InnoDB;
-
-DROP TABLES IF EXISTS operating_day;
-CREATE TABLE operating_day (
-id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-day VARCHAR(255) UNIQUE NOT NULL
-)ENGINE=InnoDB;
-
-DROP TABLES IF EXISTS open_hour;
-CREATE TABLE open_hour (
-id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-open_time TIME NOT NULL
-)ENGINE=InnoDB;
-
-DROP TABLES IF EXISTS close_hour;
-CREATE TABLE close_hour (
-id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-close_time TIME NOT NULL
-)ENGINE=InnoDB;
--->

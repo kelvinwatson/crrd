@@ -18,7 +18,7 @@ if ($mysqli->connect_errno) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel= "shortcut icon" media="all" type="image/x-icon" href="http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
   <link href="css/toast.css" rel="stylesheet">
@@ -153,7 +153,7 @@ if ($mysqli->connect_errno) {
   <div id="add"></div>
   <div class="row"> <!-- START ADD ROW -->
     <h3 style="padding-top: 70px;">Add Repair Item</h3>
-    <form class="form-horizontal" action="/" enctype="multipart/form-data">
+    <form class="form-horizontal" action="/">
       
       <div class="form-group">
       <label for="iName" class="col-sm-2 control-label">Repair Item Name</label>
@@ -161,18 +161,10 @@ if ($mysqli->connect_errno) {
         <input type="text" class="form-control" id="iName" placeholder="Repair item">
       </div>
       </div>
-
-      <div class="form-group">
-      <label for="iImg" class="col-sm-2 control-label">Repair Item Image (Optional)</label>
-      <div class="col-sm-10">
-        <input type="file" class="btn btn-default" id="iFile" name="itemImg" accept="image/*"> <!--accepts only image files-->
-        <span class="">A default image will be used in the mobile application if no image is supplied.</span>
-      </div>
-      </div>
       
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary" onclick="manageRepairItem('add'); return false;">Add Item</button>
+          <button type="button" class="btn btn-primary" onclick="manageRepairItem('add'); return false;">Add Item</button>
         </div>
       </div>
       
@@ -210,16 +202,6 @@ if ($mysqli->connect_errno) {
   }
   
   function manageRepairItem(action){
-    var upload = document.getElementById('iFile');
-    if(upload){
-      if(upload.files.length>1){
-        Toast.error('Sorry, you can only select one image per item.', 'Image upload failed');        
-        return;
-      } else if(upload.files.length==1){
-        var formData = new FormData(upload.files[0]);
-        constructRequest(action, null, null, formData);
-      }
-    }
     var itemName = document.getElementById("iName").value;
     if(action=='edit'){
       console.log(action);
@@ -249,10 +231,8 @@ if ($mysqli->connect_errno) {
         alert('Unable to create XMLHTTP instance.');
         return false;
       }
-
-    if(!formData){      
       httpRequest.onreadystatechange = processResponse;
-      httpRequest.open('POST','http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
+      httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairItem.php',true);
       httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
       var postParams;
       if(action=='edit'){  
@@ -261,19 +241,7 @@ if ($mysqli->connect_errno) {
         debugger;
         postParams = 'action='+action+'&item_name='+itemName;
       }
-      httpRequest.send(postParams);
-
-    } else{ //image upload
-      httpRequest.open('POST', 'http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeImage.php', true);
-      httpRequest.onload = function(){
-        if(httpRequest.status===200){
-          Toast.success('Image upload successful!', 'Upload Confirmation');
-        }else {
-          Toast.error('Image upload unsuccessful!','Upload Error');
-        }
-      };
-      httpRequest.send(formData);
-   }
+      httpRequest.send(postParams); 
   }
 
   
@@ -286,25 +254,25 @@ if ($mysqli->connect_errno) {
         if(obj.httpResponseCode==400){
           if(obj.response=='editFailure'){
              if(obj.errorMessage=='Missing item name.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=False&err=NoItemName"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=False&err=NoItemName"; 
              }
           }else if (obj.response=='addFailure'){
             if(obj.errorMessage=='Missing item name.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=NoItemName"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=NoItemName"; 
              }
             if(obj.errorMessage=='Duplicate item.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=Duplicate"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=False&err=Duplicate"; 
              }
           } else if (obj.response=='failure'){
             if(obj.errorMessage=='Item name is not set.'){
-                window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?genSuccess=False&err=NoItemName"; 
+                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?genSuccess=False&err=NoItemName"; 
             }
           }
         } else{ //obj.httpResponseCode is 200
           if(obj.response=='editSuccess'){
-            window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?editSuccess=True"; 
           } else if(obj.response=='addSuccess'){
-            window.location = "http://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?addSuccess=True";   
           }
         }
       }else console.log('Problem with the request');
