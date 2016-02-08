@@ -20,6 +20,55 @@ Router.route('/recycle', function(){ //when user navigates to /
 });
 
 
+
+Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', function(){
+  console.log("NEW ROUTE");
+  var self = this;
+  var selectedRepair = 'Repair';
+  var selectedItem = this.params.itemName;
+  var selectedBusiness = this.params.businessName;
+  var breadCrumbs = 'android_repair_business_bread_crumbs';
+  var title = selectedBusiness;
+  this.layout('android');
+  this.render(breadCrumbs,{
+    to: 'bread_crumbs',
+    data: function(){
+      return { //one or both of selectedItem / selectedBusiness will be undefined
+        selectedRepair: selectedRepair,
+        selectedItem: selectedItem,
+        selectedBusiness: selectedBusiness
+      }
+    }
+  });
+  this.render('loading_template',{
+    to:'main_content'
+  });
+  this.render('blank_template',{
+    to: 'map'
+  });
+  Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
+    console.log('getting business');
+    var repairBusiness = data;
+    if (!err) {
+      Session.setPersistent(selectedBusiness, data);
+      self.render('business_profile',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          return {
+            title: title,
+            selectedRepair: selectedRepair,
+            selectedItem: selectedItem,
+            repairBusiness: repairBusiness
+          };
+        }
+      });
+    }
+  });
+});
+
+
+
+
 Router.route('/repair/repairItem/:itemName', function(){
   var self = this;
   var selectedRepair = 'Repair';
@@ -43,7 +92,6 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
-
   Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
     console.log('using NEW data');
     var repairBusinesses = data;

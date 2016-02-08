@@ -38,6 +38,11 @@
 <template name="blank_template">
 </template>
 
+<template name="business_profile">
+  BUSINESS PROFILE
+</template>
+
+
 <template name="loading_template">
   <h1>LOADING...</h1>
 </template>
@@ -175,6 +180,17 @@
       <li><a href="/">Home</a></li>
       <li><a href="/repair">Repair</a></li>
       <li class="active">{{item}}</li>
+    </ul>
+  </div>
+</template>
+
+<template name="android_repair_business_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="/">Home</a></li>
+      <li><a href="/repair">Repair</a></li>
+      <li><a href="/repair/repairItem/{{item}}">{{item}}</a></li>
+      <li class="active">{{business}}</li>
     </ul>
   </div>
 </template>
