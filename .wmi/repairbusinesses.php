@@ -299,6 +299,35 @@ if ($mysqli->connect_errno) {
         <input type="text" class="form-control" id="bWebsite" placeholder="Website">
       </div>
       </div>  
+
+      <div class="form-group">
+        <label for="bItems" class="col-sm-2 control-label">Items</label>
+        <div class="col-sm-10">
+          <?php
+          if (!($stmt = $mysqli->prepare(
+            "SELECT DISTINCT i.id, i.name FROM item i
+            INNER JOIN business_category_item bci ON bci.iid=i.id
+            INNER JOIN category c ON c.id=bci.cid
+            WHERE c.id=16"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+          }
+          
+          if (!$stmt->execute()) {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+          }
+          
+          if(!$stmt->bind_result($iID, $iN)){
+            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
+          }
+          
+          while($stmt->fetch()){
+            echo 
+            "<td>".$iN."<input type=\"checkbox\" id=\"bItems\" placeholder=\"Items\" name=\"repair-item-name\" value=\"".$iN."\"></td>";              
+          }
+          $stmt->close();
+          ?>
+        </div>
+      </div>
           
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">

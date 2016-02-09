@@ -29,7 +29,10 @@ if (Meteor.isClient) {
     },
     'business': function(){
       return this.selectedBusiness;
-    }
+    },
+    'category': function(){
+      return this.selectedCategory;
+    },
   });
 
   Template.android_repair_item_bread_crumbs.helpers({
@@ -42,30 +45,63 @@ if (Meteor.isClient) {
   /* MAP */
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
+    var self = this.data;
+    console.log(this.data);
     GoogleMaps.ready('businessesMap', function(map) {
-      var repairBusinesses = Session.get('repairBusinesses');
-      if(repairBusinesses){
-        let bounds = new google.maps.LatLngBounds();
-        for(let k=0; k<repairBusinesses.length; k++){
-          (function(){
-            var marker = new google.maps.Marker({
-              position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
-              map: map.instance
-            });
-            new google.maps.event.addListener(marker, 'click', function(){
-              console.log('clicked map!');
-              var infoStr = repairBusinesses[k].name+'<br>'+
-              repairBusinesses[k].street+' '+repairBusinesses[k].city+
-                ', '+repairBusinesses[k].state;
-              var infowindow = new google.maps.InfoWindow({
-                content: infoStr
-              });
-              infowindow.open(map.instance,marker);
-            });
-            bounds.extend(marker.position);
-          }())
+      if(Session.get('repairMap')){
+        var repairBusinesses = Session.get('repairBusinesses');
+        if(repairBusinesses){
+          let bounds = new google.maps.LatLngBounds();
+          for(let k=0; k<repairBusinesses.length; k++){
+            (function(){
+              if(repairBusinesses[k].lat && repairBusinesses[k].lng){
+                var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
+                  map: map.instance
+                });
+                new google.maps.event.addListener(marker, 'click', function(){
+                  console.log('clicked map!');
+                  var infoStr = repairBusinesses[k].name+'<br>'+
+                  repairBusinesses[k].street+' '+repairBusinesses[k].city+
+                    ', '+repairBusinesses[k].state;
+                  var infowindow = new google.maps.InfoWindow({
+                    content: infoStr
+                  });
+                  infowindow.open(map.instance,marker);
+                });
+                bounds.extend(marker.position);
+              }
+            }())
+          }
+          map.instance.fitBounds(bounds);
         }
-        map.instance.fitBounds(bounds);
+      }else if(Session.get('reuseMap')){
+        var reuseBusinesses = Session.get('reuseBusinesses');
+        if(reuseBusinesses){
+          let bounds = new google.maps.LatLngBounds();
+          for(let k=0; k<reuseBusinesses.length; k++){
+            (function(){
+              if(reuseBusinesses[k].lat && reuseBusinesses[k].lng){
+                var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng(reuseBusinesses[k].lat,reuseBusinesses[k].lng),
+                  map: map.instance
+                });
+                new google.maps.event.addListener(marker, 'click', function(){
+                  console.log('clicked map!');
+                  var infoStr = reuseBusinesses[k].name+'<br>'+
+                  reuseBusinesses[k].street+' '+reuseBusinesses[k].city+
+                    ', '+reuseBusinesses[k].state;
+                  var infowindow = new google.maps.InfoWindow({
+                    content: infoStr
+                  });
+                  infowindow.open(map.instance,marker);
+                });
+                bounds.extend(marker.position);
+              }
+            }())
+          }
+          map.instance.fitBounds(bounds);
+        }
       }
     });
   });
@@ -126,6 +162,10 @@ if (Meteor.isClient) {
         return Session.get('selectedBusiness');
       } else if(this.reuseCategories){
         return Session.get('reuseCategories');
+      } else if(this.reuseItems){
+        return Session.get('reuseItems');
+      } else if(this.reuseBusinesses){
+        return Session.get('reuseBusinesses');
       }
     }
   });
@@ -146,6 +186,9 @@ if (Meteor.isClient) {
       } else if (this.type=="reuseCategory"){
         Session.set('selectedAction','reuse');
         route = '/'+Session.get('selectedAction')+'/reuseCat/'+this.name;
+      } else if(this.type=="reuseItem"){
+        Session.set('selectedAction','reuse');
+        route = '/'+Session.get('selectedAction')+'/reuseCat/'+Session.get('reuseCategory')+'/reuseItem/'+this.name;
       }
       Router.go(route);
     },
@@ -175,6 +218,16 @@ if (Meteor.isServer) {
     },
     getReuseCategories: function(){
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_categories.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
+    getReuseItems: function(category){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_items.php?reuseCategory="+category;
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
+    getReuseBusinesses: function(item){
+      let url="http://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses.php?reuseItem="+item;
       let resp = HTTP.get(url);
       return resp.data;
     },

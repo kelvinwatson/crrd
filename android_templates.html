@@ -167,6 +167,27 @@
   </div>
 </template>
 
+<template name="android_reuse_category_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="/">Home</a></li>
+      <li><a href="/reuse">Reuse</a></li>
+      <li class="active">{{category}}</li>
+    </ul>
+  </div>
+</template>
+
+<template name="android_reuse_item_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="/">Home</a></li>
+      <li><a href="/reuse">Reuse</a></li>
+      <li><a href="/reuse/reuseCat/{{category}}">{{category}}</a></li>
+      <li class="active">{{item}}</li>
+    </ul>
+  </div>
+</template>
+
 <template name="android_repair_bread_crumbs">
   <div class="col-md-12">
     <ul class="breadcrumb" style="margin-bottom: 5px;">
@@ -196,6 +217,8 @@
     </ul>
   </div>
 </template>
+
+
 
 
 <template name="android_recycle_bread_crumbs">
