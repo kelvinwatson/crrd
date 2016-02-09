@@ -317,6 +317,9 @@ Router.route('/reuse/reuseCat/:category', function(){
   this.render('android_reuse_category_bread_crumbs',{
     to: 'bread_crumbs',
   });
+  this.render('blank_template',{
+    to: 'map'
+  });
   this.render('loading_template',{
     to: 'main_content'
   });
@@ -349,6 +352,9 @@ Router.route('/reuse', function(){
   this.layout('android');
   this.render('android_reuse_bread_crumbs',{
     to: 'bread_crumbs',
+  });
+  this.render('blank_template',{
+    to: 'map'
   });
   this.render('loading_template',{
     to: 'main_content'
