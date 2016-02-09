@@ -126,6 +126,8 @@ if (Meteor.isClient) {
         return Session.get('selectedBusiness');
       } else if(this.reuseCategories){
         return Session.get('reuseCategories');
+      } else if(this.reuseItems){
+        return Session.get('reuseItems');
       }
     }
   });
@@ -175,6 +177,11 @@ if (Meteor.isServer) {
     },
     getReuseCategories: function(){
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_categories.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
+    getReuseItems: function(category){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_items.php?reuseCategory="+category;
       let resp = HTTP.get(url);
       return resp.data;
     },

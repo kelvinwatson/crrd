@@ -20,8 +20,8 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		$obj->error_description = 'A reuse category was not selected.';
 		echo json_encode($obj);
 	} else{
-		$category=$_GET['reuseCategory'];
-  
+		$category=htmlspecialchars($_GET['reuseCategory']);
+
 		if (!($stmt = $mysqli->prepare("SELECT DISTINCT i.url, i.name FROM item i
 		  INNER JOIN business_category_item bci ON bci.iid=i.id
 		  INNER JOIN category c ON c.id=bci.cid

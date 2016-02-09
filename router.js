@@ -22,8 +22,6 @@ Router.route('/recycle', function(){ //when user navigates to /
   });
 });
 
-
-
 Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', function(){
   console.log("NEW ROUTE");
   var self = this;
@@ -77,8 +75,6 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
     }
   });
 });
-
-
 
 
 Router.route('/repair/repairItem/:itemName', function(){
@@ -181,6 +177,39 @@ Router.route('/repair', function(){
     });
   }
 });
+
+Router.route('/reuse/reuseCat/:category', function(){
+  console.log("REUSE CAT ROUTER");
+  var self = this;
+  var category = this.params.category;
+  this.layout('android');
+  this.render('android_reuse_category_bread_crumbs',{
+    to: 'bread_crumbs',
+  });
+  this.render('loading_template',{
+    to: 'main_content'
+  });
+  Meteor.call('getReuseItems', category, function (err, data) {
+    console.log("GOT reuse items");
+    console.log(data);
+    var reuseItems = data;
+    if (!err) {
+      Session.setPersistent('reuseItems', data);
+      self.render('android_list_group',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          return {
+            reuseTitle: 'Select reuse item',
+            selectedReuse: 'Reuse',
+            reuseItems: reuseItems
+          };
+        }
+      });
+    }
+  });
+});
+
+
 
 Router.route('/reuse', function(){
   console.log("REUSE! ROUTER");
