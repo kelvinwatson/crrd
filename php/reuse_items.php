@@ -20,22 +20,34 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		$obj->error_description = 'A reuse category was not selected.';
 		echo json_encode($obj);
 	} else{
-		$category=$_GET['reuseCategory'];
+		$category=htmlspecialchars($_GET['reuseCategory']);
   
 		if (!($stmt = $mysqli->prepare("SELECT DISTINCT i.url, i.name FROM item i
 		  INNER JOIN business_category_item bci ON bci.iid=i.id
 		  INNER JOIN category c ON c.id=bci.cid
-		  WHERE c.name='".$category."'"))) {
-		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-		}
+		  WHERE c.name=?"))) {
+		  $obj->http_response_code = 400;
+  		$obj->error_description = 'Prepare failed.';
+  		echo json_encode($obj);
+    }
+
+    if (!$stmt->bind_param("s", $category)) {
+      $obj->http_response_code = 400;
+  		$obj->error_description = 'Bind param failed.';
+  		echo json_encode($obj);
+    }
 
 		if (!$stmt->execute()) {
-			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-		}
+		  $obj->http_response_code = 400;
+  		$obj->error_description = 'Execute failed.';
+  		echo json_encode($obj);		
+    }
 
 		if(!$stmt->bind_result($itemURL,$itemName)){
-		  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
-		}
+		  $obj->http_response_code = 400;
+  		$obj->error_description = 'Bind result failed.';
+  		echo json_encode($obj);		
+    }
 
 		$i=0;
 
