@@ -4,21 +4,11 @@ Router.route('/', function(){ //when user navigates to /
   this.render('android_home_bread_crumbs',{
     to: 'bread_crumbs'
   }); //render android_home_bread_crumbs template into yield breadcrubs
+  this.render('blank_template',{
+    to: 'map'
+  });
   this.render('reuse_repair_recycle_panels',{
     to: 'main_content'
-  });
-});
-
-Router.route('/reuse', {where:"server"},function(){
-  this.layout('android'); //use layout called template name="android"
-  this.render('android_reuse_bread_crumbs',{
-    to: 'bread_crumbs'
-  }); //render android_reuse_bread_crumbs template into yield breadcrubs
-  this.render('android_list_group',{
-    to: 'main_content',
-    data: function() {
-      return ReuseItemCategories.find().fetch();
-    }
   });
 });
 
@@ -31,6 +21,64 @@ Router.route('/recycle', function(){ //when user navigates to /
     to: 'main_content'
   });
 });
+
+
+
+Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', function(){
+  console.log("NEW ROUTE");
+  var self = this;
+  var selectedRepair = 'Repair';
+  var selectedItem = this.params.itemName;
+  var selectedBusiness = this.params.businessName;
+  var breadCrumbs = 'android_repair_business_bread_crumbs';
+  var title = selectedBusiness;
+  this.layout('android');
+  this.render(breadCrumbs,{
+    to: 'bread_crumbs',
+    data: function(){
+      return { //one or both of selectedItem / selectedBusiness will be undefined
+        selectedRepair: selectedRepair,
+        selectedItem: selectedItem,
+        selectedBusiness: selectedBusiness
+      }
+    }
+  });
+  this.render('loading_template',{
+    to:'main_content'
+  });
+  this.render('blank_template',{
+    to: 'map'
+  });
+  Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
+    console.log('getting business');
+    var repairBusiness = data;
+    console.log('repairBusiness=');
+    console.log(repairBusiness);
+    if (!err) {
+      Session.setPersistent(selectedBusiness, data);
+      self.render('business_profile',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          return {
+            title: title,
+            selectedRepair: selectedRepair,
+            selectedItem: selectedItem,
+            businessName: repairBusiness.name,
+            businessStreet: repairBusiness.street,
+            businessCity: repairBusiness.city,
+            businessState: repairBusiness.state,
+            businessZip: repairBusiness.zip,
+            businessLat: repairBusiness.lat,
+            businessLng: repairBusiness.lng,
+            businessInfo: repairBusiness.info,
+          };
+        }
+      });
+    }
+  });
+});
+
+
 
 
 Router.route('/repair/repairItem/:itemName', function(){
@@ -56,7 +104,6 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
-  //TODO: need a new way to cache each selected item?
   Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
     console.log('using NEW data');
     var repairBusinesses = data;
@@ -86,9 +133,7 @@ Router.route('/repair/repairItem/:itemName', function(){
       });
     }
   });
-
 });
-
 
 /*User selected repair panel, load items */
 Router.route('/repair', function(){
@@ -137,9 +182,46 @@ Router.route('/repair', function(){
   }
 });
 
-Router.route('/admin', function(){
-  this.layout('admin');
-  this.render('admin_login_form',{
-    to: 'admin_content'
+Router.route('/reuse', function(){
+  console.log("REUSE! ROUTER");
+  var self = this;
+  this.layout('android');
+  this.render('android_reuse_bread_crumbs',{
+    to: 'bread_crumbs',
   });
+  this.render('loading_template',{
+    to: 'main_content'
+  });
+  if(Session.get('reuseCategories')){
+    console.log("using CACHED cats");
+    console.log(Session.get('reuseCategories'));
+    self.render('android_list_group',{
+      to: 'main_content', //yield main_content
+      data: function() {
+        return {
+          reuseTitle: 'Select reuse item category',
+          selectedReuse: 'Reuse',
+          reuseCategories: Session.get('reuseCategories')
+        };
+      }
+    });
+  } else {
+    Meteor.call('getReuseCategories', function (err, data) {
+      console.log("using NEW cats");
+      var reuseCategories = data;
+      if (!err) {
+        Session.setPersistent('reuseCategories', data);
+        self.render('android_list_group',{
+          to: 'main_content', //yield main_content
+          data: function() {
+            return {
+              reuseTitle: 'Select reuse item category',
+              selectedReuse: 'Reuse',
+              reuseCategories: reuseCategories
+            };
+          }
+        });
+      }
+    });
+  }
 });

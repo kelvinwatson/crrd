@@ -17,7 +17,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Recycle Depot</div>
         <div class="panel-body">
-          <a href="http://site.republicservices.com/site/corvallis-or/en/documents/corvallisrecycledepot.pdf">Link Here</a>
+          <a href="#" onclick="window.open('http://site.republicservices.com/site/corvallis-or/en/documents/corvallisrecycledepot.pdf', '_system');">Link Here</a>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Recycling Guide</div>
         <div class="panel-body">
-          <a href="http://site.republicservices.com/site/corvallis-or/en/documents/detailedrecyclingguide.pdf">Link Here</a>
+          <a href="#" onclick="window.open('http://site.republicservices.com/site/corvallis-or/en/documents/detailedrecyclingguide.pdf', '_system');">Link Here</a>
         </div>
       </div>
     </div>
@@ -37,6 +37,13 @@
 
 <template name="blank_template">
 </template>
+
+<template name="business_profile">
+  <h1>{{name}}</h1>
+  <p>{{address}}</p>
+  <p>{{info}}</p>
+</template>
+
 
 <template name="loading_template">
   <h1>LOADING...</h1>
@@ -175,6 +182,17 @@
       <li><a href="/">Home</a></li>
       <li><a href="/repair">Repair</a></li>
       <li class="active">{{item}}</li>
+    </ul>
+  </div>
+</template>
+
+<template name="android_repair_business_bread_crumbs">
+  <div class="col-md-12">
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+      <li><a href="/">Home</a></li>
+      <li><a href="/repair">Repair</a></li>
+      <li><a href="/repair/repairItem/{{item}}">{{item}}</a></li>
+      <li class="active">{{business}}</li>
     </ul>
   </div>
 </template>
