@@ -4,8 +4,6 @@ ini_set('display_errors',1);
 header('Content-Type: application/json');
 include 'dbp.php';
 
-$arr = array();
-
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 
 if ($mysqli->connect_errno) {
@@ -14,22 +12,23 @@ if ($mysqli->connect_errno) {
 }
 
 if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on repair item
-	if(!isset($_GET['reuseItem'])){
-		$obj = new stdClass();
+  $obj = new stdClass();
+	if(!isset($_GET['reuseBusiness'])){
 		$obj->http_response_code = 400;
-		$obj->error_description = 'A reuse item was not selected.';
+		$obj->error_description = 'A reuse business was not selected.';
 		echo json_encode($obj);
 	} else{
-		$itemName=htmlspecialchars($_GET['reuseItem']);
+		$businessName=htmlspecialchars($_GET['reuseBusiness']);
+    $obj->businessName = $businessName;
 
-		if (!($stmt = $mysqli->prepare("SELECT DISTINCT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude FROM business b
-		  INNER JOIN business_category_item bci ON bci.bid=b.id
-		  INNER JOIN item i ON i.id=bci.iid
-		  WHERE b.type='Reuse' AND i.name=?"))) {
-		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+		if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude, b.info FROM business b
+		  WHERE b.name=?"))) {
+      $obj->http_response_code = 400;
+  		$obj->error_description = 'Prepare failed.';
+  		echo json_encode($obj);
 		}
 
-    if (!$stmt->bind_param("s", $itemName)) {
+    if (!$stmt->bind_param("s", $businessName)) {
       $obj->http_response_code = 400;
   		$obj->error_description = 'Bind param failed.';
   		echo json_encode($obj);
@@ -41,38 +40,32 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
   		echo json_encode($obj);
 		}
 
-		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng)){
+		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng,$bI)){
       $obj->http_response_code = 400;
   		$obj->error_description = 'Bind result failed.';
   		echo json_encode($obj);
 		}
 
-		$i=0;
-
 		while($stmt->fetch()){
-      if($bN=='generic_repair_business'){
-        continue;
-      }
-      $obj = new stdClass();
 		  $obj->type = 'reuseBusiness';
-		  $obj->name = $bN;
+			$obj->name = $bN;
 		  $obj->street = $bStr;
 		  $obj->city = $bC;
 		  $obj->state = $bSta;
 		  $obj->zip = $bZ;
 		  $obj->lat = $bLat;
 		  $obj->lng = $bLng;
-		  $arr[$i++] = $obj;
+      $obj->info = $bI;
 		}
-		if(!empty($arr)){
-			echo json_encode($arr);
+		if(!empty($obj)){
+			echo json_encode($obj);
 		} else{
-			$obj = new stdClass();
 			$obj->http_response_code = 400;
-			$obj->error_description = "No reuse businesses retrieved.";
+			$obj->error_description = "No reuse business retrieved. The repair business may not exist, or there may be no businesses associated with that reuse item.";
 			echo json_encode($obj);
 		}
 		$stmt->close();
 	}
 }
+
 ?>

@@ -183,6 +183,69 @@ Router.route('/repair', function(){
 });
 
 
+Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:businessName', function(){
+  console.log("NEW REUSE BUSINESS ROUTE");
+  var self = this;
+  var selectedReuse = 'Reuse';
+  var selectedCategory = this.params.category;
+  var selectedItem = this.params.itemName;
+  var selectedBusiness = this.params.businessName;
+  var breadCrumbs = 'android_reuse_business_bread_crumbs';
+  var title = selectedBusiness;
+  this.layout('android');
+  this.render(breadCrumbs,{
+    to: 'bread_crumbs',
+    data: function(){
+      return { //one or both of selectedItem / selectedBusiness will be undefined
+        selectedReuse: selectedReuse,
+        selectedItem: selectedItem,
+        selectedCategory: selectedCategory,
+        selectedBusiness: selectedBusiness
+      }
+    }
+  });
+  this.render('loading_template',{
+    to:'main_content'
+  });
+  this.render('blank_template',{
+    to: 'map'
+  });
+  Meteor.call('getReuseBusiness', selectedBusiness, function (err, data) {
+    console.log('getting 1 reuse business');
+    var reuseBusiness = data;
+    console.log('reuseBusiness=');
+    console.log(reuseBusiness);
+    if (!err) {
+      Session.setPersistent('selectedBusiness', data);
+      Session.setPersistent('selectedItem', selectedItem);
+      Session.setPersistent('selectedCategory', selectedCategory);
+      self.render('business_profile',{
+        to: 'main_content', //yield main_content
+        data: function() {
+          return {
+            title: title,
+            selectedReuse: selectedReuse,
+            selectedItem: selectedItem,
+            selectedCategory: selectedCategory,
+            selectedBusiness: selectedBusiness,
+            businessName: reuseBusiness.name,
+            businessStreet: reuseBusiness.street,
+            businessCity: reuseBusiness.city,
+            businessState: reuseBusiness.state,
+            businessZip: reuseBusiness.zip,
+            businessLat: reuseBusiness.lat,
+            businessLng: reuseBusiness.lng,
+            businessInfo: reuseBusiness.info,
+          };
+        }
+      });
+    }
+  });
+});
+
+
+
+
 Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
   var self = this;
   console.log("/reuse/reuseCat/:category/reuseItem/:itemName ROUTE");
@@ -214,6 +277,8 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
     var reuseBusinesses = data;
     if (!err) {
       Session.setPersistent('reuseBusinesses', data);
+      Session.setPersistent('selectedCategory', selectedCategory);
+      Session.setPersistent('selectedItem', selectedItem);
       Session.setPersistent('reuseMap',true);
       Session.setPersistent('repairMap',false);
       self.render(googleMap,{

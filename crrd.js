@@ -41,6 +41,17 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.android_reuse_business_bread_crumbs.helpers({
+    'item': function(){
+      return this.selectedItem;
+    },
+    'business': function(){
+      return this.selectedBusiness;
+    },
+    'category': function(){
+      return this.selectedCategory;
+    },
+  });
 
   /* MAP */
   Template.android_map.onCreated(function() {
@@ -129,12 +140,15 @@ if (Meteor.isClient) {
       return this.title;
     },
     'address': function(){
-      return this.businessStreet+", "+this.businessCity+", "+this.businessState+
-      ", "+this.businessZip;
+      if(this.businessStreet && this.businessCity && this.businessState && this.businessZip){
+        return this.businessStreet+", "+this.businessCity+", "+this.businessState+this.businessZip;
+      } else return "";
     },
     'info': function(){
       if(this.businessInfo){
-        return this.businessInfo;
+        if(this.businessInfo){
+          return this.businessInfo;
+        } else return "";
       }
     }
   });
@@ -172,6 +186,8 @@ if (Meteor.isClient) {
 
   Template.android_list_group.events({
     'click .list-group-item': function(){
+      console.log("I CLICKED");
+      console.log(this);
       var route;
       var repairItem;
       var repairBusiness;
@@ -188,7 +204,9 @@ if (Meteor.isClient) {
         route = '/'+Session.get('selectedAction')+'/reuseCat/'+this.name;
       } else if(this.type=="reuseItem"){
         Session.set('selectedAction','reuse');
-        route = '/'+Session.get('selectedAction')+'/reuseCat/'+Session.get('reuseCategory')+'/reuseItem/'+this.name;
+        route = '/reuse/reuseCat/'+Session.get('reuseCategory')+'/reuseItem/'+this.name;
+      } else if(this.type=="reuseBusiness"){
+        route = '/reuse/reuseCat/'+Session.get('selectedCategory')+'/reuseItem/'+Session.get('selectedItem')+'/reuseBusiness/'+this.name;
       }
       Router.go(route);
     },
@@ -227,7 +245,12 @@ if (Meteor.isServer) {
       return resp.data;
     },
     getReuseBusinesses: function(item){
-      let url="http://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses.php?reuseItem="+item;
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses.php?reuseItem="+item;
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
+    getReuseBusiness: function(business){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_business.php?reuseBusiness="+business;
       let resp = HTTP.get(url);
       return resp.data;
     },

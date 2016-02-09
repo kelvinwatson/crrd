@@ -2,6 +2,7 @@
 #if fails, you may have to run these commands one by one
 #navigate to project folder
 cd ~/Documents/MeteorProjects/crrd/
+export ANDROID_HOME=/home/kwatson/Android/Sdk
 meteor deploy crrd.meteor.com
 meteor build ~/build-output-directory --server=crrd.meteor.com
 #enter keystore passphrase
