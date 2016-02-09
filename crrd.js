@@ -23,11 +23,21 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.android_repair_business_bread_crumbs.helpers({
+    'item': function(){
+      return this.selectedItem;
+    },
+    'business': function(){
+      return this.selectedBusiness;
+    }
+  });
+
   Template.android_repair_item_bread_crumbs.helpers({
     'item': function(){
       return this.selectedItem;
     }
   });
+
 
   /* MAP */
   Template.android_map.onCreated(function() {
@@ -78,6 +88,21 @@ if (Meteor.isClient) {
     GoogleMaps.load();
   });
 
+  Template.business_profile.helpers({
+    'name': function(){
+      return this.title;
+    },
+    'address': function(){
+      return this.businessStreet+", "+this.businessCity+", "+this.businessState+
+      ", "+this.businessZip;
+    },
+    'info': function(){
+      if(this.businessInfo){
+        return this.businessInfo;
+      }
+    }
+  });
+
 
   //https://forums.meteor.com/t/how-to-return-value-on-meteor-call-in-client/1277/2
   Template.android_list_group.helpers({
@@ -86,8 +111,10 @@ if (Meteor.isClient) {
         return this.repairTitle;
       } else if (this.selectedItem){
         return this.selectedItem;
+      } else if(this.repairBusiness){
+        return this.selectedBusiness;
       } else if (this.reuseTitle){
-        return this.repairTitle;
+        return this.reuseTitle;
       }
     },
     'items': function(){
@@ -99,6 +126,8 @@ if (Meteor.isClient) {
         return Session.get('selectedBusiness');
       } else if(this.reuseCategories){
         return Session.get('reuseCategories');
+      } else if(this.reuseItems){
+        return Session.get('reuseItems');
       }
     }
   });
@@ -106,12 +135,16 @@ if (Meteor.isClient) {
   Template.android_list_group.events({
     'click .list-group-item': function(){
       var route;
-      if(this.type=='repairItem'){
+      var repairItem;
+      var repairBusiness;
+      if(this.type=='repairItem'){ //user selected an item
         Session.set('selectedAction','repair');
-        route = '/'+Session.get('selectedAction')+'/repairItem/'+this.name;
+        Session.setPersistent('selectedItem',this.name);
+        route = '/'+Session.get('selectedAction')+'/repairItem/'+Session.get('selectedItem');
       } else if (this.type=='repairBusiness'){
         Session.set('selectedAction','repair');
-        route='/'+Session.get('selectedAction')+'/repairBusiness/'+this.name;
+        Session.setPersistent('selectedBusiness',this.name);
+        route='/'+Session.get('selectedAction')+'/repairItem/'+Session.get('selectedItem')+'/repairBusiness/'+Session.get('selectedBusiness');
       } else if (this.type=="reuseCategory"){
         Session.set('selectedAction','reuse');
         route = '/'+Session.get('selectedAction')+'/reuseCat/'+this.name;
@@ -120,7 +153,6 @@ if (Meteor.isClient) {
     },
   });
 }
-
 
 
 /* SERVER */
@@ -138,9 +170,18 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getRepairBusiness: function (business) {
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_business.php?repairBusiness="+business;
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
     getReuseCategories: function(){
-      console.log('getting cats!');
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_categories.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
+    getReuseItems: function(category){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_items.php?reuseCategory="+category;
       let resp = HTTP.get(url);
       return resp.data;
     },
