@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		if (!($stmt = $mysqli->prepare("SELECT DISTINCT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude FROM business b
 		  INNER JOIN business_category_item bci ON bci.bid=b.id
 		  INNER JOIN item i ON i.id=bci.iid
-		  WHERE b.type='Reuse' AND i.name=?"))) {
+		  WHERE b.type='Reuse' AND i.name=? ORDER BY b.name ASC"))) {
 		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 		}
 

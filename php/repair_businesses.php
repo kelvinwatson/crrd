@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		  INNER JOIN business_category_item bci ON bci.bid=b.id
 		  INNER JOIN item i ON i.id=bci.iid
 		  INNER JOIN category c ON c.id=bci.cid
-		  WHERE b.type='Repair' AND i.name='".$itemName."'"))) {
+		  WHERE b.type='Repair' AND i.name='".$itemName."' ORDER BY b.name ASC"))) {
 		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 		}
 
