@@ -13,7 +13,7 @@ if ($mysqli->connect_errno) {
 if (!($stmt = $mysqli->prepare("SELECT DISTINCT i.name,i.url FROM item i
 	INNER JOIN business_category_item bci ON bci.iid=i.id
 	INNER JOIN category c ON c.id=bci.cid
-	WHERE bci.bid != 86 AND c.name='Repair Items'" ))) {
+	WHERE bci.bid != 86 AND c.name='Repair Items' ORDER BY i.name ASC" ))) {
 	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 

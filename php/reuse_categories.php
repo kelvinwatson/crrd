@@ -11,7 +11,7 @@ if ($mysqli->connect_errno) {
 }
 
 if (!($stmt = $mysqli->prepare("SELECT DISTINCT c.name FROM category c
-  WHERE c.name != 'Repair Items'" ))) {
+  WHERE c.name != 'Repair Items' ORDER BY c.name ASC" ))) {
 	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 

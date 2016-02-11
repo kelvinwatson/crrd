@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		if (!($stmt = $mysqli->prepare("SELECT DISTINCT i.url, i.name FROM item i
 		  INNER JOIN business_category_item bci ON bci.iid=i.id
 		  INNER JOIN category c ON c.id=bci.cid
-		  WHERE c.name=?"))) {
+		  WHERE c.name=? ORDER BY i.name ASC"))) {
 		  $obj->http_response_code = 400;
   		$obj->error_description = 'Prepare failed.';
   		echo json_encode($obj);
