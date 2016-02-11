@@ -99,15 +99,18 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <!--<span class="icon-bar"></span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>-->
+          <span class="navbar-crrd-text">Corvallis Reuse & Repair Directory</span> <!--hide when 322px width-->
         </button>
         <a id="top-logo" class="navbar-brand" href="#"><img src="/images/logo.png" style="max-width:50px;margin-top:-9px;"></a>
+
       </div>
       <div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="javascript:void(0)">Active</a></li>
+
+        <!--<ul class="nav navbar-nav">navbar-collapse collapse navbar-responsive-collapse
+          <li><a href="javascript:void(0)">Corvallis Reuse and Repair Directory</a></li>
           <li><a href="javascript:void(0)">Link</a></li>
           <li class="dropdown">
             <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
@@ -122,15 +125,15 @@
               <li><a href="javascript:void(0)">One more separated link</a></li>
             </ul>
           </li>
-        </ul>
-        <form class="navbar-form navbar-left">
+        </ul>-->
+        <!--<form class="navbar-form navbar-left">
           <div class="form-group">
             <input type="text" class="form-control col-md-8" placeholder="Search">
           </div>
-        </form>
+        </form>-->
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="javascript:void(0)">Link</a></li>
-          <li class="dropdown">
+          <li><a href="javascript:void(0)">Corvallis Reuse & Repair Directory</a></li>
+          <!--<li class="dropdown">
             <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
               <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -140,7 +143,7 @@
               <li class="divider"></li>
               <li><a href="javascript:void(0)">Separated link</a></li>
             </ul>
-          </li>
+          </li>-->
         </ul>
       </div>
     </div>
@@ -260,25 +263,25 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="list-group">
+      <ul class="list-group">
         {{ #each items }}
-          <div class="list-group-item">
-            <div class="row-picture">
+          <li class="list-group-item" style="padding: 10px 15px;">
+            <!--<div class="row-picture">
               <img class="circle" src="{{ url }}" alt="icon">
-            </div>
-            <div class="row-content">
+            </div>-->
+            <span>
               <h4 class="list-group-item-heading">{{ name }}</h4>
-              <p class="list-group-item-text">
+              <span class="list-group-item-text">
                 {{#if street}}{{street}}{{/if}}
                 {{#if city}}{{city}}, {{/if}}
                 {{#if state}}{{state}}{{/if}}
                 {{#if zip}}{{zip}}{{/if}}
-              </p>
-            </div>
-          </div>
-          <div class="list-group-separator"></div>
+              </span>
+            </span>
+          </li>
+          <div style="width:100%; border-bottom: 1px solid #d3d3d3"></div>
         {{ /each }}
-      </div>
+      </ul>
     </div>
   </div>
 </template>
