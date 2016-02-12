@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 	} else{
 		$itemName=$_GET['repairItem'];
 
-		if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude, i.name FROM business b
+		if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcode, b.website, b.latitude, b.longitude, i.name FROM business b
 		  INNER JOIN business_category_item bci ON bci.bid=b.id
 		  INNER JOIN item i ON i.id=bci.iid
 		  INNER JOIN category c ON c.id=bci.cid
@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 		}
 
-		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng,$iN)){
+		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bW,$bLat,$bLng,$iN)){
 		  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
 		}
 
@@ -51,6 +51,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		  $obj->city = $bC;
 		  $obj->state = $bSta;
 		  $obj->zip = $bZ;
+		  $obj->website = $bW;
 		  $obj->lat = $bLat;
 		  $obj->lng = $bLng;
 		  $arr[$i++] = $obj;
