@@ -435,9 +435,11 @@ if ($mysqli->connect_errno) {
         console.log(geoCodedResults[0].geometry.location.lng());
         var latitude = geoCodedResults[0].geometry.location.lat();
         var longitude = geoCodedResults[0].geometry.location.lng();
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude);//make AJAX request to PHP file to store lat lng
+        //make AJAX request to PHP file to store lat lng
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude);
       } else{
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null); //if not geocodable, transmit lat and lng as null
+        //if not geocodable, transmit lat and lng as null
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null);
       }
     });
   }
