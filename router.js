@@ -205,7 +205,6 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:busin
   });
   Meteor.call('getReuseBusiness', selectedBusiness, function (err, data) {
     var reuseBusiness = data;
-    console.log(data);
     if (!err) {
       Session.setPersistent('selectedBusiness', data);
       Session.setPersistent('selectedItem', selectedItem);
