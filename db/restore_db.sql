@@ -135,7 +135,7 @@ NULL, NULL, "OR", NULL, NULL, NULL),
 "600 SW 3rd St","Corvallis","OR",97333,44.559570, -123.263809),
 ("Calvary Community Outreach","Reuse","541-760-5941",NULL,
 "2125 NW Lester Ave","Corvallis","OR",97330,44.607775, -123.277824),
-("CARDV (Center Against Rape/Domestic Violence)","Reuse","541-758-0219",NULL,
+("CARDV (Center Against Rape and Domestic Violence)","Reuse","541-758-0219",NULL,
 "4786 SW Philomath Blvd","Corvallis","OR",97333,44.553110, -123.304936),
 ("Career Closet for Women (drop-off at)","Reuse","541-754-6979",NULL,
 "942 NW 9th, Ste.A","Corvallis","OR",97330,44.574606, -123.263146),
@@ -262,7 +262,7 @@ NULL,"Corvallis","OR",NULL,NULL,NULL),
 INSERT INTO business(name,type,phone,website,street,city,state,zipcode,latitude,longitude,info)
 VALUES
 ('Book Binding', 'Repair', '541-757-9861', 'http://www.cornerstoneassociates.com/bj-bookbinding-about-us.html',
-'108 SW 3rd St, ', 'Corvallis', 'OR', 97333, 44.564451, -123.261360, 'Rebind and restore books.'),
+'108 SW 3rd St', 'Corvallis', 'OR', 97333, 44.564451, -123.261360, 'Rebind and restore books.'),
 ('Cell Phone Sick Bay', 'Repair', '541-230-1785', 'http://www.cellsickbay.com/index.html',
 '252 Sw Madison Ave, Suite 110', 'Corvallis', 'OR', 97333, 44.563434, -123.260865, 'Cell phones and tablets.'),
 ('Geeks ''N'' Nerds', 'repair', '541-753-0018', 'http://www.computergeeksnnerds.com/',
@@ -503,7 +503,7 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 
 INSERT INTO business_category_item(bid,cid,iid) VALUES
 #Book Bin and Browser's
-(7,1,3),(7,3,3), 
+(7,1,3),(7,3,3),
 (7,8,79);
 
 
@@ -973,7 +973,7 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 (59,7,68),(59,7,69),(59,7,70),(59,7,71),(59,7,72),(59,7,73),(59,7,74),(59,7,75);
 
 INSERT INTO business_category_item(bid,cid,iid) VALUES
-#Schools--public, private, charter 
+#Schools--public, private, charter
 (60,15,186),
 (60,1,3),(60,3,3),
 (60,15,187),
@@ -1052,12 +1052,3 @@ INSERT INTO business_category_item(bid,cid,iid) VALUES
 (71,10,117),(71,10,118),(71,10,120),(71,10,121),(71,10,122),(71,10,123),(71,10,124),(71,10,125),(71,10,126),(71,10,127),(71,10,128),(71,10,129),(71,10,130),
 (71,10,119),
 (71,1,1),(71,1,2),(71,1,4),(71,1,5),(71,1,6),(71,1,7),(71,1,8),(71,1,181),(71,1,182),(71,1,183),(71,1,185);
-
-
-
-
-
-
-
-
-

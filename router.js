@@ -23,7 +23,6 @@ Router.route('/recycle', function(){ //when user navigates to /
 });
 
 Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', function(){
-  console.log("NEW ROUTE");
   var self = this;
   var selectedRepair = 'Repair';
   var selectedItem = this.params.itemName;
@@ -48,10 +47,7 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
     to: 'map'
   });
   Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
-    console.log('getting business');
     var repairBusiness = data;
-    console.log('repairBusiness=');
-    console.log(repairBusiness);
     if (!err) {
       Session.setPersistent(selectedBusiness, data);
       self.render('business_profile',{
@@ -66,6 +62,8 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
             businessCity: repairBusiness.city,
             businessState: repairBusiness.state,
             businessZip: repairBusiness.zip,
+            businessPhone: repairBusiness.phone,
+            businessWebsite: repairBusiness.website,
             businessLat: repairBusiness.lat,
             businessLng: repairBusiness.lng,
             businessInfo: repairBusiness.info,
@@ -101,7 +99,6 @@ Router.route('/repair/repairItem/:itemName', function(){
     to: 'map'
   });
   Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
-    console.log('using NEW data');
     var repairBusinesses = data;
     if (!err) {
       Session.setPersistent('repairBusinesses', data);
@@ -149,8 +146,6 @@ Router.route('/repair', function(){
     to: 'main_content'
   });
   if(Session.get('repairItems')){
-    console.log("using CACHED data");
-    console.log(Session.get('repairItems'));
     self.render('android_list_group',{
       to: 'main_content', //yield main_content
       data: function() {
@@ -163,7 +158,6 @@ Router.route('/repair', function(){
     });
   } else {
     Meteor.call('getRepairItems', function (err, data) {
-      console.log("using NEW data");
       var repairItems = data;
       if (!err) {
         Session.setPersistent('repairItems', data);
@@ -184,7 +178,6 @@ Router.route('/repair', function(){
 
 
 Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:businessName', function(){
-  console.log("NEW REUSE BUSINESS ROUTE");
   var self = this;
   var selectedReuse = 'Reuse';
   var selectedCategory = this.params.category;
@@ -211,10 +204,8 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:busin
     to: 'map'
   });
   Meteor.call('getReuseBusiness', selectedBusiness, function (err, data) {
-    console.log('getting 1 reuse business');
     var reuseBusiness = data;
-    console.log('reuseBusiness=');
-    console.log(reuseBusiness);
+    console.log(data);
     if (!err) {
       Session.setPersistent('selectedBusiness', data);
       Session.setPersistent('selectedItem', selectedItem);
@@ -233,6 +224,8 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:busin
             businessCity: reuseBusiness.city,
             businessState: reuseBusiness.state,
             businessZip: reuseBusiness.zip,
+            businessPhone: reuseBusiness.phone,
+            businessWebsite: reuseBusiness.website,
             businessLat: reuseBusiness.lat,
             businessLng: reuseBusiness.lng,
             businessInfo: reuseBusiness.info,
@@ -244,11 +237,8 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:busin
 });
 
 
-
-
 Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
   var self = this;
-  console.log("/reuse/reuseCat/:category/reuseItem/:itemName ROUTE");
   var selectedReuse = 'Reuse';
   var selectedCategory = this.params.category;
   var selectedItem = this.params.itemName;
@@ -273,7 +263,6 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
     to: 'map'
   });
   Meteor.call('getReuseBusinesses', selectedItem, function (err, data) {
-    console.log('using NEW REUSE BUSINESSES data');
     var reuseBusinesses = data;
     if (!err) {
       Session.setPersistent('reuseBusinesses', data);
@@ -284,9 +273,9 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
       self.render(googleMap,{
         to: 'map', //yield map
         data: function(){
-          return { //one or both of selectedItem / selectedBusiness will be undefined
+          return {
             reuseTitle: reuseTitle,
-            selectedReuse: selectedReuse, //should be undefined
+            selectedReuse: selectedReuse,
             selectedRepair: null,
             selectedItem: selectedItem,
             reuseBusinesses: reuseBusinesses
@@ -298,7 +287,7 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
         data: function() {
           return {
             reuseTitle: reuseTitle,
-            selectedReuse: selectedReuse, //should be undefined
+            selectedReuse: selectedReuse,
             selectedRepair: null,
             selectedItem: selectedItem,
             reuseBusinesses: reuseBusinesses
@@ -310,12 +299,16 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
 });
 
 Router.route('/reuse/reuseCat/:category', function(){
-  console.log("REUSE CAT ROUTER");
   var self = this;
-  var category = this.params.category;
+  var selectedCategory = this.params.category;
   this.layout('android');
   this.render('android_reuse_category_bread_crumbs',{
     to: 'bread_crumbs',
+    data: function(){
+      return {
+        selectedCategory: selectedCategory,
+      }
+    }
   });
   this.render('blank_template',{
     to: 'map'
@@ -323,13 +316,11 @@ Router.route('/reuse/reuseCat/:category', function(){
   this.render('loading_template',{
     to: 'main_content'
   });
-  Meteor.call('getReuseItems', category, function (err, data) {
-    console.log("GOT reuse items");
-    console.log(data);
+  Meteor.call('getReuseItems', selectedCategory, function (err, data) {
     var reuseItems = data;
     if (!err) {
       Session.setPersistent('reuseItems', data);
-      Session.setPersistent('reuseCategory',category);
+      Session.setPersistent('reuseCategory',selectedCategory);
       self.render('android_list_group',{
         to: 'main_content', //yield main_content
         data: function() {
@@ -347,7 +338,6 @@ Router.route('/reuse/reuseCat/:category', function(){
 
 
 Router.route('/reuse', function(){
-  console.log("REUSE! ROUTER");
   var self = this;
   this.layout('android');
   this.render('android_reuse_bread_crumbs',{
@@ -360,8 +350,6 @@ Router.route('/reuse', function(){
     to: 'main_content'
   });
   if(Session.get('reuseCategories')){
-    console.log("using CACHED cats");
-    console.log(Session.get('reuseCategories'));
     self.render('android_list_group',{
       to: 'main_content', //yield main_content
       data: function() {
@@ -374,7 +362,6 @@ Router.route('/reuse', function(){
     });
   } else {
     Meteor.call('getReuseCategories', function (err, data) {
-      console.log("using NEW cats");
       var reuseCategories = data;
       if (!err) {
         Session.setPersistent('reuseCategories', data);

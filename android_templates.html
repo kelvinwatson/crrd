@@ -41,6 +41,8 @@
 <template name="business_profile">
   <h1>{{name}}</h1>
   <p>{{address}}</p>
+  <p>{{phone}}</p>
+  <p><a href="#" onclick="window.open('{{website}}', '_system');">{{website}}</a></p>
   <p>{{info}}</p>
 </template>
 
@@ -274,7 +276,7 @@
               <span class="list-group-item-text">
                 {{#if street}}{{street}}{{/if}}
                 {{#if city}}{{city}}, {{/if}}
-                {{#if state}}{{state}}{{/if}}
+                {{#if state}}{{state}} {{/if}}
                 {{#if zip}}{{zip}}{{/if}}
               </span>
             </span>

@@ -53,11 +53,27 @@ if (Meteor.isClient) {
     },
   });
 
+  Template.android_reuse_category_bread_crumbs.helpers({
+    'category': function(){
+      return this.selectedCategory;
+    },
+  });
+
+  Template.android_reuse_item_bread_crumbs.helpers({
+    'item': function(){
+      return this.selectedItem;
+    },
+    'category': function(){
+      return this.selectedCategory;
+    },
+  });
+
+
+
   /* MAP */
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
     var self = this.data;
-    console.log(this.data);
     GoogleMaps.ready('businessesMap', function(map) {
       if(Session.get('repairMap')){
         var repairBusinesses = Session.get('repairBusinesses');
@@ -71,7 +87,6 @@ if (Meteor.isClient) {
                   map: map.instance
                 });
                 new google.maps.event.addListener(marker, 'click', function(){
-                  console.log('clicked map!');
                   var infoStr = repairBusinesses[k].name+'<br>'+
                   repairBusinesses[k].street+' '+repairBusinesses[k].city+
                     ', '+repairBusinesses[k].state;
@@ -98,7 +113,6 @@ if (Meteor.isClient) {
                   map: map.instance
                 });
                 new google.maps.event.addListener(marker, 'click', function(){
-                  console.log('clicked map!');
                   var infoStr = reuseBusinesses[k].name+'<br>'+
                   reuseBusinesses[k].street+' '+reuseBusinesses[k].city+
                     ', '+reuseBusinesses[k].state;
@@ -140,16 +154,39 @@ if (Meteor.isClient) {
       return this.title;
     },
     'address': function(){
-      if(this.businessStreet && this.businessCity && this.businessState && this.businessZip){
-        return this.businessStreet+", "+this.businessCity+", "+this.businessState+this.businessZip;
+      var str = this.businessStreet? this.businessStreet:null
+      var cit = this.businessCity? this.businessCity:null;
+      var sta = this.businessState? this.businessState:null;
+      var zip = this.businessZip? this.businessZip:null;
+      if(str && cit && sta && zip){
+        return str+", "+cit+", "+sta+" "+zip;
+      } else if(str && cit && sta && !zip){
+        return str+", "+cit+", "+sta;
+      } else if(str && !cit && sta && !zip){
+        return str+", "+sta;
+      } else if(!str && cit && sta && zip){
+        return cit+", "+sta+" "+zip;
+      } else if(!str && cit && sta && !zip){
+        return cit+", "+sta;
+      } else if(!str && !cit && sta && zip){
+        return sta+" "+zip;
+      } else if(!str && !cit && sta && !cit){
+        return sta;
+      } else return "";
+    },
+    'phone': function(){
+      return this.businessPhone;
+    },
+    'website': function(){
+      if(this.businessWebsite){
+        return this.businessWebsite;
       } else return "";
     },
     'info': function(){
       if(this.businessInfo){
-        if(this.businessInfo){
-          return this.businessInfo;
-        } else return "";
-      }
+        return this.businessInfo;
+      } else return "";
+
     }
   });
 
@@ -186,8 +223,6 @@ if (Meteor.isClient) {
 
   Template.android_list_group.events({
     'click .list-group-item': function(){
-      console.log("I CLICKED");
-      console.log(this);
       var route;
       var repairItem;
       var repairBusiness;
