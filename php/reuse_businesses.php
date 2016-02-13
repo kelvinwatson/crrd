@@ -13,6 +13,14 @@ if ($mysqli->connect_errno) {
 ->connect_error;
 }
 
+if (!$mysqli->set_charset("utf8")) {
+	$obj->http_response_code = 400;
+	$obj->error_description = 'Error loading character set utf8.';
+	echo json_encode($obj);		
+	return;
+}
+
+
 if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on repair item
 	if(!isset($_GET['reuseItem'])){
 		$obj = new stdClass();

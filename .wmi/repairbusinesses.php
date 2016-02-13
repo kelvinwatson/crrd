@@ -264,9 +264,9 @@ if ($mysqli->connect_errno) {
           echo
           "<li>";
           if (in_array($iN, $_POST['repair-items-accepted'])){
-            echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"repair-item-id\" value=\"".$iID."\" checked>"." ".$iN;
+            echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\" checked>"." ".$iN;
           } else{
-             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"repair-item-id\" value=\"".$iID."\">"." ".$iN;
+             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\">"." ".$iN;
           }
           echo "</li>";
         }
@@ -398,7 +398,6 @@ if ($mysqli->connect_errno) {
   Toast.defaults.displayDuration=7000;
 
   window.onload = function(){
-    debugger;
     var queryStr = window.location.search;
     if(queryStr=='?editSuccess=True'){
       Toast.success('Edit Successful!', 'Edit Confirmation');
@@ -417,34 +416,49 @@ if ($mysqli->connect_errno) {
     var businessId;
     if(action=='edit'){
       businessId = document.getElementById("bId").value;
+      var checkboxes = document.getElementsByName("edit-repair-item-id");
+      var cbCheckedIds = [];
+      var cbNotCheckedIds = [];
+      for(var k=0, len=checkboxes.length; k<len; k++){
+        if(checkboxes[k].checked){
+          cbCheckedIds.push(parseInt(checkboxes[k].value));
+        } else{
+          cbNotCheckedIds.push(parseInt(checkboxes[k].value));
+        }
+      }
+      if(cbCheckedIds.length<=0){
+        Toast.error('You must select repair item.', 'Edit Status');
+        return; //cannot have a business that does not accept any items
+      }
+      var cbCheckedIdsJSON = JSON.stringify(cbCheckedIds);
+      var cbNotCheckedIdsJSON = JSON.stringify(cbNotCheckedIds);
+      console.log('==checkboxes checked==');
+      console.log(cbCheckedIdsJSON);
+      console.log('==checkboxes NOT checked==');
+      console.log(cbNotCheckedIdsJSON);
     }
     var businessName = document.getElementById("bName").value; //internal use only
     var street = document.getElementById("bStreet").value;
     var city = document.getElementById("bCity").value;
     var state = document.getElementById("bState").value;
-
     var zipcode = document.getElementById("bZip").value;
     var phone = document.getElementById("bPhone").value;
     var website = document.getElementById("bWebsite").value;
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
       if (status == google.maps.GeocoderStatus.OK){
-        console.log(businessId);//internal use only
-        console.log(businessName);
-        console.log(geoCodedResults[0].geometry.location.lat());
-        console.log(geoCodedResults[0].geometry.location.lng());
         var latitude = geoCodedResults[0].geometry.location.lat();
         var longitude = geoCodedResults[0].geometry.location.lng();
         //make AJAX request to PHP file to store lat lng
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, cbCheckedIds, cbNotCheckedIds);
       } else{
         //if not geocodable, transmit lat and lng as null
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null, cbCheckedIds, cbNotCheckedIds);
       }
     });
   }
 
-  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude){
+  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, itemIdsChecked, itemIdsNotChecked){
     if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
     else if(window.ActiveXObject){
       try {
@@ -472,9 +486,9 @@ if ($mysqli->connect_errno) {
       longitude='';
     }
     if(action=='edit'){
-      postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude;
+      postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+itemIdsNotChecked;
     } else if(action=='add'){
-      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude;
+      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+itemIdsNotChecked;
     }
     httpRequest.send(postParams);
   }
@@ -483,7 +497,6 @@ if ($mysqli->connect_errno) {
     try{
       console.log(httpRequest.readyState);
       if(httpRequest.readyState===4 && httpRequest.status===200){
-        debugger;
         var obj = JSON.parse(httpRequest.responseText);
         console.log(obj);
         if(obj.httpResponseCode==400){

@@ -10,7 +10,7 @@ $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'wats
 
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-} 
+}
 
 $action = $_POST['action'];
 $businessName = $_POST['business_name'];
@@ -28,7 +28,21 @@ $longitude = $_POST['long'];
 if($longitude==''){
   $longitude=null;
 }
+//$itemIdsChecked = json_decode($_POST['itemIdsChecked'],TRUE);
+error_log(print_r($_POST,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+//$itemIdsChecked = $_POST['itemIdsChecked'];
+//$itemIdsNotChecked = json_decode($_POST['itemIdsNotChecked']);
+
 $obj = new stdClass();
+
+$obj->httpResponseCode = 200;
+$obj->response = "editSuccess";
+//$obj->itemIdsChecked = ;
+//$obj->itemIdsNotChecked = $itemIdsNotChecked;
+$obj->errorMessage = 'YAY.';
+echo json_encode($obj);
+return;
+
 
 if ($action == 'edit'){
   $businessId = $_POST['business_id'];
@@ -45,7 +59,7 @@ if ($action == 'edit'){
     $obj->response = "editFailure";
     $obj->errorMessage = 'Bind failed.';
     echo json_encode($obj);
-    return;    
+    return;
   }
 
   if (!$stmt->execute()) {
@@ -53,15 +67,15 @@ if ($action == 'edit'){
     $obj->response = "editFailure";
     $obj->errorMessage = 'Execute failed.';
     echo json_encode($obj);
-    return;   
+    return;
   }
-    
+
   $obj->httpResponseCode = 200;
   $obj->response = "editSuccess";
   $obj->errorMessage = 'Edit item successful.';
   echo json_encode($obj);
   return;
-  
+
 } else if ($action == 'add') {
   $type = 'Repair';
   if (!($stmt = $mysqli->prepare("INSERT INTO business(name, street, city, state, zipcode, phone, website, type, latitude, longitude) VALUES (?,?,?,?,?,?,?,?,?,?)"))){
@@ -71,16 +85,16 @@ if ($action == 'edit'){
     echo json_encode($obj);
     return;
   }
-  
+
   if (!$stmt->bind_param("ssssisssdd", $businessName, $street, $city, $state, $zipcode, $phone, $website, $type, $latitude, $longitude)) {
     $obj->httpResponseCode = 400;
     $obj->response = "addFailure";
     $obj->errorMessage = 'Bind failed.';
     echo json_encode($obj);
-    return;   
+    return;
   }
 
-  
+
   if (!$stmt->execute()) {
     $obj->httpResponseCode = 400;
     $obj->response = "addFailure";
@@ -88,7 +102,7 @@ if ($action == 'edit'){
     echo json_encode($obj);
     return;
   }
-  
+
   $obj->httpResponseCode = 200;
   $obj->response = "addSuccess";
   $obj->errorMessage = 'Add item successful.';

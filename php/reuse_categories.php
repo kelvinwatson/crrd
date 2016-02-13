@@ -10,6 +10,13 @@ if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
+if (!$mysqli->set_charset("utf8")) {
+	$obj->http_response_code = 400;
+	$obj->error_description = 'Error loading character set utf8.';
+	echo json_encode($obj);		
+	return;
+}
+
 if (!($stmt = $mysqli->prepare("SELECT DISTINCT c.name FROM category c
   WHERE c.name != 'Repair Items' ORDER BY c.name ASC" ))) {
 	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
