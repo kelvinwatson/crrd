@@ -175,18 +175,16 @@ if (Meteor.isClient) {
       } else return "";
     },
     'phone': function(){
-      return this.businessPhone;
+      return this.businessPhone? this.businessPhone:"";
+    },
+    'hours': function(){
+      return this.businessHours? this.businessHours:"";
     },
     'website': function(){
-      if(this.businessWebsite){
-        return this.businessWebsite;
-      } else return "";
+      return this.businessWebsite? this.businessWebsite:"";
     },
     'info': function(){
-      if(this.businessInfo){
-        return this.businessInfo;
-      } else return "";
-
+      return this.businessInfo? this.businessInfo:"";
     }
   });
 
