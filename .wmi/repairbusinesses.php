@@ -450,10 +450,10 @@ if ($mysqli->connect_errno) {
         var latitude = geoCodedResults[0].geometry.location.lat();
         var longitude = geoCodedResults[0].geometry.location.lng();
         //make AJAX request to PHP file to store lat lng
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, cbCheckedIds, cbNotCheckedIds);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       } else{
         //if not geocodable, transmit lat and lng as null
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null, cbCheckedIds, cbNotCheckedIds);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       }
     });
   }
@@ -507,7 +507,6 @@ if ($mysqli->connect_errno) {
           }
         } else{ //obj.httpResponseCode is 200
           if(obj.response=='editSuccess'){
-            debugger;
             window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True";
           } else if(obj.response=='addSuccess'){
             window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=True";

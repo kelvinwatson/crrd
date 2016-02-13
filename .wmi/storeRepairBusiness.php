@@ -28,24 +28,31 @@ $longitude = $_POST['long'];
 if($longitude==''){
   $longitude=null;
 }
-//$itemIdsChecked = json_decode($_POST['itemIdsChecked'],TRUE);
-error_log(print_r($_POST,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-//$itemIdsChecked = $_POST['itemIdsChecked'];
-//$itemIdsNotChecked = json_decode($_POST['itemIdsNotChecked']);
+$itemIdsChecked = json_decode($_POST['itemIdsChecked'],TRUE);
+$itemIdsNotChecked = json_decode($_POST['itemIdsNotChecked'],TRUE);
+
+//debug statements
+error_log(gettype($itemIdsChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+error_log(print_r($itemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+error_log(gettype($itemIdsNotChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+error_log(print_r($itemIdsNotChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 
 $obj = new stdClass();
 
-$obj->httpResponseCode = 200;
+/*$obj->httpResponseCode = 200;
 $obj->response = "editSuccess";
-//$obj->itemIdsChecked = ;
-//$obj->itemIdsNotChecked = $itemIdsNotChecked;
+$obj->itemIdsChecked = $itemIdsChecked;
+$obj->itemIdsNotChecked = $itemIdsNotChecked;
 $obj->errorMessage = 'YAY.';
 echo json_encode($obj);
-return;
+return;*/
 
 
 if ($action == 'edit'){
   $businessId = $_POST['business_id'];
+
+  //Update demographics
+
   if (!($stmt = $mysqli->prepare("UPDATE business SET name=?, street=?, city=?, state=?, zipcode=?, phone=?, website=?, latitude=?, longitude=? WHERE id=?"))) {
     $obj->httpResponseCode = 400;
     $obj->response = "editFailure";
@@ -70,9 +77,35 @@ if ($action == 'edit'){
     return;
   }
 
+  $stmt->close();
+
+  //Add repair items for checked items
+  if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,?,?)"))) {
+    $obj->httpResponseCode = 400;
+    $obj->response = "editFailure";
+    $obj->errorMessage = 'Prepare for add checked item failed.';
+    echo json_encode($obj);
+    return;
+  }
+
+  for ($i=0; $i<count($itemIdsChecked); ++$i) {
+    error_log("printing iChecked=".$itemIdsChecked[$i],3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    /*if (!$stmtBCI->bind_param("iii", $businessId,16,$iChecked)) {
+      $obj->httpResponseCode = 400;
+      $obj->response = "editFailure";
+      $obj->errorMessage = 'Bind for add checked item failed.';
+      echo json_encode($obj);
+      return;
+    }
+    if (!$stmtBCI->execute()) { //ignore errors and insert
+    }*/
+  }
+
+  $stmtBCI->close();
+
   $obj->httpResponseCode = 200;
   $obj->response = "editSuccess";
-  $obj->errorMessage = 'Edit item successful.';
+  $obj->errorMessage = 'Edit business and item(s) successful.';
   echo json_encode($obj);
   return;
 
@@ -93,7 +126,6 @@ if ($action == 'edit'){
     echo json_encode($obj);
     return;
   }
-
 
   if (!$stmt->execute()) {
     $obj->httpResponseCode = 400;
