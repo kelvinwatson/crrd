@@ -32,10 +32,10 @@ $itemIdsChecked = json_decode($_POST['itemIdsChecked'],TRUE);
 $itemIdsNotChecked = json_decode($_POST['itemIdsNotChecked'],TRUE);
 
 //debug statements
-error_log(gettype($itemIdsChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-error_log(print_r($itemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-error_log(gettype($itemIdsNotChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-error_log(print_r($itemIdsNotChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+//error_log(gettype($itemIdsChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+//error_log(print_r($itemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+//error_log(gettype($itemIdsNotChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+//error_log(print_r($itemIdsNotChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 
 $obj = new stdClass();
 
@@ -79,7 +79,9 @@ if ($action == 'edit'){
 
   $stmt->close();
 
+  
   //Add repair items for checked items
+  $stmtBCI=null;
   if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,?,?)"))) {
     $obj->httpResponseCode = 400;
     $obj->response = "editFailure";
@@ -87,28 +89,32 @@ if ($action == 'edit'){
     echo json_encode($obj);
     return;
   }
+  error_log("prep2 ok",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 
   for ($i=0; $i<count($itemIdsChecked); ++$i) {
-    error_log("printing iChecked=".$itemIdsChecked[$i],3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-    /*if (!$stmtBCI->bind_param("iii", $businessId,16,$iChecked)) {
-      $obj->httpResponseCode = 400;
-      $obj->response = "editFailure";
-      $obj->errorMessage = 'Bind for add checked item failed.';
-      echo json_encode($obj);
-      return;
+    $itemId = $itemIdsChecked[$i];
+    $categoryId = 16;
+    //error_log("itemId=".$itemId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    //error_log("businessId=".$businessId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    try{
+      $stmtBCI->bind_param("iii", $businessId, $categoryId, $itemId);
+      error_log("pass1",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+      $stmtBCI->execute(); //insert regardless and ignore errors
+      error_log("pass2",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    } catch( Exception $e ){
+      error_log("exception!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
     }
-    if (!$stmtBCI->execute()) { //ignore errors and insert
-    }*/
+
   }
 
-  $stmtBCI->close();
+  //$stmtBCI->close();
 
   $obj->httpResponseCode = 200;
   $obj->response = "editSuccess";
   $obj->errorMessage = 'Edit business and item(s) successful.';
   echo json_encode($obj);
   return;
-
+  
 } else if ($action == 'add') {
   $type = 'Repair';
   if (!($stmt = $mysqli->prepare("INSERT INTO business(name, street, city, state, zipcode, phone, website, type, latitude, longitude) VALUES (?,?,?,?,?,?,?,?,?,?)"))){
