@@ -82,7 +82,7 @@ if ($action == 'edit'){
   
   //Add repair items for checked items
   $stmtBCI=null;
-  if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,?,?)"))) {
+  if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,16,?)"))) {
     $obj->httpResponseCode = 400;
     $obj->response = "editFailure";
     $obj->errorMessage = 'Prepare for add checked item failed.';
@@ -97,7 +97,7 @@ if ($action == 'edit'){
     //error_log("itemId=".$itemId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     //error_log("businessId=".$businessId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     try{
-      $stmtBCI->bind_param("iii", $businessId, $categoryId, $itemId);
+      $stmtBCI->bind_param("ii", $businessId, $itemId);
       error_log("pass1",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
       $stmtBCI->execute(); //insert regardless and ignore errors
       error_log("pass2",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
@@ -109,6 +109,32 @@ if ($action == 'edit'){
 
   //$stmtBCI->close();
 
+  //Remove repair items for unchecked items
+  $stmtBCIDel=null;
+  if (!($stmtBCIDel = $mysqli->prepare("DELETE FROM business_category_item WHERE bid=? AND cid=16 AND iid=?"))) {
+    $obj->httpResponseCode = 400;
+    $obj->response = "editFailure";
+    $obj->errorMessage = 'Prepare for delete unchecked item failed.';
+    echo json_encode($obj);
+    return;
+  }
+  error_log("prep3 ok",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+
+  for ($j=0; $j<count($itemIdsNotChecked); ++$j) {
+    $itemId = $itemIdsNotChecked[$j];
+    $categoryId = 16;
+    //error_log("itemId=".$itemId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    //error_log("businessId=".$businessId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    try{
+      $stmtBCIDel->bind_param("ii", $businessId, $itemId);
+      error_log("pass3",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+      $stmtBCIDel->execute(); //insert regardless and ignore errors
+      error_log("pass42",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    } catch( Exception $e ){
+      error_log("exception!!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
+    }
+  }
+  
   $obj->httpResponseCode = 200;
   $obj->response = "editSuccess";
   $obj->errorMessage = 'Edit business and item(s) successful.';
