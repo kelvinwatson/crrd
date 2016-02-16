@@ -129,8 +129,8 @@ if ($mysqli->connect_errno) {
             while($row = $stmt->fetch()){
               if($prevbID==NULL){ //only executes the first iteration
                 $prevbID = $bID;
-                echo print_r($arr,true);
-                echo "$bN 1<br>";
+                //echo print_r($arr,true);
+                //echo "$bN 1<br>";
               }
               if($bID == $prevbID) {
                 $arr[$i++] = $iN;
@@ -144,8 +144,8 @@ if ($mysqli->connect_errno) {
                 $prevbW = $bW;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
-                echo print_r($arr,true);
-                echo "$bN 2<br>";
+                //echo print_r($arr,true);
+                //echo "$bN 2<br>";
               } else {
                 echo
                   "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
@@ -166,8 +166,8 @@ if ($mysqli->connect_errno) {
                 }
                 echo "</ul></td>
                   <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-                echo print_r($arr,true);
-                echo "$bN 3<br>";
+                //echo print_r($arr,true);
+                //echo "$bN 3<br>";
                 unset($arr);
                 $arr = array();
                 $i=0;
@@ -184,8 +184,8 @@ if ($mysqli->connect_errno) {
                 $arr[$i++] = $iN;
               }
               ++$j;
-              echo print_r($arr,true);
-              echo "WTF4<br>";
+              //echo print_r($arr,true);
+              //echo "$bN 4<br>";
             }
             echo
               "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
