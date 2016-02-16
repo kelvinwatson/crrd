@@ -119,49 +119,20 @@ if ($mysqli->connect_errno) {
             $prevbID = $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbLat = $prevbLng = NULL;
             $i=0;
             
-            unset($arr);
-            $array = array();
+            $arr = array();
           
-            $result = $stmt->store_result();
+            $stmt->store_result();
+            
             $numRows = $stmt->num_rows;
-            echo "numRows=".$numRows;
-            $j=0;
-            while($stmt->fetch()){
-              ++$j;
-              if($j==($numRows-1)){
-                echo "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
-                <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$bID."\"></td>
-                <td>".$bN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$bN."\"></td>
-                <td>".$bStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$bStr."\"></td>
-                <td>".$bC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$bC."\"></td>
-                <td>".$bSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$bSta."\"></td>
-                <td>".$bZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$bZ."\"></td>
-                <td>".$bP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$bP."\"></td>
-                <td>".$bW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$bW."\"></td>
-                <td>
-                <ul>";
-                foreach($arr as $v){
-                  echo "<li>".$v."</li>";
-                  echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
-                }
-                echo "</ul></td>
-                  <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-              }
+            //echo "numRows=".$numRows."<br>";
+            $j=1;
+            
+            while($row = $stmt->fetch()){
               if($prevbID==NULL){ //only executes the first iteration
                 $prevbID = $bID;
               }
               if($bID == $prevbID) {
                 $arr[$i++] = $iN;
-                $prevbID = $bID;
-                $prevbN = $bN;
-                $prevbStr = $bStr;
-                $prevbC = $bC;
-                $prevbSta = $bSta;
-                $prevbZ = $bZ;
-                $prevbP = $bP;
-                $prevbW = $bW;
-                $prevbLat = $bLat;
-                $prevbLng = $bLng;
               } else {
                 echo
                 "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
@@ -183,6 +154,7 @@ if ($mysqli->connect_errno) {
                   <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
 
                 unset($arr);
+                $arr = array();
                 $i=0;
                 $prevbID = $bID;
                 $prevbN = $bN;
@@ -195,11 +167,32 @@ if ($mysqli->connect_errno) {
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
                 $arr[$i++] = $iN;
+                //echo print_r($arr,true);
+                //echo "WTF2";
+                //echo "<br>";
               }
-              
+              ++$j;
             }
-            
-           
+            echo
+              "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
+              <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+              <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
+              <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
+              <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
+              <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
+              <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
+              <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
+              <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+              <td>
+              <ul>";
+              foreach($arr as $v){
+                echo "<li>".$v."</li>";
+                echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
+              }
+              echo "</ul></td>
+                <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
+                
+            $stmt->free_result();
              
             $stmt->close();
             ?>
