@@ -116,15 +116,41 @@ if ($mysqli->connect_errno) {
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
             }
 
-            $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbLat = $prevbLng = NULL;
+            $prevbID = $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbLat = $prevbLng = NULL;
             $i=0;
-            $arr = array();
-
+            
+            unset($arr);
+            $array = array();
+          
+            $result = $stmt->store_result();
+            $numRows = $stmt->num_rows;
+            echo "numRows=".$numRows;
+            $j=0;
             while($stmt->fetch()){
-              if($prevbN==NULL){ //only executes the first iteration
-                $prevbN = $bN;
+              ++$j;
+              if($j==($numRows-1)){
+                echo "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
+                <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$bID."\"></td>
+                <td>".$bN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$bN."\"></td>
+                <td>".$bStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$bStr."\"></td>
+                <td>".$bC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$bC."\"></td>
+                <td>".$bSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$bSta."\"></td>
+                <td>".$bZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$bZ."\"></td>
+                <td>".$bP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$bP."\"></td>
+                <td>".$bW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$bW."\"></td>
+                <td>
+                <ul>";
+                foreach($arr as $v){
+                  echo "<li>".$v."</li>";
+                  echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
+                }
+                echo "</ul></td>
+                  <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
               }
-              if($bN == $prevbN) {
+              if($prevbID==NULL){ //only executes the first iteration
+                $prevbID = $bID;
+              }
+              if($bID == $prevbID) {
                 $arr[$i++] = $iN;
                 $prevbID = $bID;
                 $prevbN = $bN;
@@ -157,7 +183,6 @@ if ($mysqli->connect_errno) {
                   <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
 
                 unset($arr);
-                $arr = array();
                 $i=0;
                 $prevbID = $bID;
                 $prevbN = $bN;
@@ -171,7 +196,11 @@ if ($mysqli->connect_errno) {
                 $prevbLng = $bLng;
                 $arr[$i++] = $iN;
               }
+              
             }
+            
+           
+             
             $stmt->close();
             ?>
           </tbody>
@@ -365,7 +394,7 @@ if ($mysqli->connect_errno) {
 
           while($stmt->fetch()){
             echo
-            "<li><input type=\"checkbox\" id=\"".$iID."\" name=\"repair-item-id\" value=\"".$iID."\">"." ".$iN."</li>";
+            "<li><input type=\"checkbox\" id=\"".$iID."\" name=\"add-repair-item-id\" value=\"".$iID."\">"." ".$iN."</li>";
           }
           $stmt->close();
           ?>
@@ -437,6 +466,22 @@ if ($mysqli->connect_errno) {
       console.log('==checkboxes NOT checked==');
       console.log(cbNotCheckedIdsJSON);
     }
+    if(action=='add'){
+      var checkboxes = document.getElementsByName("add-repair-item-id");
+      var cbCheckedIds = [];
+      for(var k=0, len=checkboxes.length; k<len; k++){
+        if(checkboxes[k].checked){
+          cbCheckedIds.push(parseInt(checkboxes[k].value));
+        } 
+      }
+      if(cbCheckedIds.length<=0){
+        Toast.error('You must select repair item.', 'Edit Status');
+        return; //cannot have a business that does not accept any items
+      }
+      var cbCheckedIdsJSON = JSON.stringify(cbCheckedIds);
+      console.log('==ADD checkboxes checked==');
+      console.log(cbCheckedIdsJSON);
+    }
     var businessName = document.getElementById("bName").value; //internal use only
     var street = document.getElementById("bStreet").value;
     var city = document.getElementById("bCity").value;
@@ -453,7 +498,7 @@ if ($mysqli->connect_errno) {
         constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       } else{
         //if not geocodable, transmit lat and lng as null
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null, cbCheckedIdsJSON, null);
       }
     });
   }
@@ -488,7 +533,7 @@ if ($mysqli->connect_errno) {
     if(action=='edit'){
       postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+itemIdsNotChecked;
     } else if(action=='add'){
-      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+itemIdsNotChecked;
+      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+null;
     }
     httpRequest.send(postParams);
   }

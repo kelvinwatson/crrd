@@ -29,7 +29,6 @@ if($longitude==''){
   $longitude=null;
 }
 $itemIdsChecked = json_decode($_POST['itemIdsChecked'],TRUE);
-$itemIdsNotChecked = json_decode($_POST['itemIdsNotChecked'],TRUE);
 
 //debug statements
 //error_log(gettype($itemIdsChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
@@ -49,6 +48,7 @@ return;*/
 
 
 if ($action == 'edit'){
+  $itemIdsNotChecked = json_decode($_POST['itemIdsNotChecked'],TRUE);
   $businessId = $_POST['business_id'];
 
   //Update demographics
@@ -89,7 +89,6 @@ if ($action == 'edit'){
     echo json_encode($obj);
     return;
   }
-  error_log("prep2 ok",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 
   for ($i=0; $i<count($itemIdsChecked); ++$i) {
     $itemId = $itemIdsChecked[$i];
@@ -98,9 +97,7 @@ if ($action == 'edit'){
     //error_log("businessId=".$businessId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     try{
       $stmtBCI->bind_param("ii", $businessId, $itemId);
-      error_log("pass1",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
       $stmtBCI->execute(); //insert regardless and ignore errors
-      error_log("pass2",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     } catch( Exception $e ){
       error_log("exception!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
     }
@@ -127,9 +124,7 @@ if ($action == 'edit'){
     //error_log("businessId=".$businessId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     try{
       $stmtBCIDel->bind_param("ii", $businessId, $itemId);
-      error_log("pass3",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
       $stmtBCIDel->execute(); //insert regardless and ignore errors
-      error_log("pass42",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     } catch( Exception $e ){
       error_log("exception!!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
     }
@@ -167,6 +162,66 @@ if ($action == 'edit'){
     return;
   }
 
+  //retrieve business id after insertion
+
+  
+  if (!($stmtBid = $mysqli->prepare("SELECT b.id FROM business b WHERE b.name='".$businessName."'"))){
+      $obj->httpResponseCode = 400;
+      $obj->response = "addFailure";
+      $obj->errorMessage = "Prepare failed (2):".$mysqli->error;
+      echo json_encode($obj);
+      return;
+    }
+
+    if (!$stmtBid->execute()) {
+      $obj->httpResponseCode = 400;
+      $obj->response = "addFailure";
+      $obj->errorMessage = "Execute failed (2):".$mysqli->error;
+      echo json_encode($obj);
+      return;
+		}
+
+    $retrievedBid=NULL;
+		if(!$stmtBid->bind_result($retrievedBid)){
+      $obj->httpResponseCode = 400;
+      $obj->response = "addFailure";
+      $obj->errorMessage = "Bind failed (2):".$mysqli->error;
+      echo json_encode($obj);
+      return;
+		}
+    
+    while($stmtBid->fetch()){
+		  $businessId = $retrievedBid;
+		}
+  
+  error_log("businessId just inserted",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+  error_log("$businessId",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+  
+
+  $stmtBCI=null;
+  if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,16,?)"))) {
+    $obj->httpResponseCode = 400;
+    $obj->response = "addFailure";
+    $obj->errorMessage = 'Prepare for add checked item failed.';
+    echo json_encode($obj);
+    return;
+  }
+
+  error_log("add prep ok",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+  error_log(print_r($itemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+  
+  for ($i=0; $i<count($itemIdsChecked); ++$i) {
+    $itemId = $itemIdsChecked[$i];
+    $categoryId = 16;
+    try{
+      $stmtBCI->bind_param("ii", $businessId, $itemId);
+      $stmtBCI->execute(); //insert regardless and ignore errors
+    } catch( Exception $e ){
+      error_log("exception!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
+    }
+
+  }  
+  
   $obj->httpResponseCode = 200;
   $obj->response = "addSuccess";
   $obj->errorMessage = 'Add item successful.';
