@@ -124,35 +124,50 @@ if ($mysqli->connect_errno) {
             $stmt->store_result();
             
             $numRows = $stmt->num_rows;
-            //echo "numRows=".$numRows."<br>";
             $j=1;
             
             while($row = $stmt->fetch()){
               if($prevbID==NULL){ //only executes the first iteration
                 $prevbID = $bID;
+                echo print_r($arr,true);
+                echo "$bN 1<br>";
               }
               if($bID == $prevbID) {
                 $arr[$i++] = $iN;
+                $prevbID = $bID;
+                $prevbN = $bN;
+                $prevbStr = $bStr;
+                $prevbC = $bC;
+                $prevbSta = $bSta;
+                $prevbZ = $bZ;
+                $prevbP = $bP;
+                $prevbW = $bW;
+                $prevbLat = $bLat;
+                $prevbLng = $bLng;
+                echo print_r($arr,true);
+                echo "$bN 2<br>";
               } else {
                 echo
-                "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
-                <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
-                <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
-                <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
-                <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
-                <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
-                <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
-                <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-                <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
-                <td>
-                <ul>";
+                  "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
+                  <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+                  <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
+                  <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
+                  <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
+                  <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
+                  <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
+                  <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
+                  <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+                  <td>
+                  <ul>";
+                
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
                   echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
                 }
                 echo "</ul></td>
                   <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-
+                echo print_r($arr,true);
+                echo "$bN 3<br>";
                 unset($arr);
                 $arr = array();
                 $i=0;
@@ -167,11 +182,10 @@ if ($mysqli->connect_errno) {
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
                 $arr[$i++] = $iN;
-                //echo print_r($arr,true);
-                //echo "WTF2";
-                //echo "<br>";
               }
               ++$j;
+              echo print_r($arr,true);
+              echo "WTF4<br>";
             }
             echo
               "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
