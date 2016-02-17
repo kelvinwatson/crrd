@@ -105,7 +105,7 @@ if ($mysqli->connect_errno) {
               FROM business b LEFT JOIN business_category_item bci ON bci.bid = b.id
               LEFT JOIN category c ON c.id=bci.cid
               LEFT JOIN item i ON i.id = bci.iid
-              WHERE b.type =  'Reuse' AND b.name != 'generic_reuse_business'"))) {
+              WHERE b.type = 'Reuse' AND b.name != 'generic_reuse_business'"))) {
               echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
             }
 
@@ -118,14 +118,10 @@ if ($mysqli->connect_errno) {
             }
 
             $prevbID = $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbH = $prevbLat = $prevbLng = NULL;
+            $prevcI = $prevcN = $previI = $previN = NULL;
             $i=0;
-            
-            $arr = array();
-          
-            $stmt->store_result();
-            
-            $numRows = $stmt->num_rows;
-            $j=1;
+            $arrI = array(); //associative array, structure:  [  [catName]=>[itemName,itemName...]    [catName]=>[itemName,itemName...] ...]
+            $arrN = array(); //associative array, structure:  [  [catID]=>[itemID,itemID...]    [catID]=>[itemID,itemID...] ...]
             
             while($row = $stmt->fetch()){
               if($prevbID==NULL){ //only executes the first iteration
@@ -134,7 +130,9 @@ if ($mysqli->connect_errno) {
                 //echo "$bN 1<br>";
               }
               if($bID == $prevbID) {
-                $arr[$i++] = $iN;
+                $arrI[$cI][]=$iI;
+                $arrN[$cN][]=$iN;
+                //echo var_dump($arrN);
                 $prevbID = $bID;
                 $prevbN = $bN;
                 $prevbStr = $bStr;
@@ -146,7 +144,8 @@ if ($mysqli->connect_errno) {
                 $prevbH = $bH;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
-                //echo print_r($arr,true);
+                //echo print_r($arrI,true);
+                //echo print_r($arrN,true);
                 //echo "$bN 2<br>";
               } else {
                 echo
@@ -161,7 +160,8 @@ if ($mysqli->connect_errno) {
                   <td style=\"font-size:0.77em;word-wrap: break-word;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
                   <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
                   <td style=\"padding-left:0px;\"><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
-                  
+                  //echo var_dump($arrN);
+
                 //define modal
                 echo "
                 <div class=\"modal fade\" id=\"itemModal".$prevbID."\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\">
@@ -173,11 +173,19 @@ if ($mysqli->connect_errno) {
                       </div>
                       <div class=\"modal-body\">
                         <ul>";
-                          if(!empty($arr)){
-                            sort($arr);
-                            foreach($arr as $v){
-                              echo "<li>".$v."</li>";
-                              echo "<input type=\"hidden\" name=\"reuse-items-accepted[]\" value=\"".$v."\">";
+                          if(!empty($arrN)){
+                            //echo var_dump($arrN);
+                            //echo "<br><br>";
+                            foreach($arrN as $categoryNames=>$itemArr){
+                              echo "<li>$categoryNames</li>";
+                              echo "<ul>";
+                             
+                              for($i=0, $len=count($itemArr); $i<$len; $i++){
+                                
+                                echo "<li>".$itemArr[$i]."</li>";
+                                //echo "<input type=\"hidden\" name=\"reuse-cat-items-accepted[]\" value=\"".$k."-".$v."\">";
+                              }
+                              echo "</ul>";
                             }
                           } else{
                             echo "<li style=\"list-style-type: none;\">This business currently does not accept any items for reuse.</li>";
@@ -194,11 +202,13 @@ if ($mysqli->connect_errno) {
                 
                 
                 echo "<input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-                //echo print_r($arr,true);
-                //echo "$bN 3<br>";
-                unset($arr);
-                $arr = array();
-                $i=0;
+                //echo print_r($arrI,true);
+                //echo "$bN 3<br><br>";
+
+                unset($arrI);
+                unset($arrN);
+                $arrI = array();
+                $arrN = array();
                 $prevbID = $bID;
                 $prevbN = $bN;
                 $prevbStr = $bStr;
@@ -210,10 +220,11 @@ if ($mysqli->connect_errno) {
                 $prevbH = $bH;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
-                $arr[$i++] = $iN;
+                $arrI[$cI][]=$iI;
+                $arrN[$cN][]=$iN;
               }
-              ++$j;
-              //echo print_r($arr,true);
+              //echo print_r($arrI,true);
+              //echo print_r($arrN,true);
               //echo "$bN 4<br>";
             }
             echo
@@ -240,11 +251,12 @@ if ($mysqli->connect_errno) {
                       </div>
                       <div class=\"modal-body\">
                         <ul>";
-                          if(!empty($arr)){
-                            sort($arr);
-                            foreach($arr as $v){
-                              echo "<li>".$v."</li>";
-                              echo "<input type=\"hidden\" name=\"reuse-items-accepted[]\" value=\"".$v."\">";
+                          if(!empty($arrN)){
+                            sort($arrN);
+                            foreach($arrN as $c){
+                              foreach($c as $i)
+                              echo "<li>".$c." ".$i."</li>";
+                              //echo "<input type=\"hidden\" name=\"reuse-cat-items-accepted[]\" value=\"".$k."-".$v."\">";
                             }
                           } else{
                             echo "<li style=\"list-style-type: none;\">This business currently does not accept any items for reuse.</li>";
