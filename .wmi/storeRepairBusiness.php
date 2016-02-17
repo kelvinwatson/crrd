@@ -20,6 +20,10 @@ $state = $_POST['state'];
 $zipcode = $_POST['zipcode'];
 $phone = $_POST['phone'];
 $website = $_POST['website'];
+$hours = $_POST['hours'];
+if($hours==''){
+  $hours=null;
+}
 $latitude = $_POST['lat'];
 if($latitude==''){
   $latitude=null;
@@ -31,6 +35,7 @@ if($longitude==''){
 $itemIdsChecked = json_decode($_POST['itemIdsChecked'],TRUE);
 
 //debug statements
+error_log(print_r($_POST,true),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 //error_log(gettype($itemIdsChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 //error_log(print_r($itemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
 //error_log(gettype($itemIdsNotChecked),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
@@ -53,7 +58,7 @@ if ($action == 'edit'){
 
   //Update demographics
 
-  if (!($stmt = $mysqli->prepare("UPDATE business SET name=?, street=?, city=?, state=?, zipcode=?, phone=?, website=?, latitude=?, longitude=? WHERE id=?"))) {
+  if (!($stmt = $mysqli->prepare("UPDATE business SET name=?, street=?, city=?, state=?, zipcode=?, phone=?, website=?, hours=?, latitude=?, longitude=? WHERE id=?"))) {
     $obj->httpResponseCode = 400;
     $obj->response = "editFailure";
     $obj->errorMessage = 'Prepare failed.';
@@ -61,7 +66,7 @@ if ($action == 'edit'){
     return;
   }
 
-  if (!$stmt->bind_param("ssssissddi", $businessName, $street, $city, $state, $zipcode, $phone, $website, $latitude, $longitude, $businessId)) {
+  if (!$stmt->bind_param("ssssisssddi", $businessName, $street, $city, $state, $zipcode, $phone, $website, $hours, $latitude, $longitude, $businessId)) {
     $obj->httpResponseCode = 400;
     $obj->response = "editFailure";
     $obj->errorMessage = 'Bind failed.';
@@ -138,7 +143,7 @@ if ($action == 'edit'){
   
 } else if ($action == 'add') {
   $type = 'Repair';
-  if (!($stmt = $mysqli->prepare("INSERT INTO business(name, street, city, state, zipcode, phone, website, type, latitude, longitude) VALUES (?,?,?,?,?,?,?,?,?,?)"))){
+  if (!($stmt = $mysqli->prepare("INSERT INTO business(name, street, city, state, zipcode, phone, website, hours, type, latitude, longitude) VALUES (?,?,?,?,?,?,?,?,?,?,?)"))){
     $obj->httpResponseCode = 400;
     $obj->response = "addFailure";
     $obj->errorMessage = 'Prepare failed.';
@@ -146,7 +151,7 @@ if ($action == 'edit'){
     return;
   }
 
-  if (!$stmt->bind_param("ssssisssdd", $businessName, $street, $city, $state, $zipcode, $phone, $website, $type, $latitude, $longitude)) {
+  if (!$stmt->bind_param("ssssissssdd", $businessName, $street, $city, $state, $zipcode, $phone, $website, $hours, $type, $latitude, $longitude)) {
     $obj->httpResponseCode = 400;
     $obj->response = "addFailure";
     $obj->errorMessage = 'Bind failed.';

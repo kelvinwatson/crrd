@@ -36,25 +36,24 @@ if ($mysqli->connect_errno) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand pull-left" href="#"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
+      <a class="navbar-brand pull-left" href="main.php"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="active"><a href="main.php">Home</a></li>
+        <!--<li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>-->
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quick Links<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li class="dropdown-header">REUSE</li>
-            <li><a href="#">Businesses</a></li>
-            <li><a href="#">Item Categories</a></li>
-            <li><a href="#">Items</a></li>
+            <li><a href="reusebusinesses.php">Businesses</a></li>
+            <li><a href="reusecategories.php">Item Categories</a></li>
+            <li><a href="reuseitems.php">Items</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown-header">REPAIR</li>
-            <li><a href="#">Businesses</a></li>
-            <li><a href="#">Item Categories</a></li>
-            <li><a href="#">Items</a></li>
+            <li><a href="repairbusinesses.php">Businesses</a></li>
+            <li><a href="repairitems.php">Items</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown-header">RECYCLE</li>
             <li><a href="#">Links</a></li>
@@ -177,14 +176,13 @@ if ($mysqli->connect_errno) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?"></script> 
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?"></script> 
 <script type="text/javascript">
   
   Toast.defaults.width='600px';
   Toast.defaults.displayDuration=7000;        
   
   window.onload = function(){
-    debugger;
     var queryStr = window.location.search;
     if(queryStr=='?editSuccess=True'){
       Toast.success('Edit Successful!', 'Edit Confirmation');

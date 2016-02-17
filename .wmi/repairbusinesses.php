@@ -36,25 +36,24 @@ if ($mysqli->connect_errno) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand pull-left" href="#"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
+      <a class="navbar-brand pull-left" href="main.php"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="active"><a href="main.php">Home</a></li>
+        <!--<li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>-->
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quick Links<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li class="dropdown-header">REUSE</li>
-            <li><a href="#">Businesses</a></li>
-            <li><a href="#">Item Categories</a></li>
-            <li><a href="#">Items</a></li>
+            <li><a href="reusebusinesses.php">Businesses</a></li>
+            <li><a href="reusecategories.php">Item Categories</a></li>
+            <li><a href="reuseitems.php">Items</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown-header">REPAIR</li>
-            <li><a href="#">Businesses</a></li>
-            <li><a href="#">Item Categories</a></li>
-            <li><a href="#">Items</a></li>
+            <li><a href="repairbusinesses.php">Businesses</a></li>
+            <li><a href="repairitems.php">Items</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown-header">RECYCLE</li>
             <li><a href="#">Links</a></li>
@@ -83,8 +82,8 @@ if ($mysqli->connect_errno) {
   </div>
   <div class="row"> <!--START VIEW TABLE ROW -->
     <h3>View/Edit Repair Businesses</h3>
-    <div class="table-responsive">
-      <table class="table">
+    <div class="table">
+      <table class="table" style="font-size:0.8em">
         <thead>
             <tr>
               <th>Edit</th>
@@ -95,13 +94,14 @@ if ($mysqli->connect_errno) {
               <th>Zip</th>
               <th>Phone</th>
               <th>Website</th>
+              <th>Operating Hours</th>
               <th>Items</th>
             </tr>
           </thead>
           <tbody>
             <?php
             if (!($stmt = $mysqli->prepare(
-              "SELECT b.id, b.type, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.latitude, b.longitude, i.name
+              "SELECT b.id, b.type, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.hours, b.latitude, b.longitude, i.name
               FROM business b LEFT JOIN business_category_item bci ON bci.bid = b.id
               LEFT JOIN item i ON i.id = bci.iid
               WHERE b.type =  'Repair' AND b.name != 'generic_repair_business'"))) {
@@ -112,11 +112,11 @@ if ($mysqli->connect_errno) {
               echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
 
-            if(!$stmt->bind_result($bID,$bT,$bN,$bStr,$bC,$bSta,$bZ,$bP,$bW,$bLat,$bLng,$iN)){
+            if(!$stmt->bind_result($bID,$bT,$bN,$bStr,$bC,$bSta,$bZ,$bP,$bW,$bH,$bLat,$bLng,$iN)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
             }
 
-            $prevbID = $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbLat = $prevbLng = NULL;
+            $prevbID = $prevbN = $prevbStr = $prevbC = $prevbSta = $prevbZ = $prevbP = $prevbW = $prevbH = $prevbLat = $prevbLng = NULL;
             $i=0;
             
             $arr = array();
@@ -142,6 +142,7 @@ if ($mysqli->connect_errno) {
                 $prevbZ = $bZ;
                 $prevbP = $bP;
                 $prevbW = $bW;
+                $prevbH = $bH;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
                 //echo print_r($arr,true);
@@ -157,8 +158,9 @@ if ($mysqli->connect_errno) {
                   <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
                   <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
                   <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+                  <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
                   <td>
-                  <ul>";
+                  <ul style=\"padding-left: 0;\">";
                 
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
@@ -179,6 +181,7 @@ if ($mysqli->connect_errno) {
                 $prevbZ = $bZ;
                 $prevbP = $bP;
                 $prevbW = $bW;
+                $prevbH = $bH;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
                 $arr[$i++] = $iN;
@@ -197,8 +200,9 @@ if ($mysqli->connect_errno) {
               <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
               <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
               <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+              <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
               <td>
-              <ul>";
+              <ul style=\"padding-left: 0;\">";
               foreach($arr as $v){
                 echo "<li>".$v."</li>";
                 echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
@@ -271,6 +275,13 @@ if ($mysqli->connect_errno) {
       <label for="bWebsite" class="col-sm-2 control-label">Website</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="bWebsite" value="<?php echo htmlspecialchars($_POST['repair-business-website']); ?>">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bHours" class="col-sm-2 control-label">Hours</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bHours" value="<?php echo htmlspecialchars($_POST['repair-business-hours']); ?>">
       </div>
       </div>
 
@@ -367,14 +378,21 @@ if ($mysqli->connect_errno) {
       <div class="form-group">
       <label for="bPhone" class="col-sm-2 control-label">Phone</label>
       <div class="col-sm-10">
-        <input type="tel" class="form-control" id="bPhone" placeholder="Phone number">
+        <input type="tel" class="form-control" id="bPhone" placeholder="Phone number (format 012-345-6789)">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bWebsite" class="col-sm-2 control-label">Website</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bWebsite" placeholder="Website">
+        <input type="text" class="form-control" id="bWebsite" placeholder="Website address (e.g. http://www.example.com)">
+      </div>
+      </div>
+      
+      <div class="form-group">
+      <label for="bHours" class="col-sm-2 control-label">Website</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="bHours" placeholder="Operating hours (e.g. Mon-Fri 9am-5:30pm, Sat 8:30am-4pm, Sun 10am-3pm)">
       </div>
       </div>
 
@@ -496,21 +514,22 @@ if ($mysqli->connect_errno) {
     var zipcode = document.getElementById("bZip").value;
     var phone = document.getElementById("bPhone").value;
     var website = document.getElementById("bWebsite").value;
+    var hours = document.getElementById("bHours").value;
     var address = street+", "+city+", "+state;
     geocoder.geocode( {'address': address}, function(geoCodedResults, status) {
       if (status == google.maps.GeocoderStatus.OK){
         var latitude = geoCodedResults[0].geometry.location.lat();
         var longitude = geoCodedResults[0].geometry.location.lng();
         //make AJAX request to PHP file to store lat lng
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, latitude, longitude, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       } else{
         //if not geocodable, transmit lat and lng as null
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, null, null, cbCheckedIdsJSON, null);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, null, null, cbCheckedIdsJSON, null);
       }
     });
   }
 
-  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, latitude, longitude, itemIdsChecked, itemIdsNotChecked){
+  function constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, latitude, longitude, itemIdsChecked, itemIdsNotChecked){
     if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
     else if(window.ActiveXObject){
       try {
@@ -537,10 +556,13 @@ if ($mysqli->connect_errno) {
     if(longitude==null){
       longitude='';
     }
+    if(hours==null){
+      hours='';
+    }
     if(action=='edit'){
-      postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+itemIdsNotChecked;
+      postParams = 'action='+action+'&business_id='+businessId+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&hours='+hours+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+itemIdsNotChecked;
     } else if(action=='add'){
-      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+null;
+      postParams = 'action='+action+'&business_name='+businessName+'&street='+street+'&city='+city+'&state='+state+'&zipcode='+zipcode+'&phone='+phone+'&website='+website+'&hours='+hours+'&lat='+latitude+'&long='+longitude+'&itemIdsChecked='+itemIdsChecked+'&itemIdsNotChecked='+null;
     }
     httpRequest.send(postParams);
   }
