@@ -95,7 +95,7 @@ if ($mysqli->connect_errno) {
               <th>Phone</th>
               <th>Website</th>
               <th>Operating Hours</th>
-              <th>Items</th>
+              <th>Items Accepted</th>
             </tr>
           </thead>
           <tbody>
@@ -129,8 +129,8 @@ if ($mysqli->connect_errno) {
             while($row = $stmt->fetch()){
               if($prevbID==NULL){ //only executes the first iteration
                 $prevbID = $bID;
-                //echo print_r($arr,true);
-                //echo "$bN 1<br>";
+                echo print_r($arr,true);
+                echo "$bN *1*<br>";
               }
               if($bID == $prevbID) {
                 $arr[$i++] = $iN;
@@ -145,8 +145,8 @@ if ($mysqli->connect_errno) {
                 $prevbH = $bH;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
-                //echo print_r($arr,true);
-                //echo "$bN 2<br>";
+                echo print_r($arr,true);
+                echo "$bN *2*<br>";
               } else {
                 echo
                   "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
@@ -168,8 +168,8 @@ if ($mysqli->connect_errno) {
                 }
                 echo "</ul></td>
                   <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-                //echo print_r($arr,true);
-                //echo "$bN 3<br>";
+                echo print_r($arr,true);
+                echo "$prevbN *3*<br>";
                 unset($arr);
                 $arr = array();
                 $i=0;
@@ -187,8 +187,8 @@ if ($mysqli->connect_errno) {
                 $arr[$i++] = $iN;
               }
               ++$j;
-              //echo print_r($arr,true);
-              //echo "$bN 4<br>";
+              echo print_r($arr,true);
+              echo "$bN *4*<br>";
             }
             echo
               "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
@@ -294,8 +294,7 @@ if ($mysqli->connect_errno) {
         if (!($stmt = $mysqli->prepare(
           "SELECT DISTINCT i.id, i.name FROM item i
           INNER JOIN business_category_item bci ON bci.iid=i.id
-          INNER JOIN category c ON c.id=bci.cid
-          WHERE c.id=16"))) {
+          INNER JOIN category c ON c.id=bci.cid WHERE c.id=16" ))) {
           echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
         }
 
@@ -313,7 +312,7 @@ if ($mysqli->connect_errno) {
           if (in_array($iN, $_POST['repair-items-accepted'])){
             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\" checked>"." ".$iN;
           } else{
-             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\">"." ".$iN;
+            echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\">"." ".$iN;
           }
           echo "</li>";
         }
@@ -330,11 +329,15 @@ if ($mysqli->connect_errno) {
       </div>
     </div>
     </form>
+    <hr style="width: 100%; color: black; height: 1px; background-color:#d3d3d3;" />
+    <br><br>
+
   <?php endif; ?>
  <?php endif; ?>
 
   </div><!--END EDIT ROW-->
 
+ 
   <div id="add"></div>
   <div class="row">
     <h3 style="padding-top: 70px;">Add Repair Business</h3>
@@ -524,7 +527,7 @@ if ($mysqli->connect_errno) {
         constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, latitude, longitude, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       } else{
         //if not geocodable, transmit lat and lng as null
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, null, null, cbCheckedIdsJSON, null);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, null, null, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       }
     });
   }

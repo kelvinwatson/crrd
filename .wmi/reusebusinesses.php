@@ -95,7 +95,7 @@ if ($mysqli->connect_errno) {
               <th>Phone</th>
               <th>Website</th>
               <th>Operating Hours</th>
-              <th>Items</th>
+              <th>Items Accepted</th>
             </tr>
           </thead>
           <tbody>
@@ -149,16 +149,16 @@ if ($mysqli->connect_errno) {
                 //echo "$bN 2<br>";
               } else {
                 echo
-                  "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
-                  <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
-                  <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
-                  <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
-                  <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
-                  <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
-                  <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
-                  <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-                  <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
-                  <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
+                  "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php#edit\" method=\"post\">
+                  <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"reuse-business-id\" value=\"".$prevbID."\"></td>
+                  <td>".$prevbN."<input type=\"hidden\" name=\"reuse-business-name\" value=\"".$prevbN."\"></td>
+                  <td>".$prevbStr."<input type=\"hidden\" name=\"reuse-business-street\" value=\"".$prevbStr."\"></td>
+                  <td>".$prevbC."<input type=\"hidden\" name=\"reuse-business-city\" value=\"".$prevbC."\"></td>
+                  <td>".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
+                  <td>".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
+                  <td>".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
+                  <td>".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
+                  <td>".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
                   <td><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
                   
                 //define modal
@@ -176,7 +176,7 @@ if ($mysqli->connect_errno) {
                             sort($arr);
                             foreach($arr as $v){
                               echo "<li>".$v."</li>";
-                              echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
+                              echo "<input type=\"hidden\" name=\"reuse-items-accepted[]\" value=\"".$v."\">";
                             }
                           } else{
                             echo "<li style=\"list-style-type: none;\">This business currently does not accept any items for reuse.</li>";
@@ -216,21 +216,21 @@ if ($mysqli->connect_errno) {
               //echo "$bN 4<br>";
             }
             echo
-              "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
-              <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
-              <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
-              <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
-              <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
-              <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
-              <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
-              <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-              <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
-              <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
+              "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php#edit\" method=\"post\">
+              <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"reuse-business-id\" value=\"".$prevbID."\"></td>
+              <td>".$prevbN."<input type=\"hidden\" name=\"reuse-business-name\" value=\"".$prevbN."\"></td>
+              <td>".$prevbStr."<input type=\"hidden\" name=\"reuse-business-street\" value=\"".$prevbStr."\"></td>
+              <td>".$prevbC."<input type=\"hidden\" name=\"reuse-business-city\" value=\"".$prevbC."\"></td>
+              <td>".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
+              <td>".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
+              <td>".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
+              <td>".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
+              <td>".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
               <td>
               <ul style=\"padding-left: 0;\">";
               foreach($arr as $v){
                 echo "<li>".$v."</li>";
-                echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
+                echo "<input type=\"hidden\" name=\"reuse-items-accepted[]\" value=\"".$v."\">";
               }
               echo "</ul></td>
                 <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
@@ -270,62 +270,62 @@ if ($mysqli->connect_errno) {
 
 <?php if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['user-action'])):?>
   <?php if($_POST['user-action']=='edit-business'):?>
-    <h3 style="padding-top: 70px;">Edit Repair Business</h3>
+    <h3 style="padding-top: 70px;">Edit Reuse Business</h3>
     <form class="form-horizontal" action="/">
 
       <div class="form-group">
-      <label for="bName" class="col-sm-2 control-label">Repair Business Name</label>
+      <label for="bName" class="col-sm-2 control-label">Reuse Business Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['repair-business-name']); ?>">
+        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['reuse-business-name']); ?>">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bStreet" class="col-sm-2 control-label">Street</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bStreet" value="<?php echo htmlspecialchars($_POST['repair-business-street']); ?>">
+        <input type="text" class="form-control" id="bStreet" value="<?php echo htmlspecialchars($_POST['reuse-business-street']); ?>">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bCity" class="col-sm-2 control-label">City</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bCity" value="<?php echo htmlspecialchars($_POST['repair-business-city']); ?>">
+        <input type="text" class="form-control" id="bCity" value="<?php echo htmlspecialchars($_POST['reuse-business-city']); ?>">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bState" class="col-sm-2 control-label">State</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bState" value="<?php echo htmlspecialchars($_POST['repair-business-state']); ?>">
+        <input type="text" class="form-control" id="bState" value="<?php echo htmlspecialchars($_POST['reuse-business-state']); ?>">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bZip" class="col-sm-2 control-label">Zip code</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bZip" value="<?php echo htmlspecialchars($_POST['repair-business-zip']); ?>">
+        <input type="text" class="form-control" id="bZip" value="<?php echo htmlspecialchars($_POST['reuse-business-zip']); ?>">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bPhone" class="col-sm-2 control-label">Phone</label>
       <div class="col-sm-10">
-        <input type="tel" class="form-control" id="bPhone" value="<?php echo htmlspecialchars($_POST['repair-business-phone']); ?>">
+        <input type="tel" class="form-control" id="bPhone" value="<?php echo htmlspecialchars($_POST['reuse-business-phone']); ?>">
       </div>
       </div>
 
       <div class="form-group">
       <label for="bWebsite" class="col-sm-2 control-label">Website</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bWebsite" value="<?php echo htmlspecialchars($_POST['repair-business-website']); ?>">
+        <input type="text" class="form-control" id="bWebsite" value="<?php echo htmlspecialchars($_POST['reuse-business-website']); ?>">
       </div>
       </div>
       
       <div class="form-group">
       <label for="bHours" class="col-sm-2 control-label">Hours</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bHours" value="<?php echo htmlspecialchars($_POST['repair-business-hours']); ?>">
+        <input type="text" class="form-control" id="bHours" value="<?php echo htmlspecialchars($_POST['reuse-business-hours']); ?>">
       </div>
       </div>
 
@@ -354,10 +354,10 @@ if ($mysqli->connect_errno) {
         while($stmt->fetch()){
           echo
           "<li>";
-          if (in_array($iN, $_POST['repair-items-accepted'])){
-            echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\" checked>"." ".$iN;
+          if (in_array($iN, $_POST['reuse-items-accepted'])){
+            echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-reuse-item-id\" value=\"".$iID."\" checked>"." ".$iN;
           } else{
-             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-repair-item-id\" value=\"".$iID."\">"." ".$iN;
+             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-reuse-item-id\" value=\"".$iID."\">"." ".$iN;
           }
           echo "</li>";
         }
@@ -369,25 +369,28 @@ if ($mysqli->connect_errno) {
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['repair-business-id']); ?>">
+        <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['reuse-business-id']); ?>">
         <button type="button" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
       </div>
     </div>
     </form>
+    <hr style="width: 100%; color: black; height: 1px; background-color:#d3d3d3;" />
+    <br><br>
+
   <?php endif; ?>
  <?php endif; ?>
-
   </div><!--END EDIT ROW-->
 
+  
   <div id="add"></div>
   <div class="row">
-    <h3 style="padding-top: 70px;">Add Repair Business</h3>
+    <h3 style="padding-top: 70px;">Add Reuse Business</h3>
     <form class="form-horizontal" action="/">
 
       <div class="form-group">
-      <label for="bName" class="col-sm-2 control-label">Repair Business Name</label>
+      <label for="bName" class="col-sm-2 control-label">Reuse Business Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bName" placeholder="Repair business name">
+        <input type="text" class="form-control" id="bName" placeholder="Reuse business name">
       </div>
       </div>
 
@@ -463,7 +466,7 @@ if ($mysqli->connect_errno) {
 
           while($stmt->fetch()){
             echo
-            "<li><input type=\"checkbox\" id=\"".$iID."\" name=\"add-repair-item-id\" value=\"".$iID."\">"." ".$iN."</li>";
+            "<li><input type=\"checkbox\" id=\"".$iID."\" name=\"add-reuse-item-id\" value=\"".$iID."\">"." ".$iN."</li>";
           }
           $stmt->close();
           ?>
@@ -514,7 +517,7 @@ if ($mysqli->connect_errno) {
     var businessId;
     if(action=='edit'){
       businessId = document.getElementById("bId").value;
-      var checkboxes = document.getElementsByName("edit-repair-item-id");
+      var checkboxes = document.getElementsByName("edit-reuse-item-id");
       var cbCheckedIds = [];
       var cbNotCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
@@ -525,7 +528,7 @@ if ($mysqli->connect_errno) {
         }
       }
       if(cbCheckedIds.length<=0){
-        Toast.error('You must select repair item.', 'Edit Status');
+        Toast.error('You must select reuse item.', 'Edit Status');
         return; //cannot have a business that does not accept any items
       }
       var cbCheckedIdsJSON = JSON.stringify(cbCheckedIds);
@@ -536,7 +539,7 @@ if ($mysqli->connect_errno) {
       console.log(cbNotCheckedIdsJSON);
     }
     if(action=='add'){
-      var checkboxes = document.getElementsByName("add-repair-item-id");
+      var checkboxes = document.getElementsByName("add-reuse-item-id");
       var cbCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
         if(checkboxes[k].checked){
@@ -544,7 +547,7 @@ if ($mysqli->connect_errno) {
         } 
       }
       if(cbCheckedIds.length<=0){
-        Toast.error('You must select repair item.', 'Edit Status');
+        Toast.error('You must select reuse item.', 'Edit Status');
         return; //cannot have a business that does not accept any items
       }
       var cbCheckedIdsJSON = JSON.stringify(cbCheckedIds);
@@ -568,7 +571,7 @@ if ($mysqli->connect_errno) {
         constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, latitude, longitude, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       } else{
         //if not geocodable, transmit lat and lng as null
-        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, null, null, cbCheckedIdsJSON, null);
+        constructRequest(action, businessId, businessName, street, city, state, zipcode, phone, website, hours, null, null, cbCheckedIdsJSON, cbNotCheckedIdsJSON);
       }
     });
   }
@@ -591,7 +594,7 @@ if ($mysqli->connect_errno) {
     }
 
     httpRequest.onreadystatechange = processResponse;
-    httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairBusiness.php',true);
+    httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeReuseBusiness.php',true);
     httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     var postParams;
     if(latitude==null){
@@ -619,15 +622,15 @@ if ($mysqli->connect_errno) {
         console.log(obj);
         if(obj.httpResponseCode==400){
           if(obj.response=='editFailure'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=False";
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php?editSuccess=False";
           }else if (obj.response=='addFailure'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=False";
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php?addSuccess=False";
           }
         } else{ //obj.httpResponseCode is 200
           if(obj.response=='editSuccess'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True";
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php?editSuccess=True";
           } else if(obj.response=='addSuccess'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=True";
+            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php?addSuccess=True";
           }
         }
       }else {
