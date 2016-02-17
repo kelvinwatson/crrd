@@ -150,16 +150,16 @@ if ($mysqli->connect_errno) {
               } else {
                 echo
                   "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php#edit\" method=\"post\">
-                  <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"reuse-business-id\" value=\"".$prevbID."\"></td>
-                  <td>".$prevbN."<input type=\"hidden\" name=\"reuse-business-name\" value=\"".$prevbN."\"></td>
-                  <td>".$prevbStr."<input type=\"hidden\" name=\"reuse-business-street\" value=\"".$prevbStr."\"></td>
-                  <td>".$prevbC."<input type=\"hidden\" name=\"reuse-business-city\" value=\"".$prevbC."\"></td>
-                  <td>".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
-                  <td>".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
-                  <td>".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
-                  <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
-                  <td>".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
-                  <td><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
+                  <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"reuse-business-id\" value=\"".$prevbID."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbN."<input type=\"hidden\" name=\"reuse-business-name\" value=\"".$prevbN."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbStr."<input type=\"hidden\" name=\"reuse-business-street\" value=\"".$prevbStr."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbC."<input type=\"hidden\" name=\"reuse-business-city\" value=\"".$prevbC."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
+                  <td style=\"padding-left:0px; white-space: nowrap;\">".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
+                  <td style=\"font-size:0.77em;word-wrap: break-word;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
+                  <td style=\"padding-left:0px;\"><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
                   
                 //define modal
                 echo "
@@ -217,16 +217,16 @@ if ($mysqli->connect_errno) {
             }
             echo
               "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php#edit\" method=\"post\">
-              <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"reuse-business-id\" value=\"".$prevbID."\"></td>
-              <td>".$prevbN."<input type=\"hidden\" name=\"reuse-business-name\" value=\"".$prevbN."\"></td>
-              <td>".$prevbStr."<input type=\"hidden\" name=\"reuse-business-street\" value=\"".$prevbStr."\"></td>
-              <td>".$prevbC."<input type=\"hidden\" name=\"reuse-business-city\" value=\"".$prevbC."\"></td>
-              <td>".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
-              <td>".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
-              <td>".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
-              <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
-              <td>".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
-              <td><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
+              <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"reuse-business-id\" value=\"".$prevbID."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbN."<input type=\"hidden\" name=\"reuse-business-name\" value=\"".$prevbN."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbStr."<input type=\"hidden\" name=\"reuse-business-street\" value=\"".$prevbStr."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbC."<input type=\"hidden\" name=\"reuse-business-city\" value=\"".$prevbC."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
+              <td style=\"font-size:0.77em;word-wrap:break-word;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
+              <td style=\"padding-left:0px;\"><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
               
               //define modal
                 echo "
@@ -359,38 +359,82 @@ if ($mysqli->connect_errno) {
       <label for="bItems" class="col-sm-2 control-label">Items</label>
       <div class="col-sm-10">
 
-      <ul class="list-unstyled">
-        <?php
-        if (!($stmt = $mysqli->prepare(
-          "SELECT DISTINCT i.id, i.name FROM item i
-          INNER JOIN business_category_item bci ON bci.iid=i.id
-          INNER JOIN category c ON c.id=bci.cid
-          WHERE c.id=16"))) {
-          echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
-
-        if (!$stmt->execute()) {
-          echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-        }
-
-        if(!$stmt->bind_result($iID, $iN)){
-          echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
-        }
-
-        while($stmt->fetch()){
-          echo
-          "<li>";
-          if (in_array($iN, $_POST['reuse-items-accepted'])){
-            echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-reuse-item-id\" value=\"".$iID."\" checked>"." ".$iN;
-          } else{
-             echo "<input type=\"checkbox\" id=\"".$iID."\" name=\"edit-reuse-item-id\" value=\"".$iID."\">"." ".$iN;
+      <?php
+          if (!($stmt = $mysqli->prepare(
+            "SELECT c.id, c.name, i.id, i.name FROM item i
+            INNER JOIN business_category_item bci ON bci.iid=i.id
+            INNER JOIN category c ON c.id=bci.cid WHERE cid != 16 ORDER BY c.name ASC"))) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
           }
-          echo "</li>";
-        }
-        $stmt->close();
 
-        ?>
-      </ul>
+          if (!$stmt->execute()) {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+          }
+
+          if(!$stmt->bind_result($cID, $cN, $iID, $iN)){
+            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
+          }
+          
+          ?>
+          <table class="table" style="font-size:0.9em;">  
+            <thead>
+              <th>Category</th>
+              <th>Items</th>
+            </thead>
+            <tbody>
+            <?php
+            $arr=array();
+            $prevcID=$prevcN=NULL;
+            while($stmt->fetch()){
+              //echo "WTF4";
+              if($prevcID==null){
+                $prevcID=$cID;
+                $prevcN=$cN;
+                //echo "<br><br>$cN==<br>";
+                //echo print_r($arr);
+                //echo "wtf5<br>";
+              }
+              if($prevcID==$cID){
+                $arr[$iID]=$iN; //associative array
+                $prevcID=$cID;
+                $prevcN=$cN;
+                //echo print_r($arr);
+                //echo "wtf6<br>";
+              } else {
+                //echo "<br><br>$prevcN==<br>";
+                //echo print_r($arr,true);
+                //echo "wtf7<br>";
+
+                echo "<tr><td>".$prevcN."</td>
+                <td><ul class=\"list-unstyled\">";
+                foreach($arr as $k=>$v){
+                  echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+                }
+                echo "</ul></td></tr>";
+                unset($arr);
+                $arr=array();
+                $prevcID=$cID;
+                $prevcN=$cN;
+                $arr[$iID]=$iN;
+                //echo "<br><br>$cN==<br>";
+                //echo print_r($arr,true);
+                //echo "wtf8<br>";
+              }
+            }
+            echo
+              "<tr><td>".$prevcN."</td>
+              <td><ul class=\"list-unstyled\">";
+              foreach($arr as $k=>$v){
+                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+              }
+            echo "</ul></td></tr>";
+            //echo "<br><br>$cN==<br>";
+            //echo print_r($arr,true);
+            //echo "wtf9<br>";
+            ?>
+            </tbody>
+          </table>
+          <?php $stmt->close(); ?>
 
 
     <div class="form-group">
@@ -472,13 +516,12 @@ if ($mysqli->connect_errno) {
       <div class="form-group">
         <label for="bItems" class="col-sm-2 control-label">Items</label>
         <div class="col-sm-10">
-          <ul class="list-unstyled">
+          
           <?php
           if (!($stmt = $mysqli->prepare(
-            "SELECT DISTINCT i.id, i.name FROM item i
+            "SELECT c.id, c.name, i.id, i.name FROM item i
             INNER JOIN business_category_item bci ON bci.iid=i.id
-            INNER JOIN category c ON c.id=bci.cid
-            WHERE c.id=16"))) {
+            INNER JOIN category c ON c.id=bci.cid WHERE cid != 16 ORDER BY c.name ASC"))) {
             echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
           }
 
@@ -486,17 +529,70 @@ if ($mysqli->connect_errno) {
             echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
           }
 
-          if(!$stmt->bind_result($iID, $iN)){
+          if(!$stmt->bind_result($cID, $cN, $iID, $iN)){
             echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
           }
-
-          while($stmt->fetch()){
-            echo
-            "<li><input type=\"checkbox\" id=\"".$iID."\" name=\"add-reuse-item-id\" value=\"".$iID."\">"." ".$iN."</li>";
-          }
-          $stmt->close();
+          
           ?>
-          </ul>
+          <table class="table" style="font-size:0.9em;">  
+            <thead>
+              <th>Category</th>
+              <th>Items</th>
+            </thead>
+            <tbody>
+            <?php
+            $arr=array();
+            $prevcID=$prevcN=NULL;
+            while($stmt->fetch()){
+              //echo "WTF4";
+              if($prevcID==null){
+                $prevcID=$cID;
+                $prevcN=$cN;
+                //echo "<br><br>$cN==<br>";
+                //echo print_r($arr);
+                //echo "wtf5<br>";
+              }
+              if($prevcID==$cID){
+                $arr[$iID]=$iN; //associative array
+                $prevcID=$cID;
+                $prevcN=$cN;
+                //echo print_r($arr);
+                //echo "wtf6<br>";
+              } else {
+                //echo "<br><br>$prevcN==<br>";
+                //echo print_r($arr,true);
+                //echo "wtf7<br>";
+
+                echo "<tr><td>".$prevcN."</td>
+                <td><ul class=\"list-unstyled\">";
+                foreach($arr as $k=>$v){
+                  echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+                }
+                echo "</ul></td></tr>";
+                unset($arr);
+                $arr=array();
+                $prevcID=$cID;
+                $prevcN=$cN;
+                $arr[$iID]=$iN;
+                //echo "<br><br>$cN==<br>";
+                //echo print_r($arr,true);
+                //echo "wtf8<br>";
+              }
+            }
+            echo
+              "<tr><td>".$prevcN."</td>
+              <td><ul class=\"list-unstyled\">";
+              foreach($arr as $k=>$v){
+                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+              }
+            echo "</ul></td></tr>";
+            //echo "<br><br>$cN==<br>";
+            //echo print_r($arr,true);
+            //echo "wtf9<br>";
+            ?>
+            </tbody>
+          </table>
+          <?php $stmt->close(); ?>
         </div>
       </div>
 
@@ -565,7 +661,7 @@ if ($mysqli->connect_errno) {
       console.log(cbNotCheckedIdsJSON);
     }
     if(action=='add'){
-      var checkboxes = document.getElementsByName("add-reuse-item-id");
+      var checkboxes = document.getElementsByName("add-reuse-catid-itemid");
       var cbCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
         if(checkboxes[k].checked){

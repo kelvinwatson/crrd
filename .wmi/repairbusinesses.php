@@ -150,16 +150,16 @@ if ($mysqli->connect_errno) {
               } else {
                 echo
                   "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
-                  <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
-                  <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
-                  <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
-                  <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
-                  <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
-                  <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
-                  <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-                  <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
-                  <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
-                  <td>
+                  <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
+                  <td style=\"white-space: nowrap; padding-left:0px;\">".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
+                  <td style=\"font-size:0.77em;word-wrap:break-word;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+                  <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
+                  <td style=\"padding-left:0px;\">
                   <ul style=\"padding-left: 0;\">";
                 
                 foreach($arr as $v){
@@ -192,15 +192,15 @@ if ($mysqli->connect_errno) {
             }
             echo
               "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
-              <td><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
-              <td>".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
-              <td>".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
-              <td>".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
-              <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
-              <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
-              <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-              <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
-              <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
+              <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbC."<input type=\"hidden\" name=\"repair-business-city\" value=\"".$prevbC."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
+              <td style=\"padding-left:0px;white-space: nowrap;\">".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
+              <td style=\"font-size:0.77em;word-wrap: break-word;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+              <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
               <td>
               <ul style=\"padding-left: 0;\">";
               foreach($arr as $v){
