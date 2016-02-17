@@ -83,7 +83,7 @@ if ($mysqli->connect_errno) {
   <div class="row"> <!--START VIEW TABLE ROW -->
     <h3>View/Edit Repair Businesses</h3>
     <div class="table">
-      <table class="table" style="font-size:0.8em">
+      <table class="table" style="font-size:0.8em; table-layout: fixed; word-wrap: break-word;">
         <thead>
             <tr>
               <th>Edit</th>
@@ -129,8 +129,8 @@ if ($mysqli->connect_errno) {
             while($row = $stmt->fetch()){
               if($prevbID==NULL){ //only executes the first iteration
                 $prevbID = $bID;
-                echo print_r($arr,true);
-                echo "$bN *1*<br>";
+                //echo print_r($arr,true);
+                //echo "$bN *1*<br>";
               }
               if($bID == $prevbID) {
                 $arr[$i++] = $iN;
@@ -145,8 +145,8 @@ if ($mysqli->connect_errno) {
                 $prevbH = $bH;
                 $prevbLat = $bLat;
                 $prevbLng = $bLng;
-                echo print_r($arr,true);
-                echo "$bN *2*<br>";
+                //echo print_r($arr,true);
+                //echo "$bN *2*<br>";
               } else {
                 echo
                   "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
@@ -157,7 +157,7 @@ if ($mysqli->connect_errno) {
                   <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
                   <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
                   <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-                  <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+                  <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
                   <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
                   <td>
                   <ul style=\"padding-left: 0;\">";
@@ -168,8 +168,8 @@ if ($mysqli->connect_errno) {
                 }
                 echo "</ul></td>
                   <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-                echo print_r($arr,true);
-                echo "$prevbN *3*<br>";
+                //echo print_r($arr,true);
+                //echo "$prevbN *3*<br>";
                 unset($arr);
                 $arr = array();
                 $i=0;
@@ -187,8 +187,8 @@ if ($mysqli->connect_errno) {
                 $arr[$i++] = $iN;
               }
               ++$j;
-              echo print_r($arr,true);
-              echo "$bN *4*<br>";
+              //echo print_r($arr,true);
+              //echo "$bN *4*<br>";
             }
             echo
               "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
@@ -199,7 +199,7 @@ if ($mysqli->connect_errno) {
               <td>".$prevbSta."<input type=\"hidden\" name=\"repair-business-state\" value=\"".$prevbSta."\"></td>
               <td>".$prevbZ."<input type=\"hidden\" name=\"repair-business-zip\" value=\"".$prevbZ."\"></td>
               <td>".$prevbP."<input type=\"hidden\" name=\"repair-business-phone\" value=\"".$prevbP."\"></td>
-              <td>".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
+              <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
               <td>".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
               <td>
               <ul style=\"padding-left: 0;\">";

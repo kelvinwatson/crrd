@@ -83,7 +83,7 @@ if ($mysqli->connect_errno) {
   <div class="row"> <!--START VIEW TABLE ROW -->
     <h3>View/Edit Reuse Businesses</h3>
     <div class="table">
-      <table class="table" style="font-size:0.8em">
+      <table class="table" style="font-size:0.8em; table-layout: fixed; word-wrap: break-word;">
         <thead>
             <tr>
               <th>Edit</th>
@@ -157,7 +157,7 @@ if ($mysqli->connect_errno) {
                   <td>".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
                   <td>".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
                   <td>".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
-                  <td>".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
+                  <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
                   <td>".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
                   <td><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
                   
@@ -224,16 +224,42 @@ if ($mysqli->connect_errno) {
               <td>".$prevbSta."<input type=\"hidden\" name=\"reuse-business-state\" value=\"".$prevbSta."\"></td>
               <td>".$prevbZ."<input type=\"hidden\" name=\"reuse-business-zip\" value=\"".$prevbZ."\"></td>
               <td>".$prevbP."<input type=\"hidden\" name=\"reuse-business-phone\" value=\"".$prevbP."\"></td>
-              <td>".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
+              <td style=\"font-size:0.75em;\">".$prevbW."<input type=\"hidden\" name=\"reuse-business-website\" value=\"".$prevbW."\"></td>
               <td>".$prevbH."<input type=\"hidden\" name=\"reuse-business-hours\" value=\"".$prevbH."\"></td>
-              <td>
-              <ul style=\"padding-left: 0;\">";
-              foreach($arr as $v){
-                echo "<li>".$v."</li>";
-                echo "<input type=\"hidden\" name=\"reuse-items-accepted[]\" value=\"".$v."\">";
-              }
-              echo "</ul></td>
-                <input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
+              <td><a style=\"cursor: pointer;\" data-toggle=\"modal\" data-target=\"#itemModal".$prevbID."\">Click to view items</a></td>";
+              
+              //define modal
+                echo "
+                <div class=\"modal fade\" id=\"itemModal".$prevbID."\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\">
+                  <div class=\"modal-dialog\" role=\"document\">
+                    <div class=\"modal-content\">
+                      <div class=\"modal-header\">
+                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>
+                        <h4 class=\"modal-title\" id=\"myModalLabel\">Reuse items accepted by ".$prevbN."</h4>
+                      </div>
+                      <div class=\"modal-body\">
+                        <ul>";
+                          if(!empty($arr)){
+                            sort($arr);
+                            foreach($arr as $v){
+                              echo "<li>".$v."</li>";
+                              echo "<input type=\"hidden\" name=\"reuse-items-accepted[]\" value=\"".$v."\">";
+                            }
+                          } else{
+                            echo "<li style=\"list-style-type: none;\">This business currently does not accept any items for reuse.</li>";
+                          }
+                echo    "</ul></td>";
+                echo "</div>
+                      <div class=\"modal-footer\">
+                        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>";
+                
+                
+                
+                echo "<input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
                 
             $stmt->free_result();
              
