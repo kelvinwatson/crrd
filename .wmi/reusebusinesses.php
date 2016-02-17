@@ -101,8 +101,9 @@ if ($mysqli->connect_errno) {
           <tbody>
             <?php
             if (!($stmt = $mysqli->prepare(
-              "SELECT b.id, b.type, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.hours, b.latitude, b.longitude, i.name
+              "SELECT b.id, b.type, b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.website, b.hours, b.latitude, b.longitude, c.id, c.name, i.id, i.name
               FROM business b LEFT JOIN business_category_item bci ON bci.bid = b.id
+              LEFT JOIN category c ON c.id=bci.cid
               LEFT JOIN item i ON i.id = bci.iid
               WHERE b.type =  'Reuse' AND b.name != 'generic_reuse_business'"))) {
               echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
@@ -112,7 +113,7 @@ if ($mysqli->connect_errno) {
               echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
 
-            if(!$stmt->bind_result($bID,$bT,$bN,$bStr,$bC,$bSta,$bZ,$bP,$bW,$bH,$bLat,$bLng,$iN)){
+            if(!$stmt->bind_result($bID,$bT,$bN,$bStr,$bC,$bSta,$bZ,$bP,$bW,$bH,$bLat,$bLng,$cI,$cN,$iI,$iN)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
             }
 
