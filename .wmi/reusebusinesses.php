@@ -172,25 +172,21 @@ if ($mysqli->connect_errno) {
                         <h4 class=\"modal-title\" id=\"myModalLabel\">Reuse items accepted by ".$prevbN."</h4>
                       </div>
                       <div class=\"modal-body\">
-                        <ul>";
+                        <div class=\"panel panel-default\">";
                           if(!empty($arrN)){
-                            //echo var_dump($arrN);
-                            //echo "<br><br>";
+                            ksort($arrN);
                             foreach($arrN as $categoryNames=>$itemArr){
-                              echo "<li>$categoryNames</li>";
+                              echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryNames</h3></div><div class=\"panel-body\">";
                               echo "<ul>";
-                             
                               for($i=0, $len=count($itemArr); $i<$len; $i++){
-                                
                                 echo "<li>".$itemArr[$i]."</li>";
-                                //echo "<input type=\"hidden\" name=\"reuse-cat-items-accepted[]\" value=\"".$k."-".$v."\">";
                               }
-                              echo "</ul>";
+                              echo "</ul></div>";
                             }
                           } else{
-                            echo "<li style=\"list-style-type: none;\">This business currently does not accept any items for reuse.</li>";
+                            echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">No items</h3></div><div class=\"panel-body\">This business currently does not accept any items for reuse.</div>";
                           }
-                echo    "</ul></td>";
+                echo    "</div></td>";
                 echo "</div>
                       <div class=\"modal-footer\">
                         <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>
@@ -250,18 +246,21 @@ if ($mysqli->connect_errno) {
                         <h4 class=\"modal-title\" id=\"myModalLabel\">Reuse items accepted by ".$prevbN."</h4>
                       </div>
                       <div class=\"modal-body\">
-                        <ul>";
+                        <div class=\"panel panel-default\">";
                           if(!empty($arrN)){
-                            sort($arrN);
-                            foreach($arrN as $c){
-                              foreach($c as $i)
-                              echo "<li>".$c." ".$i."</li>";
-                              //echo "<input type=\"hidden\" name=\"reuse-cat-items-accepted[]\" value=\"".$k."-".$v."\">";
+                            ksort($arrN);
+                            foreach($arrN as $categoryNames=>$itemArr){
+                              echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryNames</h3></div><div class=\"panel-body\">";
+                              echo "<ul>";
+                              for($i=0, $len=count($itemArr); $i<$len; $i++){
+                                echo "<li>".$itemArr[$i]."</li>";
+                              }
+                              echo "</ul></div>";
                             }
                           } else{
-                            echo "<li style=\"list-style-type: none;\">This business currently does not accept any items for reuse.</li>";
+                            echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">No items</h3></div><div class=\"panel-body\">This business currently does not accept any items for reuse.</div>";
                           }
-                echo    "</ul></td>";
+                echo    "</div></td>";
                 echo "</div>
                       <div class=\"modal-footer\">
                         <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>
