@@ -421,7 +421,6 @@ if ($mysqli->connect_errno) {
             while($stmt->fetch()){
               //echo "WTF4";
               echo "<br>";
-              echo var_dump($currCatItemName);
               echo "<br>";
               
               if($prevcID==null){
@@ -443,8 +442,10 @@ if ($mysqli->connect_errno) {
                 //echo "wtf7<br>";
                 echo "<tr><td>".$prevcN."</td>
                 <td><ul class=\"list-unstyled\">";
+                
                 foreach($arr as $k=>$v){ //arr is itemID:itemName pair
                   $currCatItemName=$prevcN."=".$v;
+                  echo $currCatItemName;
                   if(in_array($currCatItemName,$catItemNameArr)){
                     echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
                   } else{
@@ -465,9 +466,15 @@ if ($mysqli->connect_errno) {
             echo
               "<tr><td>".$prevcN."</td>
               <td><ul class=\"list-unstyled\">";
-              foreach($arr as $k=>$v){
-                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
-              }
+              foreach($arr as $k=>$v){ //arr is itemID:itemName pair
+                  $currCatItemName=$prevcN."=".$v;
+                  echo $currCatItemName;
+                  if(in_array($currCatItemName,$catItemNameArr)){
+                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
+                  } else{
+                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
+                  }
+                }
             echo "</ul></td></tr>";
             //echo "<br><br>$cN==<br>";
             //echo print_r($arr,true);
