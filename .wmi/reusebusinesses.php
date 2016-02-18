@@ -175,11 +175,12 @@ if ($mysqli->connect_errno) {
                         <div class=\"panel panel-default\">";
                           if(!empty($arrN)){
                             ksort($arrN);
-                            foreach($arrN as $categoryNames=>$itemArr){
-                              echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryNames</h3></div><div class=\"panel-body\">";
+                            foreach($arrN as $categoryName=>$itemArr){
+                              echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryName</h3></div><div class=\"panel-body\">";
                               echo "<ul>";
                               for($i=0, $len=count($itemArr); $i<$len; $i++){
                                 echo "<li>".$itemArr[$i]."</li>";
+                                echo "<input type=\"hidden\" name=\"reuse-cats-items-accepted[]\" value=\"".$categoryName."=".$itemArr[$i]."\">";
                               }
                               echo "</ul></div>";
                             }
@@ -249,11 +250,12 @@ if ($mysqli->connect_errno) {
                         <div class=\"panel panel-default\">";
                           if(!empty($arrN)){
                             ksort($arrN);
-                            foreach($arrN as $categoryNames=>$itemArr){
-                              echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryNames</h3></div><div class=\"panel-body\">";
+                            foreach($arrN as $categoryName=>$itemArr){
+                              echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryName</h3></div><div class=\"panel-body\">";
                               echo "<ul>";
                               for($i=0, $len=count($itemArr); $i<$len; $i++){
                                 echo "<li>".$itemArr[$i]."</li>";
+                                echo "<input type=\"hidden\" name=\"reuse-cats-items-accepted[]\" value=\"".$categoryName."=".$itemArr[$i]."\">";
                               }
                               echo "</ul></div>";
                             }
@@ -308,6 +310,24 @@ if ($mysqli->connect_errno) {
 
 <?php if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['user-action'])):?>
   <?php if($_POST['user-action']=='edit-business'):?>
+    <?php //echo var_dump($_POST);
+    //echo "<br>";
+    //echo print_r($_POST);
+    //echo var_dump($_POST['reuse-cats-items-accepted']);
+    error_log(print_r($_POST,true),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    //parse out the equals sign
+    
+    $catItemNameArr = $_POST['reuse-cats-items-accepted'];
+    echo var_dump($catItemNameArr);
+    /*for($k=0, $len=count($catItemNameArr); $k<$len; $k++){
+      $kvar=explode("=",$catItemNameArr[$k]);
+      echo $kvar[0];
+      echo "<br>";
+      echo $kvar[1];
+    }*/
+    
+    ?>  
+    
     <h3 style="padding-top: 70px;">Edit Reuse Business</h3>
     <form class="form-horizontal" action="/">
 
@@ -396,9 +416,14 @@ if ($mysqli->connect_errno) {
             <tbody>
             <?php
             $arr=array();
-            $prevcID=$prevcN=NULL;
+            $prevcID=$prevcN=$currCatItemName=NULL;
+            
             while($stmt->fetch()){
               //echo "WTF4";
+              echo "<br>";
+              echo var_dump($currCatItemName);
+              echo "<br>";
+              
               if($prevcID==null){
                 $prevcID=$cID;
                 $prevcN=$cN;
@@ -416,11 +441,15 @@ if ($mysqli->connect_errno) {
                 //echo "<br><br>$prevcN==<br>";
                 //echo print_r($arr,true);
                 //echo "wtf7<br>";
-
                 echo "<tr><td>".$prevcN."</td>
                 <td><ul class=\"list-unstyled\">";
-                foreach($arr as $k=>$v){
-                  echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+                foreach($arr as $k=>$v){ //arr is itemID:itemName pair
+                  $currCatItemName=$prevcN."=".$v;
+                  if(in_array($currCatItemName,$catItemNameArr)){
+                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
+                  } else{
+                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
+                  }
                 }
                 echo "</ul></td></tr>";
                 unset($arr);
@@ -437,7 +466,7 @@ if ($mysqli->connect_errno) {
               "<tr><td>".$prevcN."</td>
               <td><ul class=\"list-unstyled\">";
               foreach($arr as $k=>$v){
-                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
               }
             echo "</ul></td></tr>";
             //echo "<br><br>$cN==<br>";
