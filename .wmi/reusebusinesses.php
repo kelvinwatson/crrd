@@ -314,11 +314,10 @@ if ($mysqli->connect_errno) {
     //echo "<br>";
     //echo print_r($_POST);
     //echo var_dump($_POST['reuse-cats-items-accepted']);
-    error_log(print_r($_POST,true),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-    //parse out the equals sign
+    //error_log(print_r($_POST,true),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
     
     $catItemNameArr = $_POST['reuse-cats-items-accepted'];
-    echo var_dump($catItemNameArr);
+    //echo var_dump($catItemNameArr);
     /*for($k=0, $len=count($catItemNameArr); $k<$len; $k++){
       $kvar=explode("=",$catItemNameArr[$k]);
       echo $kvar[0];
@@ -420,8 +419,6 @@ if ($mysqli->connect_errno) {
             
             while($stmt->fetch()){
               //echo "WTF4";
-              echo "<br>";
-              echo "<br>";
               
               if($prevcID==null){
                 $prevcID=$cID;
@@ -445,7 +442,7 @@ if ($mysqli->connect_errno) {
                 
                 foreach($arr as $k=>$v){ //arr is itemID:itemName pair
                   $currCatItemName=$prevcN."=".$v;
-                  echo $currCatItemName;
+                  //echo $currCatItemName;
                   if(in_array($currCatItemName,$catItemNameArr)){
                     echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
                   } else{
@@ -468,7 +465,7 @@ if ($mysqli->connect_errno) {
               <td><ul class=\"list-unstyled\">";
               foreach($arr as $k=>$v){ //arr is itemID:itemName pair
                   $currCatItemName=$prevcN."=".$v;
-                  echo $currCatItemName;
+                  //echo $currCatItemName;
                   if(in_array($currCatItemName,$catItemNameArr)){
                     echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
                   } else{
