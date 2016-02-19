@@ -586,7 +586,7 @@ if ($mysqli->connect_errno) {
                 echo "<tr><td>".$prevcN."</td>
                 <td><ul class=\"list-unstyled\">";
                 foreach($arr as $k=>$v){
-                  echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+                  echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
                 }
                 echo "</ul></td></tr>";
                 unset($arr);
@@ -603,7 +603,7 @@ if ($mysqli->connect_errno) {
               "<tr><td>".$prevcN."</td>
               <td><ul class=\"list-unstyled\">";
               foreach($arr as $k=>$v){
-                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."-".$k."\">"." ".$v."</li>";
+                echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
               }
             echo "</ul></td></tr>";
             //echo "<br><br>$cN==<br>";
@@ -684,11 +684,13 @@ if ($mysqli->connect_errno) {
       console.log(cbNotCheckedIdsJSON);
     }
     if(action=='add'){
+      debugger;
       var checkboxes = document.getElementsByName("add-reuse-catid-itemid");
+      console.log(checkboxes);
       var cbCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
         if(checkboxes[k].checked){
-          cbCheckedIds.push(parseInt(checkboxes[k].value));
+          cbCheckedIds.push(checkboxes[k].value);
         } 
       }
       if(cbCheckedIds.length<=0){

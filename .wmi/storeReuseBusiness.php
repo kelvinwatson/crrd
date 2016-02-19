@@ -191,27 +191,31 @@ if ($action == 'edit'){
   error_log("businessId just inserted",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
   error_log("$businessId",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
   
-  // $stmtBCI=null;
-  // if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,16,?)"))) {
-    // $obj->httpResponseCode = 400;
-    // $obj->response = "addFailure";
-    // $obj->errorMessage = 'Prepare for add checked item failed.';
-    // echo json_encode($obj);
-    // return;
-  // }
-  // error_log("add prep ok",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-  // error_log(print_r($itemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+  $stmtBCI=null;
+  if (!($stmtBCI = $mysqli->prepare("INSERT INTO business_category_item(bid,cid,iid) VALUES(?,?,?)"))) {
+    $obj->httpResponseCode = 400;
+    $obj->response = "addFailure";
+    $obj->errorMessage = 'Prepare for add checked item failed.';
+    echo json_encode($obj);
+    return;
+  }
+  error_log("add prep ok",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+  error_log(print_r($catItemIdsChecked,TRUE),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
   
-  // for ($i=0; $i<count($itemIdsChecked); ++$i) {
-    // $itemId = $itemIdsChecked[$i];
-    // $categoryId = 16;
-    // try{
-      // $stmtBCI->bind_param("ii", $businessId, $itemId);
-      // $stmtBCI->execute(); //insert regardless and ignore errors
-    // } catch( Exception $e ){
-      // error_log("exception!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
-    // }
-  // }  
+  for ($k=0,$aLen=count($catItemIdsChecked); $k<$aLen; ++$k) {
+    $Akvarr=explode("=",$catItemIdsChecked[$k]); //explode the string into an two-element array [catId,itemId]
+    $AcatId=(int)$Akvarr[0];
+    $AitemId=(int)$Akvarr[1];
+    error_log("catId=".$AcatId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    error_log("itemId=".$AitemId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    error_log("businessId=".$businessId,3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
+    try{
+      $stmtBCI->bind_param("iii", $businessId, $AcatId, $AitemId);
+      $stmtBCI->execute(); //insert regardless and ignore errors
+    } catch( Exception $e ){
+      error_log("exception!",3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");  
+    }
+  }  
   
   $obj->httpResponseCode = 200;
   $obj->response = "addSuccess";
