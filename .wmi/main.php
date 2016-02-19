@@ -107,7 +107,7 @@
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <a href="removereusebusinesses.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-remove"></span>
@@ -264,7 +264,7 @@
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <a href="removerepairbusinesses.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-remove"></span>
