@@ -270,42 +270,18 @@ if ($mysqli->connect_errno) {
                     </div>
                   </div>
                 </div>";
-                
-                
-                
                 echo "<input type=\"hidden\" name=\"user-action\" value=\"edit-business\"></form></tr>";
-                
+      
             $stmt->free_result();
-             
             $stmt->close();
             ?>
           </tbody>
       </table>
     </div>
-
   </div> <!--END VIEW TABLE ROW-->
 
-  <!--DEFINE MODAL
-  <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>-->
   
   <div id="edit"></div>
-
   <div class="row"><!--EDIT ROW-->
 
 <?php if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['user-action'])):?>
@@ -416,27 +392,26 @@ if ($mysqli->connect_errno) {
             <?php
             $arr=array();
             $prevcID=$prevcN=$currCatItemName=NULL;
-            
+ 
             while($stmt->fetch()){
-              //echo "WTF4";
-              
+              //echo "print4";
               if($prevcID==null){
                 $prevcID=$cID;
                 $prevcN=$cN;
                 //echo "<br><br>$cN==<br>";
                 //echo print_r($arr);
-                //echo "wtf5<br>";
+                //echo "print5<br>";
               }
               if($prevcID==$cID){
                 $arr[$iID]=$iN; //associative array
                 $prevcID=$cID;
                 $prevcN=$cN;
                 //echo print_r($arr);
-                //echo "wtf6<br>";
+                //echo "print6<br>";
               } else {
                 //echo "<br><br>$prevcN==<br>";
                 //echo print_r($arr,true);
-                //echo "wtf7<br>";
+                //echo "print7<br>";
                 echo "<tr><td>".$prevcN."</td>
                 <td><ul class=\"list-unstyled\">";
                 
@@ -444,9 +419,9 @@ if ($mysqli->connect_errno) {
                   $currCatItemName=$prevcN."=".$v;
                   //echo $currCatItemName;
                   if(in_array($currCatItemName,$catItemNameArr)){
-                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
+                    echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  //value format is cID:iID
                   } else{
-                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
+                    echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
                   }
                 }
                 echo "</ul></td></tr>";
@@ -457,7 +432,7 @@ if ($mysqli->connect_errno) {
                 $arr[$iID]=$iN;
                 //echo "<br><br>$cN==<br>";
                 //echo print_r($arr,true);
-                //echo "wtf8<br>";
+                //echo "print8<br>";
               }
             }
             echo
@@ -467,15 +442,15 @@ if ($mysqli->connect_errno) {
                   $currCatItemName=$prevcN."=".$v;
                   //echo $currCatItemName;
                   if(in_array($currCatItemName,$catItemNameArr)){
-                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  
+                    echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  //value format is cID:iID
                   } else{
-                    echo "<li><input type=\"checkbox\" name=\"add-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
+                    echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
                   }
                 }
             echo "</ul></td></tr>";
             //echo "<br><br>$cN==<br>";
             //echo print_r($arr,true);
-            //echo "wtf9<br>";
+            //echo "print9<br>";
             ?>
             </tbody>
           </table>
@@ -485,7 +460,7 @@ if ($mysqli->connect_errno) {
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <input type="hidden" id="bId" value="<?php echo htmlspecialchars($_POST['reuse-business-id']); ?>">
-        <button type="button" class="btn btn-primary" onclick="codeAddress('edit'); return false;">Confirm Edit</button>
+        <button type="button" class="btn btn-primary" onclick="prepareParams('edit'); return false;">Confirm Edit</button>
       </div>
     </div>
     </form>
@@ -643,7 +618,7 @@ if ($mysqli->connect_errno) {
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="button" class="btn btn-primary" onclick="codeAddress('add'); return false;">Add Business</button>
+          <button type="button" class="btn btn-primary" onclick="prepareParams('add'); return false;">Add Business</button>
         </div>
       </div>
 
@@ -678,20 +653,21 @@ if ($mysqli->connect_errno) {
     }
   }
 
-  function codeAddress(action){
+  function prepareParams(action){
     console.log(action);
     var geocoder = new google.maps.Geocoder();
     var businessId;
     if(action=='edit'){
       businessId = document.getElementById("bId").value;
-      var checkboxes = document.getElementsByName("edit-reuse-item-id");
+      var checkboxes = document.getElementsByName("edit-reuse-catid-itemid");
+      //console.log(checkboxes);
       var cbCheckedIds = [];
       var cbNotCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
         if(checkboxes[k].checked){
-          cbCheckedIds.push(parseInt(checkboxes[k].value));
+          cbCheckedIds.push(checkboxes[k].value);
         } else{
-          cbNotCheckedIds.push(parseInt(checkboxes[k].value));
+          cbNotCheckedIds.push(checkboxes[k].value);
         }
       }
       if(cbCheckedIds.length<=0){
