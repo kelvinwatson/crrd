@@ -662,7 +662,7 @@ if ($mysqli->connect_errno) {
       return;
     }
     Toast.defaults.displayDuration=2000; 
-    Toast.warning('Processing...','Please wait');
+    Toast.warning('Processing your request...','Please wait');
     console.log(action);
     var geocoder = new google.maps.Geocoder();
     var businessId;
