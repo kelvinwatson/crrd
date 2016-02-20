@@ -85,7 +85,7 @@
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <a href="reusebusinesses.php#add" class="list-group-item">
         			<div class="row">
         				<div class="col-xs-1">
         					<span class="glyphicon glyphicon-plus" style="margin-top:10px;"></span>
@@ -96,7 +96,7 @@
         				</div>
           		</div>
             </a>
-            <a class="list-group-item">
+            <a href="reusebusinesses.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-pencil"></span>
@@ -172,7 +172,7 @@
 
           <h4>Reuse Items</h4>
           <div class="list-group">
-            <a class="list-group-item">
+            <a href="reuseitems.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-eye-open"></span>
@@ -183,7 +183,7 @@
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <a href="reuseitems.php#add" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1">
                   <span class="glyphicon glyphicon-plus" style="margin-top:10px;"></span>
