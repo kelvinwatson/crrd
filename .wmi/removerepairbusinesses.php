@@ -59,7 +59,7 @@ function removeBusiness($bID){
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="main.php">Home</a></li>
+        <li><a href="main.php">Home</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quick Links<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -79,12 +79,12 @@ function removeBusiness($bID){
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged In<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-log-in"></span> Logged In<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#"><span class="glyphicon glyphicon-asterisk"></span>  Logged In</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
+            <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
           </ul>
         </li>
       </ul>

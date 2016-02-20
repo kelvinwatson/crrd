@@ -31,7 +31,7 @@
         <li><a href="http://sustainablecorvallis.org/contact/" target="_blank">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-
+        <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
@@ -45,31 +45,7 @@
 <div class="row">
   <div class="col-xs-0 col-md-3"></div>
   <div class="col-xs-12 col-md-6">
-    <div class="well bs-component">
-      <form action="main.php" method="post" class="form-horizontal">
-        <fieldset>
-          <legend>Login to continue</legend>
-          <div class="form-group">
-            <label for="inputEmail" class="col-md-2 control-label">Email</label>
-            <div class="col-md-10">
-              <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword" class="col-md-2 control-label">Password</label>
-            <div class="col-md-10">
-              <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-md-10 col-md-offset-2">
-              <button type="reset" class="btn btn-default">Reset</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </div>
-        </fieldset>
-      </form>
-    </div>
+    <h2>You have successfully logged out.</h2>
   </div>
   <div class="col-xs-0 col-md-3"></div>
 </div><!--END ROW-->

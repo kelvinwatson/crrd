@@ -40,7 +40,7 @@ if ($mysqli->connect_errno) {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="main.php">Home</a></li>
+        <li><a href="main.php">Home</a></li>
         <!--<li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>-->
         <li class="dropdown">
@@ -62,12 +62,12 @@ if ($mysqli->connect_errno) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged In<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-log-in"></span> Logged In<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#"><span class="glyphicon glyphicon-asterisk"></span>  Logged In</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
+            <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -309,7 +309,7 @@ if ($mysqli->connect_errno) {
       <div class="form-group">
       <label for="bName" class="col-sm-2 control-label">Reuse Business Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['reuse-business-name']); ?>">
+        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['reuse-business-name']); ?>" required>
       </div>
       </div>
 
@@ -480,7 +480,7 @@ if ($mysqli->connect_errno) {
       <div class="form-group">
       <label for="bName" class="col-sm-2 control-label">Reuse Business Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bName" placeholder="Reuse business name">
+        <input type="text" class="form-control" id="bName" placeholder="Reuse business name" required>
       </div>
       </div>
 
@@ -650,10 +650,17 @@ if ($mysqli->connect_errno) {
       Toast.success('Add Successful!', 'Add Confirmation');
     }else if(queryStr=='?addSuccess=False'){
       Toast.error('There was an error in one or more of your inputs!', 'Add Status');
+    }else if(queryStr=='?err=NoBusinessName'){
+      Toast.error('You did not specify a business name.', 'Error');     
     }
   }
 
   function prepareParams(action){
+    var businessName = document.getElementById("bName").value;
+    if(!businessName.match(/\S/)){ //if empty name, short circuit
+      window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusebusinesses.php?err=NoBusinessName";
+      return;
+    }
     Toast.defaults.displayDuration=2000; 
     Toast.warning('Processing...','Please wait');
     console.log(action);
@@ -701,7 +708,6 @@ if ($mysqli->connect_errno) {
       console.log('==ADD checkboxes checked==');
       console.log(cbCheckedIdsJSON);
     }
-    var businessName = document.getElementById("bName").value; //internal use only
     var street = document.getElementById("bStreet").value;
     var city = document.getElementById("bCity").value;
     var state = document.getElementById("bState").value;
