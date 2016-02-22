@@ -1,5 +1,6 @@
 /*Iron Router*/
 Router.route('/', function(){ //when user navigates to /
+  fetchAllData();
   this.layout('android'); //use layout called template name="android"
   this.render('android_home_bread_crumbs',{
     to: 'bread_crumbs'
@@ -12,6 +13,61 @@ Router.route('/', function(){ //when user navigates to /
   });
 });
 
+function fetchAllData(){
+  fetchReuseData();
+  fetchRepairData();
+}
+
+function fetchReuseData(){
+  fetchReuseCategories();
+}
+function fetchReuseCategories(){
+  Meteor.call('getReuseCategories', function (err, data) {
+    var reuseCategories = data;
+    if (!err) {
+      Session.setPersistent('reuseCategories', data);
+    }
+  });
+}
+
+function fetchRepairData(){
+  fetchRepairItems();
+  fetchRepairBusinesses();
+  fetchIndividualBusiness();
+}
+
+function fetchRepairItems(){
+  Meteor.call('getRepairItems', function (err, data) {
+    var repairItems = data;
+    if (!err) {
+      Session.setPersistent('repairItems', data);
+    }
+  });
+}
+
+function fetchRepairBusinesses(){
+  if(Session.get('repairItems')){
+    var repairItemsArr=Session.get('repairItems');
+    for(let i=0,lenR=repairItemsArr.length; i<lenR; i++){
+      console.log(repairItemsArr[i]);
+      Meteor.call('getRepairBusinesses',repairItemsArr[i].name,function(err,data){
+        if(!err){
+          Session.setPersistent('repairBusinessesFor'+repairItemsArr[i].name,data); //Session.setPersistent('repairBusinessessFor_',selectedItem);
+          console.log(Session.get('repairBusinessesFor'+repairItemsArr[i].name));
+          var repairBusinessesArr = Session.get('repairBusinessesFor'+repairItemsArr[i].name);
+          for(let j=0, lenB=repairBusinessesArr.length; j<lenB; j++){
+            Session.setPersistent(repairBusinessesArr[j].name, repairBusinessesArr[j]);
+            console.log(Session.get(repairBusinessesArr[j].name));
+          }
+        }
+      });
+    }
+  }
+}
+
+function fetchIndividualBusiness(){
+
+}
 Router.route('/recycle', function(){ //when user navigates to /
   this.layout('android'); //use layout called template name="android"
   this.render('android_recycle_bread_crumbs',{
@@ -46,33 +102,60 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
   this.render('blank_template',{
     to: 'map'
   });
-  Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
-    var repairBusiness = data;
-    if (!err) {
-      Session.setPersistent(selectedBusiness, data);
-      self.render('business_profile',{
-        to: 'main_content', //yield main_content
-        data: function() {
-          return {
-            title: title,
-            selectedRepair: selectedRepair,
-            selectedItem: selectedItem,
-            businessName: repairBusiness.name,
-            businessStreet: repairBusiness.street,
-            businessCity: repairBusiness.city,
-            businessState: repairBusiness.state,
-            businessZip: repairBusiness.zip,
-            businessPhone: repairBusiness.phone,
-            businessHours: repairBusiness.hours,
-            businessWebsite: repairBusiness.website,
-            businessLat: repairBusiness.lat,
-            businessLng: repairBusiness.lng,
-            businessInfo: repairBusiness.info,
-          };
-        }
-      });
-    }
-  });
+  if(Session.get(selectedBusiness)){
+    console.log("cached data");
+    var repairBusiness = Session.get(selectedBusiness);
+    self.render('business_profile',{
+      to: 'main_content', //yield main_content
+      data: function() {
+        return {
+          title: title,
+          selectedRepair: selectedRepair,
+          selectedItem: selectedItem,
+          businessName: repairBusiness.name,
+          businessStreet: repairBusiness.street,
+          businessCity: repairBusiness.city,
+          businessState: repairBusiness.state,
+          businessZip: repairBusiness.zip,
+          businessPhone: repairBusiness.phone,
+          businessHours: repairBusiness.hours,
+          businessWebsite: repairBusiness.website,
+          businessLat: repairBusiness.lat,
+          businessLng: repairBusiness.lng,
+          businessInfo: repairBusiness.info,
+        };
+      }
+    });
+  }else{
+    console.log("NEW data");
+    Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
+      var repairBusiness = data;
+      if (!err) {
+        Session.setPersistent(selectedBusiness, data);
+        self.render('business_profile',{
+          to: 'main_content', //yield main_content
+          data: function() {
+            return {
+              title: title,
+              selectedRepair: selectedRepair,
+              selectedItem: selectedItem,
+              businessName: repairBusiness.name,
+              businessStreet: repairBusiness.street,
+              businessCity: repairBusiness.city,
+              businessState: repairBusiness.state,
+              businessZip: repairBusiness.zip,
+              businessPhone: repairBusiness.phone,
+              businessHours: repairBusiness.hours,
+              businessWebsite: repairBusiness.website,
+              businessLat: repairBusiness.lat,
+              businessLng: repairBusiness.lng,
+              businessInfo: repairBusiness.info,
+            };
+          }
+        });
+      }
+    });
+  }
 });
 
 
@@ -99,38 +182,67 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
-  Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
-    var repairBusinesses = data;
-    if (!err) {
-      Session.setPersistent('repairBusinesses', data);
-      Session.setPersistent('reuseMap',false);
-      Session.setPersistent('repairMap',true);
-      self.render(googleMap,{
-        to: 'map', //yield map
-        data: function(){
-          return { //one or both of selectedItem / selectedBusiness will be undefined
-            repairTitle: repairTitle,
-            selectedRepair: selectedRepair,
-            selectedReuse: null,
-            selectedItem: selectedItem,
-            repairBusinesses: repairBusinesses
-          };
-        }
-      });
-      self.render('android_list_group',{
-        to: 'main_content', //yield main_content
-        data: function() {
-          return {
-            repairTitle: repairTitle,
-            selectedRepair: selectedRepair,
-            selectedReuse: null,
-            selectedItem: selectedItem,
-            repairBusinesses: repairBusinesses
-          };
-        }
-      });
-    }
-  });
+  if(Session.get('repairBusinessesFor'+selectedItem)){
+    console.log("already fetched these businesses! woot!");
+    var repairBusinesses = Session.get('repairBusinessesFor'+selectedItem)
+    this.render(googleMap,{
+      to: 'map', //yield map
+      data: function(){
+        return { //one or both of selectedItem / selectedBusiness will be undefined
+          repairTitle: repairTitle,
+          selectedRepair: selectedRepair,
+          selectedReuse: null,
+          selectedItem: selectedItem,
+          repairBusinesses: repairBusinesses
+        };
+      }
+    });
+    this.render('android_list_group',{
+      to: 'main_content', //yield main_content
+      data: function() {
+        return {
+          repairTitle: repairTitle,
+          selectedRepair: selectedRepair,
+          selectedReuse: null,
+          selectedItem: selectedItem,
+          repairBusinesses: repairBusinesses
+        };
+      }
+    });
+  } else{
+    console.log("fetching for the first time! boo");
+    Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
+      var repairBusinesses = data;
+      if (!err) {
+        Session.setPersistent('reuseMap',false);
+        Session.setPersistent('repairMap',true);
+        self.render(googleMap,{
+          to: 'map', //yield map
+          data: function(){
+            return { //one or both of selectedItem / selectedBusiness will be undefined
+              repairTitle: repairTitle,
+              selectedRepair: selectedRepair,
+              selectedReuse: null,
+              selectedItem: selectedItem,
+              repairBusinesses: repairBusinesses
+            };
+          }
+        });
+        self.render('android_list_group',{
+          to: 'main_content', //yield main_content
+          data: function() {
+            return {
+              repairTitle: repairTitle,
+              selectedRepair: selectedRepair,
+              selectedReuse: null,
+              selectedItem: selectedItem,
+              repairBusinesses: repairBusinesses
+            };
+          }
+        });
+      }
+    });
+  }
 });
 
 /*User selected repair panel, load items */
