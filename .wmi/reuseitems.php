@@ -18,7 +18,7 @@ if ($mysqli->connect_errno) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~nguyekhi/cs419/.wmi/favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
   <link href="css/toast.css" rel="stylesheet">
@@ -201,7 +201,7 @@ if ($mysqli->connect_errno) {
   function manageItem(action){
     var itemName = document.getElementById("iName").value;
     if(!itemName.match(/\S/)){
-      window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reuseitems.php?addSuccess=False&err=NoItemName";
+      window.location = "https://web.engr.oregonstate.edu/~nguyekhi/cs419/.wmi/reuseitems.php?addSuccess=False&err=NoItemName";
       return;
     }
     var c = document.getElementById("reuse-category-select");
@@ -229,7 +229,7 @@ if ($mysqli->connect_errno) {
         return false;
       }
       httpRequest.onreadystatechange = processResponse;
-      httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeReuseItem.php',true);
+      httpRequest.open('POST','https://web.engr.oregonstate.edu/~nguyekhi/cs419/.wmi/storeReuseItem.php',true);
       httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
       var postParams = 'action='+action+'&category_id='+categoryId+'&item_name='+itemName;
       httpRequest.send(postParams); 
@@ -245,12 +245,12 @@ if ($mysqli->connect_errno) {
         if(obj.httpResponseCode==400){
           if (obj.response=='addFailure'){
             if(obj.errorMessage=='Duplicate item.'){
-                window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reuseitems.php?addSuccess=False"; 
+                window.location = "https://web.engr.oregonstate.edu/~nguyekhi/cs419/.wmi/reuseitems.php?addSuccess=False"; 
             }
           }
         } else{ //obj.httpResponseCode is 200
           if(obj.response=='addSuccess'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reuseitems.php?addSuccess=True"; 
+            window.location = "https://web.engr.oregonstate.edu/~nguyekhi/cs419/.wmi/reuseitems.php?addSuccess=True"; 
           }
         }
       }else console.log('Problem with the request');
