@@ -39,7 +39,7 @@ function removeBusiness($bID){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
   <link href="css/toast.css" rel="stylesheet">
@@ -121,7 +121,7 @@ function removeBusiness($bID){
         }
         while($stmt->fetch()){
           echo
-          "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/removerepairbusinesses.php?deleteDone=True\" method=\"post\">
+          "<tr><form action=\"removerepairbusinesses.php?deleteDone=True\" method=\"post\">
           <td><input data-toggle=\"modal\" data-target=\"#deleteBusinessModal".$bID."\" class=\"btn btn-danger\" value=\"delete\" type=\"button\">
           <input type=\"hidden\" name=\"repair-business-id\" value=\"".$bID."\"></td>
           <td>".$bN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$bN."\"></td>
