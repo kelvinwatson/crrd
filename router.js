@@ -75,7 +75,7 @@ function fetchRepairBusinesses(){
       if(data.length>0){
         for(let i=0, len=data.length; i<len; i++){
           Session.setPersistent('repairBusiness'+data[i].name, data[i]);
-          console.log(Session.get('repairBusiness'+data[i].name));
+          //console.log(Session.get('repairBusiness'+data[i].name));
         }
       }
     }
@@ -118,7 +118,7 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
     to: 'map'
   });
   if(Session.get('repairBusiness'+repairBusinessName)){
-    console.log("cached data");
+    //console.log("cached data");
     var repairBusiness = Session.get('repairBusiness'+repairBusinessName);
     self.render('business_profile',{
       to: 'main_content', //yield main_content
@@ -198,13 +198,13 @@ Router.route('/repair/repairItem/:itemName', function(){
     to: 'map'
   });
   if(Session.get('repairBusinessesFor'+selectedItem)){
-    console.log("using cached data");
+    //console.log("using cached data");
     Session.setPersistent('reuseMap',false);
     Session.setPersistent('repairMap',true);
     //console.log("already fetched these businesses! woot!");
     //console.log(Session.get('repairBusinessesFor'+selectedItem));
     var repairBusinesses = Session.get('repairBusinessesFor'+selectedItem)
-    console.log(repairBusinesses);
+    //console.log(repairBusinesses);
     self.render(googleMap,{
       to: 'map', //yield map
       data: function(){
@@ -230,9 +230,9 @@ Router.route('/repair/repairItem/:itemName', function(){
       }
     });
   } else{
-    console.log("fetching for the first time! boo");
+    //console.log("fetching for the first time! boo");
     Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
-      console.log(data);
+      //console.log(data);
       var repairBusinesses = data;
       if (!err) {
         Session.setPersistent('reuseMap',false);
