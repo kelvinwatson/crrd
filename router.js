@@ -93,6 +93,7 @@ Router.route('/recycle', function(){ //when user navigates to /
 });
 
 Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', function(){
+  debugger;
   var self = this;
   var selectedRepair = 'Repair';
   var repairItemName = this.params.itemName;
@@ -106,7 +107,7 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
       return { //one or both of selectedItem / selectedBusiness will be undefined
         selectedRepair: selectedRepair,
         repairItem: repairItemName,
-        repairBusiness: repairBusinessName
+        repairBusinessName: repairBusinessName
       }
     }
   });
@@ -117,8 +118,8 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
     to: 'map'
   });
   if(Session.get('repairBusiness'+repairBusinessName)){
-    //console.log("cached data");
-    var repairBusiness = Session.get(repairBusinessName);
+    console.log("cached data");
+    var repairBusiness = Session.get('repairBusiness'+repairBusinessName);
     self.render('business_profile',{
       to: 'main_content', //yield main_content
       data: function() {

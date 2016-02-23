@@ -25,13 +25,10 @@ if (Meteor.isClient) {
 
   Template.android_repair_business_bread_crumbs.helpers({
     'item': function(){
-      return this.selectedItem;
+      return this.repairItem;
     },
     'business': function(){
-      return this.selectedBusiness;
-    },
-    'category': function(){
-      return this.selectedCategory;
+      return this.repairBusinessName;
     },
   });
 
@@ -74,7 +71,6 @@ if (Meteor.isClient) {
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
     var self = this.data;
-    debugger;
     GoogleMaps.ready('businessesMap', function(map) {
       if(Session.get('repairMap') && !Session.get('reuseMap')){
         if(self){
@@ -83,7 +79,6 @@ if (Meteor.isClient) {
           for(let k=0; k<repairBusinesses.length; k++){
             (function(){
               if(repairBusinesses[k].lat && repairBusinesses[k].lng){
-                debugger;
                 var marker = new google.maps.Marker({
                   position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
                   map: map.instance
@@ -104,7 +99,6 @@ if (Meteor.isClient) {
           map.instance.fitBounds(bounds);
         }
       }else if(Session.get('reuseMap')){
-        debugger;
         if(self){
           var reuseBusinesses = self.reuseBusinesses;
           let bounds = new google.maps.LatLngBounds();
