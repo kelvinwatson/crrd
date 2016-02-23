@@ -194,10 +194,10 @@ if (Meteor.isClient) {
     'title': function(){
       if(this.repairTitle){
         return this.repairTitle;
-      } else if (this.selectedItem){
-        return this.selectedItem;
+      } else if (this.repairItem){
+        return this.repairItem;
       } else if(this.repairBusiness){
-        return this.selectedBusiness;
+        return this.repairBusiness;
       } else if (this.reuseTitle){
         return this.reuseTitle;
       }
@@ -206,15 +206,17 @@ if (Meteor.isClient) {
       if(this.repairItems){
         return this.repairItems;
       } else if(this.repairBusinesses){
-        return Session.get('repairBusinesses');
-      } else if (this.selectedBusiness){
-        return Session.get('selectedBusiness');
+        return this.repairBusinesses;
+      } else if (this.repairBusiness){
+        return this.repairBusiness;
       } else if(this.reuseCategories){
-        return Session.get('reuseCategories');
+        return this.reuseCategories;
       } else if(this.reuseItems){
-        return Session.get('reuseItems');
+        return this.reuseItems;
       } else if(this.reuseBusinesses){
-        return Session.get('reuseBusinesses');
+        return this.reuseBusinesses;
+      } else if(this.reuseBusiness){
+        return this.reuseBusiness;
       }
     }
   });
