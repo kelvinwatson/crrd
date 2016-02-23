@@ -75,8 +75,10 @@ if (Meteor.isClient) {
     Blaze._allowJavascriptUrls();
     var self = this.data;
     GoogleMaps.ready('businessesMap', function(map) {
-      if(Session.get('repairMap')){
-        var repairBusinesses = Session.get('repairBusinesses');
+      if(Session.get('repairMap') && !Session.get('reuseMap')){
+        var repairBusinesses = self.repairBusinesses;
+        console.log("onCreatedMapRepair");
+        console.log(repairBusinesses);
         if(repairBusinesses){
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<repairBusinesses.length; k++){
@@ -102,7 +104,8 @@ if (Meteor.isClient) {
           map.instance.fitBounds(bounds);
         }
       }else if(Session.get('reuseMap')){
-        var reuseBusinesses = Session.get('reuseBusinesses');
+        console.log("onCreatedMapReuse");
+        var reuseBusinesses = self.reuseBusinesses;
         if(reuseBusinesses){
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<reuseBusinesses.length; k++){
