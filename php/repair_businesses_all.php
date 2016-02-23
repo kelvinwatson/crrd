@@ -16,7 +16,7 @@ if ($mysqli->connect_errno) {
 if (!$mysqli->set_charset("utf8")) {
 	$obj->http_response_code = 400;
 	$obj->error_description = 'Error loading character set utf8.';
-	echo json_encode($obj);
+	echo json_encode($obj);		
 	return;
 }
 

@@ -96,7 +96,7 @@ if ($mysqli->connect_errno) {
               "SELECT DISTINCT i.id, i.name FROM item i
               INNER JOIN business_category_item bci ON bci.iid=i.id
               INNER JOIN category c ON c.id=bci.cid
-              WHERE c.id=16"))) {
+              WHERE c.id=16 ORDER BY i.name ASC"))) {
               echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
             }
             
@@ -201,6 +201,10 @@ if ($mysqli->connect_errno) {
   
   function manageRepairItem(action){
     var itemName = document.getElementById("iName").value;
+    if(!itemName.match(/\S/)){ //if empty name, short circuit
+      window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairitems.php?genSuccess=False&err=NoItemName";
+      return;
+    }
     if(action=='edit'){
       console.log(action);
       var itemId = document.getElementById("iId").value;
