@@ -74,14 +74,16 @@ if (Meteor.isClient) {
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
     var self = this.data;
+    debugger;
     GoogleMaps.ready('businessesMap', function(map) {
-      if(Session.get('repairMap')){
-        var repairBusinesses = Session.get('repairBusinesses');
-        if(repairBusinesses){
+      if(Session.get('repairMap') && !Session.get('reuseMap')){
+        if(self){
+          var repairBusinesses = self.repairBusinesses;
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<repairBusinesses.length; k++){
             (function(){
               if(repairBusinesses[k].lat && repairBusinesses[k].lng){
+                debugger;
                 var marker = new google.maps.Marker({
                   position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
                   map: map.instance
@@ -102,8 +104,9 @@ if (Meteor.isClient) {
           map.instance.fitBounds(bounds);
         }
       }else if(Session.get('reuseMap')){
-        var reuseBusinesses = Session.get('reuseBusinesses');
-        if(reuseBusinesses){
+        debugger;
+        if(self){
+          var reuseBusinesses = self.reuseBusinesses;
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<reuseBusinesses.length; k++){
             (function(){
@@ -145,8 +148,66 @@ if (Meteor.isClient) {
   });
 
   Template.android_map.onRendered(function(){
+    var self = this.data;
     Blaze._allowJavascriptUrls();
     GoogleMaps.load();
+
+    /*if(Session.get('repairMap') && !Session.get('reuseMap')){
+      if(self){
+        var repairBusinesses = self.repairBusinesses;
+        let bounds = new google.maps.LatLngBounds();
+        for(let k=0; k<repairBusinesses.length; k++){
+          (function(){
+            if(repairBusinesses[k].lat && repairBusinesses[k].lng){
+              debugger;
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
+                map: map.instance
+              });
+              new google.maps.event.addListener(marker, 'click', function(){
+                var infoStr = repairBusinesses[k].name+'<br>'+
+                repairBusinesses[k].street+' '+repairBusinesses[k].city+
+                  ', '+repairBusinesses[k].state;
+                var infowindow = new google.maps.InfoWindow({
+                  content: infoStr
+                });
+                infowindow.open(map.instance,marker);
+              });
+              bounds.extend(marker.position);
+            }
+          }())
+        }
+        map.instance.fitBounds(bounds);
+      }
+    }else if(Session.get('reuseMap')){
+      console.log("null2?");
+      var reuseBusinesses = self.reuseBusinesses;
+      debugger;
+      if(reuseBusinesses){
+        let bounds = new google.maps.LatLngBounds();
+        for(let k=0; k<reuseBusinesses.length; k++){
+          (function(){
+            if(reuseBusinesses[k].lat && reuseBusinesses[k].lng){
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(reuseBusinesses[k].lat,reuseBusinesses[k].lng),
+                map: map.instance
+              });
+              new google.maps.event.addListener(marker, 'click', function(){
+                var infoStr = reuseBusinesses[k].name+'<br>'+
+                reuseBusinesses[k].street+' '+reuseBusinesses[k].city+
+                  ', '+reuseBusinesses[k].state;
+                var infowindow = new google.maps.InfoWindow({
+                  content: infoStr
+                });
+                infowindow.open(map.instance,marker);
+              });
+              bounds.extend(marker.position);
+            }
+          }())
+        }
+        map.instance.fitBounds(bounds);
+      }
+    }*/
   });
 
   Template.business_profile.helpers({
@@ -194,10 +255,10 @@ if (Meteor.isClient) {
     'title': function(){
       if(this.repairTitle){
         return this.repairTitle;
-      } else if (this.selectedItem){
-        return this.selectedItem;
+      } else if (this.repairItem){
+        return this.repairItem;
       } else if(this.repairBusiness){
-        return this.selectedBusiness;
+        return this.repairBusiness;
       } else if (this.reuseTitle){
         return this.reuseTitle;
       }
@@ -206,15 +267,17 @@ if (Meteor.isClient) {
       if(this.repairItems){
         return this.repairItems;
       } else if(this.repairBusinesses){
-        return Session.get('repairBusinesses');
-      } else if (this.selectedBusiness){
-        return Session.get('selectedBusiness');
+        return this.repairBusinesses;
+      } else if (this.repairBusiness){
+        return this.repairBusiness;
       } else if(this.reuseCategories){
-        return Session.get('reuseCategories');
+        return this.reuseCategories;
       } else if(this.reuseItems){
-        return Session.get('reuseItems');
+        return this.reuseItems;
       } else if(this.reuseBusinesses){
-        return Session.get('reuseBusinesses');
+        return this.reuseBusinesses;
+      } else if(this.reuseBusiness){
+        return this.reuseBusiness;
       }
     }
   });
@@ -222,8 +285,6 @@ if (Meteor.isClient) {
   Template.android_list_group.events({
     'click .list-group-item': function(){
       var route;
-      var repairItem;
-      var repairBusiness;
       if(this.type=='repairItem'){ //user selected an item
         Session.set('selectedAction','repair');
         Session.setPersistent('selectedItem',this.name);
@@ -262,6 +323,11 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getAllRepairBusinesses: function () {
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses_all.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
     getRepairBusiness: function (business) {
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_business.php?repairBusiness="+business;
       let resp = HTTP.get(url);
@@ -277,6 +343,11 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getAllReuseItems: function(){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_items_all.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
     getReuseBusinesses: function(item){
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses.php?reuseItem="+item;
       let resp = HTTP.get(url);
@@ -287,5 +358,10 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getAllReuseBusinesses: function(){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses_all_items.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    }
   });
 }

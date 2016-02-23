@@ -18,7 +18,7 @@ if ($mysqli->connect_errno) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
   <link href="css/toast.css" rel="stylesheet">
@@ -106,7 +106,7 @@ if ($mysqli->connect_errno) {
             }
             while($stmt->fetch()){
               echo
-              "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/reusecategories.php#view-items\" method=\"post\">
+              "<tr><form action=\"reusecategories.php#view-items\" method=\"post\">
               <td><input class=\"btn btn-success\" type=\"submit\" value=\"view\">
               <input type=\"hidden\" name=\"reuse-category-id\" value=\"".$cID."\"></td>
               <td>".$cN."<input type=\"hidden\" name=\"reuse-category-name\" value=\"".$cN."\"></td>
@@ -165,6 +165,26 @@ if ($mysqli->connect_errno) {
 
   </div><!--END VIEW ROW-->
 
+  <div id="add"></div>
+  <div class="row"> <!-- START ADD ROW -->
+    <h3 style="padding-top: 70px;">Add Reuse Category</h3>
+    <form class="form-horizontal" action="/">
+      
+      <div class="form-group">
+      <label for="cName" class="col-sm-2 control-label">Category Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="cName" placeholder="Category">
+      </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="button" class="btn btn-primary" onclick="manageCategory('add'); return false;">Add Category</button>
+        </div>
+      </div>
+      
+    </form>
+  </div><!-- END ADD ROW -->
 </div><!--END CONTAINER -->
 
 <!--SCRIPTS-->
@@ -172,7 +192,95 @@ if ($mysqli->connect_errno) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?"></script>
+
+<script type="text/javascript">
+  
+  Toast.defaults.width='600px';
+  Toast.defaults.displayDuration=7000;        
+  
+  window.onload = function(){
+    var queryStr = window.location.search;
+    if(queryStr=='?addSuccess=True'){
+      Toast.success('Category added successfully!', 'Add Confirmation');      
+    } else if(queryStr=='?addSuccess=False&err=NoCategoryName'){
+      Toast.error('You did not enter a category name.', 'Add Failed');        
+    } else if(queryStr=="?genSuccess=False&err=NoCategoryName"){
+      Toast.error('You did not enter a category name.', 'Failed');
+    } else if(queryStr =="?addSuccess=False&err=Duplicate"){
+      Toast.error('Category already exists in database.', 'Failed');      
+    }
+  }
+  
+  function manageCategory(action){
+    var categoryName = document.getElementById("cName").value;
+    if (action=='add'){
+      console.log(action);
+      constructRequest('add',null,categoryName,null);
+    }
+  }
+  
+  
+  
+  function constructRequest(action, categoryId, categoryName, formData){
+      if(window.XMLHttpRequest) httpRequest = new XMLHttpRequest();
+      else if(window.ActiveXObject){
+        try { 
+          httpRequest = new ActiveXObject('Msxml2.XMLHTTP');
+        }
+        catch(e){
+          try{  
+            httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
+          } catch(e){}
+        }
+      }
+      if (!httpRequest){
+        alert('Unable to create XMLHTTP instance.');
+        return false;
+      }
+      httpRequest.onreadystatechange = processResponse;
+      httpRequest.open('POST','storeReuseCategories.php',true);
+      httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');    
+      var postParams;
+      if(action=='add'){
+        debugger;
+        postParams = 'action='+action+'&category_name='+categoryName;
+      }
+      httpRequest.send(postParams); 
+  }
+
+  
+  function processResponse(){
+    try{
+      console.log(httpRequest.readyState);
+      if(httpRequest.readyState===4 && httpRequest.status===200){
+        var obj = JSON.parse(httpRequest.responseText);
+        console.log(obj);
+        if(obj.httpResponseCode==400){
+          if (obj.response=='addFailure'){
+            if(obj.errorMessage=='Missing category name.'){
+                window.location = "reusecategories.php?addSuccess=False&err=NoCategoryName"; 
+             }
+            if(obj.errorMessage=='Duplicate category.'){
+                window.location = "reusecategories.php?addSuccess=False&err=Duplicate"; 
+             }
+          } else if (obj.response=='failure'){
+            if(obj.errorMessage=='Category name is not set.'){
+                window.location = "reusecategories.php?genSuccess=False&err=NoCategoryName"; 
+            }
+          }
+        } else{ //obj.httpResponseCode is 200
+          if(obj.response=='addSuccess'){
+            window.location = "reusecategories.php?addSuccess=True";   
+          }
+        }
+      }else console.log('Problem with the request');
+    } catch(e){
+      console.log('Caught Exception: ' + e);
+    }
+  }
+  
+</script>
 
 </body>
 </html>

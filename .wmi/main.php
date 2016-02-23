@@ -40,7 +40,7 @@
             <li role="separator" class="divider"></li>
             <li class="dropdown-header">REPAIR</li>
             <li><a href="repairbusinesses.php">Businesses</a></li>
-            <li><a href="repairitems.php">Items</a></li>
+            <li><a href="repairItems.php">Items</a></li>
             <li role="separator" class="divider"></li>
             <li class="dropdown-header">RECYCLE</li>
             <li><a href="#">Links</a></li>
@@ -131,6 +131,17 @@
                 <div class="col-xs-11">
                   <h4 class="list-group-item-heading">View item categories</h4>
                   <p class="list-group-item-text">View existing item categories in the database.</p>
+                </div>
+              </div>
+            </a>
+            <a href="reusecategories.php#add" class="list-group-item">
+              <div class="row">
+                <div class="col-xs-1">
+                  <span class="glyphicon glyphicon-plus" style="margin-top:10px;"></span>
+                </div>
+                <div class="col-xs-11">
+                  <h4 class="list-group-item-heading">Add category</h4>
+                  <p class="list-group-item-text">Create a category and add it to an existing category list.</p>
                 </div>
               </div>
             </a>
@@ -281,7 +292,7 @@
 
           <h4>Repair Items</h4>
           <div class="list-group">
-            <a href="repairitems.php" class="list-group-item">
+            <a href="repairItems.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-eye-open"></span>
@@ -292,7 +303,7 @@
                 </div>
               </div>
             </a>
-            <a href="repairitems.php#add" class="list-group-item">
+            <a href="repairItems.php#add" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1">
                   <span class="glyphicon glyphicon-plus" style="margin-top:10px;"></span>

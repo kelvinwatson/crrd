@@ -149,7 +149,7 @@ if ($mysqli->connect_errno) {
                 //echo "$bN *2*<br>";
               } else {
                 echo
-                  "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
+                  "<tr><form action=\"repairbusinesses.php#edit\" method=\"post\">
                   <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
                   <td style=\"padding-left:0px;\">".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
                   <td style=\"padding-left:0px;\">".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
@@ -191,7 +191,7 @@ if ($mysqli->connect_errno) {
               //echo "$bN *4*<br>";
             }
             echo
-              "<tr><form action=\"https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php#edit\" method=\"post\">
+              "<tr><form action=\"repairbusinesses.php#edit\" method=\"post\">
               <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"repair-business-id\" value=\"".$prevbID."\"></td>
               <td style=\"padding-left:0px;\">".$prevbN."<input type=\"hidden\" name=\"repair-business-name\" value=\"".$prevbN."\"></td>
               <td style=\"padding-left:0px;\">".$prevbStr."<input type=\"hidden\" name=\"repair-business-street\" value=\"".$prevbStr."\"></td>
@@ -473,7 +473,7 @@ if ($mysqli->connect_errno) {
     console.log(action);
     var businessName = document.getElementById("bName").value;
     if(!businessName.match(/\S/)){ //if empty name, short circuit
-      window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?err=NoBusinessName";
+      window.location = "repairbusinesses.php?err=NoBusinessName";
       return;
     }
     var geocoder = new google.maps.Geocoder();
@@ -556,7 +556,7 @@ if ($mysqli->connect_errno) {
     }
 
     httpRequest.onreadystatechange = processResponse;
-    httpRequest.open('POST','https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/storeRepairBusiness.php',true);
+    httpRequest.open('POST','storeRepairBusiness.php',true);
     httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     var postParams;
     if(latitude==null){
@@ -584,15 +584,15 @@ if ($mysqli->connect_errno) {
         console.log(obj);
         if(obj.httpResponseCode==400){
           if(obj.response=='editFailure'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=False";
+            window.location = "repairbusinesses.php?editSuccess=False";
           }else if (obj.response=='addFailure'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=False";
+            window.location = "repairbusinesses.php?addSuccess=False";
           }
         } else{ //obj.httpResponseCode is 200
           if(obj.response=='editSuccess'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?editSuccess=True";
+            window.location = "repairbusinesses.php?editSuccess=True";
           } else if(obj.response=='addSuccess'){
-            window.location = "https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/repairbusinesses.php?addSuccess=True";
+            window.location = "repairbusinesses.php?addSuccess=True";
           }
         }
       }else {
