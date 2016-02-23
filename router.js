@@ -35,46 +35,24 @@ function fetchReuseCategories(){
 }
 
 function fetchReuseItems(){
-  if(Session.get('reuseCategories')){
-    var reuseCategoriesArr = Session.get('reuseCategories');
-    var reuseItemsArr = [];
-    for(let i=0, lenC=reuseCategoriesArr.length; i<lenC; i++){
-      Meteor.call('getReuseItems', reuseCategoriesArr[i].name, function (err, data) {
-        var reuseItems = data;
-        if (!err) {
-          Session.setPersistent('reuseItemsInCategory'+reuseCategoriesArr[i].name, data);
-          for(let j=0, lenI=reuseItems.length; j<lenI; j++){
-            //console.log(reuseItems[j]);
-            reuseItemsArr.push(reuseItems[j]);
-            Session.setPersistent('reuseItems',reuseItemsArr);
-          }
-        }
-      });
+  Meteor.call('getAllReuseItems', function (err, data) {
+    var reuseCategories = data;
+    if (!err) {
+      Session.setPersistent('reuseItems', data);
     }
-
-  }
+  });
 }
 
 function fetchReuseBusinesses(){
-  if(Session.get('reuseItems')){
-    var reuseItemsArr=Session.get('reuseItems');
-    for(var i=0, lenI=reuseItemsArr.length; i<lenI; i++){
-      console.log(reuseItemsArr[i].name);
-      Meteor.call('getReuseBusinesses', reuseItemsArr[i].name, function (err, data) {
-        var reuseBusinessesArr = data;
-        if (!err) {
-          //console.log("FETCHED REUSE BUSINESSES for"+reuseItemsArr[i].name);
-          Session.setPersistent('reuseBusinessesForItem'+reuseItemsArr[i].name, reuseBusinessesArr);
-          for(var j=0, lenB=reuseBusinessesArr.length; j<lenB; j++){
-              console.log(reuseBusinessArr[j]);
-              console.log(reuseBusinessArr[j].name);
-              Session.setPersistent('reuseBusiness'+reuseBusinessesArr[j].name,reuseBusinessesArr[j]);
-          }
+  Meteor.call('getAllReuseBusinesses', function (err, data) {
+    if(!err){
+      if(data.length>0){
+        for(let i=0, len=data.length; i<len; i++){
+          Session.setPersistent('reuseBusiness'+data[i].name, data[i]);
         }
-      });
+      }
     }
-  }
-  //console.log("SESSION NOT SET!");
+  });
 }
 
 function fetchRepairData(){
@@ -92,23 +70,16 @@ function fetchRepairItems(){
 }
 
 function fetchRepairBusinesses(){
-  if(Session.get('repairItems')){
-    var repairItemsArr=Session.get('repairItems');
-    for(let i=0,lenR=repairItemsArr.length; i<lenR; i++){
-      //console.log(repairItemsArr[i]);
-      Meteor.call('getRepairBusinesses',repairItemsArr[i].name,function(err,data){
-        if(!err){
-          Session.setPersistent('repairBusinessesFor'+repairItemsArr[i].name,data); //Session.setPersistent('repairBusinessessFor_',selectedItem);
-          //console.log(Session.get('repairBusinessesFor'+repairItemsArr[i].name));
-          var repairBusinessesArr = Session.get('repairBusinessesFor'+repairItemsArr[i].name);
-          for(let j=0, lenB=repairBusinessesArr.length; j<lenB; j++){
-            Session.setPersistent(repairBusinessesArr[j].name, repairBusinessesArr[j]);
-            //console.log(Session.get(repairBusinessesArr[j].name));
-          }
+  Meteor.call('getAllRepairBusinesses', function (err, data) {
+    if(!err){
+      if(data.length>0){
+        for(let i=0, len=data.length; i<len; i++){
+          Session.setPersistent('repairBusiness'+data[i].name, data[i]);
+          console.log(Session.get('repairBusiness'+data[i].name));
         }
-      });
+      }
     }
-  }
+  });
 }
 
 Router.route('/recycle', function(){ //when user navigates to /
@@ -145,8 +116,8 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
   this.render('blank_template',{
     to: 'map'
   });
-  if(Session.get(repairBusinessName)){
-    console.log("cached data");
+  if(Session.get('repairBusiness'+repairBusinessName)){
+    //console.log("cached data");
     var repairBusiness = Session.get(repairBusinessName);
     self.render('business_profile',{
       to: 'main_content', //yield main_content
@@ -170,7 +141,7 @@ Router.route('/repair/repairItem/:itemName/repairBusiness/:businessName', functi
       }
     });
   }else{
-    console.log("NEW data");
+    //console.log("NEW data");
     Meteor.call('getRepairBusiness', selectedBusiness, function (err, data) {
       var repairBusiness = data;
       if (!err) {
@@ -228,8 +199,8 @@ Router.route('/repair/repairItem/:itemName', function(){
   if(Session.get('repairBusinessesFor'+selectedItem)){
     Session.setPersistent('reuseMap',false);
     Session.setPersistent('repairMap',true);
-    console.log("already fetched these businesses! woot!");
-    console.log(Session.get('repairBusinessesFor'+selectedItem));
+    //console.log("already fetched these businesses! woot!");
+    //console.log(Session.get('repairBusinessesFor'+selectedItem));
     var repairBusinesses = Session.get('repairBusinessesFor'+selectedItem)
     self.render(googleMap,{
       to: 'map', //yield map
@@ -256,7 +227,7 @@ Router.route('/repair/repairItem/:itemName', function(){
       }
     });
   } else{
-    console.log("fetching for the first time! boo");
+    //console.log("fetching for the first time! boo");
     Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
       var repairBusinesses = data;
       if (!err) {
@@ -337,7 +308,7 @@ Router.route('/repair', function(){
 
 
 Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:businessName', function(){
-  console.log("OK???");
+  //console.log("OK???");
   var self = this;
   var selectedReuse = 'Reuse';
   var selectedCategory = this.params.category;
@@ -365,9 +336,9 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:busin
   });
   if (Session.get('reuseBusiness'+selectedBusiness)) {
     var reuseBusiness = Session.get('reuseBusiness'+selectedBusiness);
-    console.log("reuseBusinessCached");
-    console.log(reuseBusiness.name);
-    console.log(reuseBusiness.phone);
+    //console.log("reuseBusinessCached");
+    //console.log(reuseBusiness.name);
+    //console.log(reuseBusiness.phone);
     this.render('business_profile',{
       to: 'main_content', //yield main_content
       data: function() {
@@ -394,8 +365,8 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName/reuseBusiness/:busin
   }else{
     Meteor.call('getReuseBusiness', selectedBusiness, function (err, data) {
       var reuseBusiness = data;
-      console.log("getReuseBusiness");
-      console.log(data);
+      //console.log("getReuseBusiness");
+      //console.log(data);
       if (!err) {
         Session.setPersistent('selectedBusiness', data);
         Session.setPersistent('selectedItem', selectedItem);
@@ -486,9 +457,6 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
     Meteor.call('getReuseBusinesses', selectedItem, function (err, data) {
       var reuseBusinesses = data;
       if (!err) {
-        console.log("GOT REUSE BUSINESSES for"+selectedItem);
-        console.log(reuseBusinesses);
-        Session.setPersistent('reuseBusinesses', data);
         Session.setPersistent('selectedCategory', selectedCategory);
         Session.setPersistent('selectedItem', selectedItem);
         Session.setPersistent('reuseMap',true);
@@ -555,7 +523,7 @@ Router.route('/reuse/reuseCat/:category', function(){
       }
     });
   }else{
-    console.log("NEW: reuseItems");
+    //console.log("NEW: reuseItems");
     Meteor.call('getReuseItems', selectedCategory, function (err, data) {
       var reuseItems = data;
       if (!err) {

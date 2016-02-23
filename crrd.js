@@ -73,12 +73,14 @@ if (Meteor.isClient) {
   /* MAP */
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
+    debugger;
     var self = this.data;
     GoogleMaps.ready('businessesMap', function(map) {
       if(Session.get('repairMap') && !Session.get('reuseMap')){
         var repairBusinesses = self.repairBusinesses;
-        console.log("onCreatedMapRepair");
-        console.log(repairBusinesses);
+        debugger;
+        //console.log("onCreatedMapRepair");
+        //console.log(repairBusinesses);
         if(repairBusinesses){
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<repairBusinesses.length; k++){
@@ -104,8 +106,9 @@ if (Meteor.isClient) {
           map.instance.fitBounds(bounds);
         }
       }else if(Session.get('reuseMap')){
-        console.log("onCreatedMapReuse");
+        console.log("null2?");
         var reuseBusinesses = self.reuseBusinesses;
+        debugger;
         if(reuseBusinesses){
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<reuseBusinesses.length; k++){
@@ -227,8 +230,6 @@ if (Meteor.isClient) {
   Template.android_list_group.events({
     'click .list-group-item': function(){
       var route;
-      var repairItem;
-      var repairBusiness;
       if(this.type=='repairItem'){ //user selected an item
         Session.set('selectedAction','repair');
         Session.setPersistent('selectedItem',this.name);
@@ -267,6 +268,11 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getAllRepairBusinesses: function () {
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_businesses_all.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
     getRepairBusiness: function (business) {
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/repair_business.php?repairBusiness="+business;
       let resp = HTTP.get(url);
@@ -282,6 +288,11 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getAllReuseItems: function(){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_items_all.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    },
     getReuseBusinesses: function(item){
       let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses.php?reuseItem="+item;
       let resp = HTTP.get(url);
@@ -292,5 +303,10 @@ if (Meteor.isServer) {
       let resp = HTTP.get(url);
       return resp.data;
     },
+    getAllReuseBusinesses: function(){
+      let url="https://web.engr.oregonstate.edu/~watsokel/crrd/reuse_businesses_all_items.php";
+      let resp = HTTP.get(url);
+      return resp.data;
+    }
   });
 }
