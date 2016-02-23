@@ -196,7 +196,7 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
-  /*if(Session.get('repairBusinessesFor'+selectedItem)){
+  if(Session.get('repairBusinessesFor'+selectedItem)){
     console.log("using cached data");
     Session.setPersistent('reuseMap',false);
     Session.setPersistent('repairMap',true);
@@ -228,7 +228,7 @@ Router.route('/repair/repairItem/:itemName', function(){
         };
       }
     });
-  } else{*/
+  } else{
     console.log("fetching for the first time! boo");
     Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
       console.log(data);
@@ -262,7 +262,7 @@ Router.route('/repair/repairItem/:itemName', function(){
         });
       }
     });
-  //}
+  }
 });
 
 /*User selected repair panel, load items */

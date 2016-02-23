@@ -152,7 +152,7 @@ if (Meteor.isClient) {
     Blaze._allowJavascriptUrls();
     GoogleMaps.load();
 
-    if(Session.get('repairMap') && !Session.get('reuseMap')){
+    /*if(Session.get('repairMap') && !Session.get('reuseMap')){
       if(self){
         var repairBusinesses = self.repairBusinesses;
         let bounds = new google.maps.LatLngBounds();
@@ -207,9 +207,7 @@ if (Meteor.isClient) {
         }
         map.instance.fitBounds(bounds);
       }
-    }
-
-
+    }*/
   });
 
   Template.business_profile.helpers({
