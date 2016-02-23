@@ -196,12 +196,14 @@ Router.route('/repair/repairItem/:itemName', function(){
   this.render('loading_template',{
     to: 'map'
   });
-  if(Session.get('repairBusinessesFor'+selectedItem)){
+  /*if(Session.get('repairBusinessesFor'+selectedItem)){
+    console.log("using cached data");
     Session.setPersistent('reuseMap',false);
     Session.setPersistent('repairMap',true);
     //console.log("already fetched these businesses! woot!");
     //console.log(Session.get('repairBusinessesFor'+selectedItem));
     var repairBusinesses = Session.get('repairBusinessesFor'+selectedItem)
+    console.log(repairBusinesses);
     self.render(googleMap,{
       to: 'map', //yield map
       data: function(){
@@ -226,9 +228,10 @@ Router.route('/repair/repairItem/:itemName', function(){
         };
       }
     });
-  } else{
-    //console.log("fetching for the first time! boo");
+  } else{*/
+    console.log("fetching for the first time! boo");
     Meteor.call('getRepairBusinesses', selectedItem, function (err, data) {
+      console.log(data);
       var repairBusinesses = data;
       if (!err) {
         Session.setPersistent('reuseMap',false);
@@ -259,7 +262,7 @@ Router.route('/repair/repairItem/:itemName', function(){
         });
       }
     });
-  }
+  //}
 });
 
 /*User selected repair panel, load items */
@@ -429,7 +432,7 @@ Router.route('/reuse/reuseCat/:category/reuseItem/:itemName', function(){
     Session.setPersistent('reuseMap',true);
     Session.setPersistent('repairMap',false);
     var reuseBusinesses = Session.get('reuseBusinessesForItem'+selectedItem);
-    this.render(googleMap,{
+    self.render(googleMap,{
       to: 'map', //yield map
       data: function(){
         return {

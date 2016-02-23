@@ -73,19 +73,17 @@ if (Meteor.isClient) {
   /* MAP */
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
-    debugger;
     var self = this.data;
+    debugger;
     GoogleMaps.ready('businessesMap', function(map) {
       if(Session.get('repairMap') && !Session.get('reuseMap')){
-        var repairBusinesses = self.repairBusinesses;
-        debugger;
-        //console.log("onCreatedMapRepair");
-        //console.log(repairBusinesses);
-        if(repairBusinesses){
+        if(self){
+          var repairBusinesses = self.repairBusinesses;
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<repairBusinesses.length; k++){
             (function(){
               if(repairBusinesses[k].lat && repairBusinesses[k].lng){
+                debugger;
                 var marker = new google.maps.Marker({
                   position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
                   map: map.instance
@@ -106,10 +104,9 @@ if (Meteor.isClient) {
           map.instance.fitBounds(bounds);
         }
       }else if(Session.get('reuseMap')){
-        console.log("null2?");
-        var reuseBusinesses = self.reuseBusinesses;
         debugger;
-        if(reuseBusinesses){
+        if(self){
+          var reuseBusinesses = self.reuseBusinesses;
           let bounds = new google.maps.LatLngBounds();
           for(let k=0; k<reuseBusinesses.length; k++){
             (function(){
@@ -151,8 +148,68 @@ if (Meteor.isClient) {
   });
 
   Template.android_map.onRendered(function(){
+    var self = this.data;
     Blaze._allowJavascriptUrls();
     GoogleMaps.load();
+
+    if(Session.get('repairMap') && !Session.get('reuseMap')){
+      if(self){
+        var repairBusinesses = self.repairBusinesses;
+        let bounds = new google.maps.LatLngBounds();
+        for(let k=0; k<repairBusinesses.length; k++){
+          (function(){
+            if(repairBusinesses[k].lat && repairBusinesses[k].lng){
+              debugger;
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(repairBusinesses[k].lat,repairBusinesses[k].lng),
+                map: map.instance
+              });
+              new google.maps.event.addListener(marker, 'click', function(){
+                var infoStr = repairBusinesses[k].name+'<br>'+
+                repairBusinesses[k].street+' '+repairBusinesses[k].city+
+                  ', '+repairBusinesses[k].state;
+                var infowindow = new google.maps.InfoWindow({
+                  content: infoStr
+                });
+                infowindow.open(map.instance,marker);
+              });
+              bounds.extend(marker.position);
+            }
+          }())
+        }
+        map.instance.fitBounds(bounds);
+      }
+    }else if(Session.get('reuseMap')){
+      console.log("null2?");
+      var reuseBusinesses = self.reuseBusinesses;
+      debugger;
+      if(reuseBusinesses){
+        let bounds = new google.maps.LatLngBounds();
+        for(let k=0; k<reuseBusinesses.length; k++){
+          (function(){
+            if(reuseBusinesses[k].lat && reuseBusinesses[k].lng){
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(reuseBusinesses[k].lat,reuseBusinesses[k].lng),
+                map: map.instance
+              });
+              new google.maps.event.addListener(marker, 'click', function(){
+                var infoStr = reuseBusinesses[k].name+'<br>'+
+                reuseBusinesses[k].street+' '+reuseBusinesses[k].city+
+                  ', '+reuseBusinesses[k].state;
+                var infowindow = new google.maps.InfoWindow({
+                  content: infoStr
+                });
+                infowindow.open(map.instance,marker);
+              });
+              bounds.extend(marker.position);
+            }
+          }())
+        }
+        map.instance.fitBounds(bounds);
+      }
+    }
+
+
   });
 
   Template.business_profile.helpers({
