@@ -16,7 +16,7 @@ if ($mysqli->connect_errno) {
 if (!$mysqli->set_charset("utf8")) {
 	$obj->http_response_code = 400;
 	$obj->error_description = 'Error loading character set utf8.';
-	echo json_encode($obj);		
+	echo json_encode($obj);
 	return;
 }
 
@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 	} else{
 		$itemName=htmlspecialchars($_GET['reuseItem']);
 
-		if (!($stmt = $mysqli->prepare("SELECT DISTINCT b.name, b.street, b.city, b.state, b.zipcode, b.latitude, b.longitude FROM business b
+		if (!($stmt = $mysqli->prepare("SELECT DISTINCT b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.hours, b.website, b.latitude, b.longitude, b.info FROM business b
 		  INNER JOIN business_category_item bci ON bci.bid=b.id
 		  INNER JOIN item i ON i.id=bci.iid
 		  WHERE b.type='Reuse' AND i.name=? ORDER BY b.name ASC"))) {
@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
   		echo json_encode($obj);
 		}
 
-		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bLat,$bLng)){
+		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bP,$bH,$bW,$bLat,$bLng,$bI)){
       $obj->http_response_code = 400;
   		$obj->error_description = 'Bind result failed.';
   		echo json_encode($obj);
@@ -68,8 +68,12 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		  $obj->city = $bC;
 		  $obj->state = $bSta;
 		  $obj->zip = $bZ;
+		  $obj->phone = $bP;
+      $obj->hours = $bH;
+		  $obj->website = $bW;
 		  $obj->lat = $bLat;
 		  $obj->lng = $bLng;
+      $obj->info = $bI;
 		  $arr[$i++] = $obj;
 		}
 		if(!empty($arr)){
