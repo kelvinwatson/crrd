@@ -4,9 +4,9 @@ App.accessRule('*.googleapis.com/*');
 App.accessRule('*.gstatic.com/*');
 
 App.info({
-  name: 'crrd',
-  description: 'Corvallis Reuse Repair Directory',
-  version: '0.0.1'
+  name: 'Corvallis Reuse and Repair Directory',
+  description: 'Corvallis Reuse Repair Directory, AWS Deploy',
+  version: '0.0.2'
 });
 
 App.icons({
