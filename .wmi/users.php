@@ -48,15 +48,38 @@ if ($mysqli->connect_errno) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand pull-left" href="#"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
+      <a class="navbar-brand pull-left" href="main.php"><img src="images/cscLogo.jpg" style="max-width:100px; margin-top: -7px;"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="http://sustainablecorvallis.org/" target="_blank">About</a></li>
-        <li><a href="http://sustainablecorvallis.org/contact/" target="_blank">Contact</a></li>
+        <li><a href="main.php">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quick Links<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">REUSE</li>
+            <li><a href="reusebusinesses.php">Businesses</a></li>
+            <li><a href="reusecategories.php">Item Categories</a></li>
+            <li><a href="reuseitems.php">Items</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">REPAIR</li>
+            <li><a href="repairbusinesses.php">Businesses</a></li>
+            <li><a href="repairitems.php">Items</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">USERS</li>
+            <li><a href="users.php">Users</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-log-in"></span> Logged In<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><span class="glyphicon glyphicon-asterisk"></span>  Logged In</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
@@ -212,7 +235,7 @@ Toast.defaults.displayDuration=4000;
 window.onload = function(){
   var queryStr = window.location.search;
   if(queryStr=='?editSuccess=True'){
-    Toast.success('User editted successfully.', 'Edit Confirmation');
+    Toast.success('User edited successfully.', 'Edit Confirmation');
   } else if(queryStr=='?editSuccess=False'){
     Toast.error('There was an error in one or more of your inputs!', 'Edit Failed');
   } else if(queryStr=='?addSuccess=True'){

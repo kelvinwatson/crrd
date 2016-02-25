@@ -61,7 +61,7 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
   <div class="col-xs-0 col-md-3"></div>
   <div class="col-xs-12 col-md-6">
     <div class="well bs-component">
-      <form class="form-horizontal">
+      <form class="form-horizontal" action="/">
         <fieldset>
           <legend>Login to continue</legend>
           <div class="form-group">
@@ -99,16 +99,29 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
 <script src="js/bootstrap.min.js"></script>
 <script>
 
+window.onload = function(){
+  var queryStr = window.location.search;
+  if(queryStr=='?authenticated=True'){
+    Toast.success('User authenticated.', 'Authentication Success');
+    window.location = "main.php";
+  } else if(queryStr=='?authenticated=False'){
+    Toast.error('Incorrect username or password', 'Authentication Failed');
+  } 
+}
+
+
 function authenticate(){
   var userName = $('#inputUsername').val();
   var password = $('#inputPassword').val();
   if(validateInput(userName, password)){ //check for empty inputs
-    Toast.success('fields good','fields good');
-    //ajaxCall(userName, password);//ajax call,pass params to db
+    //Toast.success('no empty fields','TESTING...fields OK');
+    ajaxCall(userName, password);//ajax call,pass params to db
   } 
+  return;
 }
 
 function ajaxCall(userName, password){
+  var formData = "userName="+userName+"&userPassword="+password;
   $.ajax({
     url: "authenticateUser.php",
     type: "POST",
@@ -118,9 +131,9 @@ function ajaxCall(userName, password){
       //data - response from server
       console.log(data);
       if(data.httpResponseCode==200){
-          window.location = 'authenticateUser.php?authenticated=True';
+        window.location = 'index.php?authenticated=True';
       } else{ //httpResponseCode is 400
-        window.location = 'authenticateUser.php?authenticated=False'; 
+        window.location = 'index.php?authenticated=False'; 
       }  
     },
     error: function (jqXHR, textStatus, errorThrown){

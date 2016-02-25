@@ -1,3 +1,11 @@
+<?php session_start();
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+ini_set('session.save_path', '../session_saver');
+header('Content-Type: text/html; charset=utf-8');
+include 'dbp.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>

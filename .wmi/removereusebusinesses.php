@@ -1,6 +1,8 @@
-<?php
+<?php session_start();
 error_reporting(E_ALL);
 ini_set('display_errors',1);
+ini_set('session.save_path', '../session_saver');
+header('Content-Type: text/html; charset=utf-8');
 include 'dbp.php';
 
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
@@ -72,8 +74,8 @@ function removeBusiness($bID){
             <li><a href="repairbusinesses.php">Businesses</a></li>
             <li><a href="repairitems.php">Items</a></li>
             <li role="separator" class="divider"></li>
-            <li class="dropdown-header">RECYCLE</li>
-            <li><a href="#">Links</a></li>
+            <li class="dropdown-header">USERS</li>
+            <li><a href="users.php">Users</a></li>
           </ul>
         </li>
       </ul>

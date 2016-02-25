@@ -1,3 +1,13 @@
+<?php session_start();
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+ini_set('session.save_path', '../session_saver');
+header('Content-Type: text/html; charset=utf-8');
+include 'dbp.php';
+
+//check if user logged in
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,8 +52,8 @@
             <li><a href="repairbusinesses.php">Businesses</a></li>
             <li><a href="repairItems.php">Items</a></li>
             <li role="separator" class="divider"></li>
-            <li class="dropdown-header">RECYCLE</li>
-            <li><a href="#">Links</a></li>
+            <li class="dropdown-header">USERS</li>
+            <li><a href="users.php">Users</a></li>
           </ul>
         </li>
       </ul>
@@ -333,42 +343,42 @@
     <div class="col-md-6">
       <div class="panel panel-success">
         <div class="panel-heading">
-          <h3 class="panel-title">Manage RECYCLE Content</h3>
+          <h3 class="panel-title">Manage Authorized USERS</h3>
         </div>
-        <div id="recycle-panel-body" class="panel-body">
+        <div id="users-panel-body" class="panel-body">
 
-          <h4>Recycle Links</h4>
+          <h4>Users</h4>
           <div class="list-group">
-            <a class="list-group-item">
+            <a href="users.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </div>
                 <div class="col-xs-11">
-                  <h4 class="list-group-item-heading">View links</h4>
-                  <p class="list-group-item-text">View existing links.</p>
+                  <h4 class="list-group-item-heading">View users</h4>
+                  <p class="list-group-item-text">View existing users.</p>
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <a href="users.php#add" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1">
                   <span class="glyphicon glyphicon-plus" style="margin-top:10px;"></span>
                 </div>
                 <div class="col-xs-11">
-                  <h4 class="list-group-item-heading">Add a new link</h4>
-                  <p class="list-group-item-text">Add a new hyperlink to the database.</p>
+                  <h4 class="list-group-item-heading">Add a new user</h4>
+                  <p class="list-group-item-text">Create a new user account.</p>
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
+            <a href="users.php" class="list-group-item">
               <div class="row">
                 <div class="col-xs-1" style="margin-top:10px;">
                   <span class="glyphicon glyphicon-pencil"></span>
                 </div>
                 <div class="col-xs-11">
-                  <h4 class="list-group-item-heading">Edit link</h4>
-                  <p class="list-group-item-text">Edit an existing hyperlink.</p>
+                  <h4 class="list-group-item-heading">Edit user</h4>
+                  <p class="list-group-item-text">Edit an existing user.</p>
                 </div>
               </div>
             </a>
@@ -378,8 +388,8 @@
                   <span class="glyphicon glyphicon-remove"></span>
                 </div>
                 <div class="col-xs-11">
-                  <h4 class="list-group-item-heading">Remove link</h4>
-                  <p class="list-group-item-text">Delete a hyperlink from the database.</span></p>
+                  <h4 class="list-group-item-heading">Remove user</h4>
+                  <p class="list-group-item-text">Deactivate and delete a user account.</span></p>
                 </div>
               </div>
             </a>
