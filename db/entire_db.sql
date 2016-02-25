@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 2.11.9.4
 -- http://www.phpmyadmin.net
 --
 -- Host: oniddb
--- Generation Time: Feb 22, 2016 at 09:48 PM
+-- Generation Time: Feb 25, 2016 at 11:52 AM
 -- Server version: 5.5.47
 -- PHP Version: 5.2.6-1+lenny16
 
@@ -48,7 +48,7 @@ INSERT INTO `business` (`id`, `name`, `type`, `phone`, `website`, `street`, `cit
 (2, 'Arc Thrift Stores  (Corvallis)', 'Reuse', '541-754-9011', NULL, '928 NW Beca Ave', 'Corvallis', 'OR', 97330, 44.5782, -123.262, NULL, '7 days per week 10am-5:30pm'),
 (3, 'Arc Thrift Stores (Philomath)', 'Reuse', '541-929-3946', NULL, '936 Main St', 'Philomath', 'OR', 97370, 44.5401, -123.373, NULL, 'Mon-Sat 10am-5:30pm, Sun 12pm-5:30pm'),
 (4, 'Beekman Place Antique Mall', 'Reuse', '541-753-8250', NULL, '601 SW Western Blvd', 'Corvallis', 'OR', 97333, 44.5604, -123.267, NULL, 'Tue-Sat 11am-5pm, Sun 12pm-5pm'),
-(5, 'Benton County Extension / 4-H  Activities', 'Reuse', '541-766-6750', NULL, '1849 NW 9th', 'Corvallis', 'OR', 97330, 44.586, -123.257, NULL, 'Mon-Fri 9am-5pm'),
+(5, 'Benton County Extension 4-H  Activities', 'Reuse', '541-766-6750', NULL, '1849 NW 9th', 'Corvallis', 'OR', 97330, 44.586, -123.257, NULL, 'Mon-Fri 9am-5pm'),
 (6, 'Benton County Master Gardeners', 'Reuse', '541-766-6750', NULL, '1849 NW 9th St', 'Corvallis', 'OR', 97330, 44.586, -123.257, NULL, NULL),
 (7, 'Book Bin', 'Reuse', '541-752-0040', '', '215 SW 4th St', 'Corvallis', 'OR', 97333, 44.5633, -123.262, NULL, 'Store: Mon-Sat: 8:30am-9pm, Sun 9am-7pm; Book Buying: Mon-Sat 9am-5pm, Sun 11am-5pm'),
 (8, 'Browser''s Bookstore', 'Reuse', '888-758-1121', NULL, '121 NW 4th St', 'Corvallis', 'OR', 97330, 44.5652, -123.261, NULL, 'Mon-Sat 9:30-6:00'),
@@ -64,7 +64,7 @@ INSERT INTO `business` (`id`, `name`, `type`, `phone`, `website`, `street`, `cit
 (18, 'Corvallis Environmental Center', 'Reuse', '541-753-9211', NULL, '214 SW Monroe Ave', 'Corvallis', 'OR', 97330, 44.5645, -123.26, NULL, 'Mon-Fri 9am-5pm'),
 (19, 'Corvallis Bicycle Collective', 'Reuse', '541-224-6885', NULL, '33900 SE Roche Ln/Hwy 34', 'Corvallis', 'OR', 97333, 44.5636, -123.251, NULL, 'Tue-Sun 12pm-4pm'),
 (20, 'Corvallis Furniture', 'Reuse', '541-231-8103', NULL, '720 NE Granger Ave, Bldg J', 'Corvallis', 'OR', 97330, 44.6285, -123.235, NULL, 'Tue-Fri 10am-6pm, Sat-Mon 10am-3pm'),
-(21, 'Corvallis-Uzhhorod Sister Cities/The TOUCH Project', 'Reuse', '541-753-5170', 'http://www.sistercities.corvallis.or.us/uzhhorod', NULL, 'Corvallis', 'OR', NULL, NULL, NULL, NULL, NULL),
+(21, 'Corvallis-Uzhhorod Sister Cities The TOUCH Project', 'Reuse', '541-753-5170', 'http://www.sistercities.corvallis.or.us/uzhhorod', NULL, 'Corvallis', 'OR', NULL, NULL, NULL, NULL, NULL),
 (22, 'Cosmic Chameleon', 'Reuse', '541-752-9001', NULL, '138 SW 2nd St', 'Corvallis', 'OR', 97333, 44.5637, -123.261, NULL, 'Mon 12pm-6pm, Tue-Fri 11am-6pm, Sat 10am-6pm'),
 (23, 'Craigslist (corvallis.craigslist.org) and Freecycle.org', 'Reuse', NULL, 'https://corvallis.craigslist.org/', NULL, 'Corvallis', 'OR', NULL, NULL, NULL, NULL, NULL),
 (24, 'First Alternative Co-op Recycling Center ', 'Reuse', '541-753-3115', NULL, '1007 SE 3rd St', 'Corvallis', 'OR', 97333, 44.554, -123.264, NULL, '7 days per week 7am-10pm'),
@@ -130,9 +130,7 @@ INSERT INTO `business` (`id`, `name`, `type`, `phone`, `website`, `street`, `cit
 (84, 'Sedlack', 'Repair', '541-752-1498', 'http://www.sedlaksshoes.net/', '225 SW 2nd St', 'Corvallis', 'OR', 97333, 44.5633, -123.261, 'Full resoles, elastic and velcros, sewing and patching, leather patches, zippers, half soles and heels.', 'Mon-Fri 9:30am-6pm, Sat 9:30am-5pm, Sun 12pm-4pm'),
 (85, 'Foam Man', 'Repair', '(541) 754-9378', 'http://www.thefoammancorvallis.com/', '2511 NW 9th St', 'Corvallis', 'OR', 97330, 44.5934, -123.252, 'Replacement foam cusions for chairs and couches;  upholstery.', 'Tue-Fri 11am-5pm'),
 (86, 'generic_repair_business', 'Repair', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(87, 'generic_reuse_business', 'Reuse', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(157, 'Test8', 'Reuse', '', '', '', '', '', 0, NULL, NULL, NULL, NULL),
-(159, 'Test9', 'Reuse', '', '', '', '', '', 0, NULL, NULL, NULL, NULL);
+(87, 'generic_reuse_business', 'Reuse', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -861,7 +859,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (87, 3, 31),
 (87, 3, 32),
 (87, 3, 70),
-(159, 3, 24),
 (1, 4, 33),
 (1, 4, 34),
 (1, 4, 35),
@@ -981,7 +978,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (87, 4, 37),
 (87, 4, 38),
 (87, 4, 39),
-(159, 4, 39),
 (1, 5, 40),
 (1, 5, 41),
 (1, 5, 42),
@@ -1239,7 +1235,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (87, 6, 65),
 (87, 6, 66),
 (87, 6, 67),
-(159, 6, 48),
 (1, 7, 68),
 (1, 7, 69),
 (1, 7, 70),
@@ -1385,8 +1380,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (87, 7, 73),
 (87, 7, 74),
 (87, 7, 75),
-(159, 7, 74),
-(159, 7, 75),
 (1, 8, 76),
 (1, 8, 77),
 (1, 8, 78),
@@ -2030,7 +2023,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (87, 10, 128),
 (87, 10, 129),
 (87, 10, 130),
-(159, 10, 119),
 (1, 11, 12),
 (1, 11, 131),
 (1, 11, 133),
@@ -2379,7 +2371,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (67, 13, 148),
 (67, 13, 149),
 (67, 13, 150),
-(86, 13, 219),
 (87, 13, 76),
 (87, 13, 82),
 (87, 13, 88),
@@ -2541,7 +2532,6 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (70, 15, 159),
 (70, 15, 186),
 (70, 15, 187),
-(86, 15, 218),
 (87, 15, 9),
 (87, 15, 155),
 (87, 15, 156),
@@ -2585,15 +2575,7 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 (86, 16, 164),
 (86, 16, 165),
 (86, 16, 166),
-(86, 16, 167),
-(86, 16, 200),
-(86, 16, 209),
-(86, 16, 210),
-(86, 16, 215),
-(86, 16, 220),
-(86, 16, 225),
-(86, 16, 226),
-(86, 16, 227);
+(86, 16, 167);
 
 -- --------------------------------------------------------
 
@@ -2628,10 +2610,7 @@ INSERT INTO `category` (`id`, `name`) VALUES
 (13, 'Office Equipment'),
 (14, 'Packing Materials'),
 (15, 'Miscellaneous'),
-(16, 'Repair Items'),
-(17, 'test'),
-(18, 'test1'),
-(19, 'test2');
+(16, 'Repair Items');
 
 -- --------------------------------------------------------
 
@@ -2827,17 +2806,33 @@ INSERT INTO `item` (`id`, `name`, `url`) VALUES
 (184, 'Toiletries', NULL),
 (185, 'Utensils', NULL),
 (186, 'Art Supplies', NULL),
-(187, 'Office supplies', NULL),
-(200, 'robot', NULL),
-(209, 'TestItem', NULL),
-(210, 'TestReuseItem', NULL),
-(215, ' ', NULL),
-(218, 'TR5', NULL),
-(219, 'TR6', NULL),
-(220, 'test', NULL),
-(225, 'test1', NULL),
-(226, 'test2', NULL),
-(227, 'Test3', NULL);
+(187, 'Office supplies', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `superuser` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `superuser`) VALUES
+(7, 'GFitzpatrick', 'GFitzpatrick@email.com', '$2y$10$tL5tDZUfKTTsbjXSBKXuYeR8U9SUZ8Un1NWdHoLyn0r.td0uExZaq', 1),
+(8, 'KNguyen', 'email@email.com', '$2y$10$7pEIxC6ukIbvY3FfP3zeLu.XRphKHZZxQugksI/V2jJ5JIA8BY3me', 0),
+(9, 'DMcMillan', 'email@email.com', '$2y$10$DnbZ2ATxiSoYSMKAN5mVgO7EwTr2Xd3bH/2S0QhoRN3XcknsEXxX.', 0),
+(10, 'KWatson', 'email@email.com', '$2y$10$kFRXxYKak6TjwJyUoxQdCOqMQXdAMHeHfGJuA5HRQFWOcraiO/tKO', 0);
 
 --
 -- Constraints for dumped tables
