@@ -5,6 +5,10 @@ ini_set('session.save_path', '../session_saver');
 header('Content-Type: text/html; charset=utf-8');
 include 'dbp.php';
 
+if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
+  header('Location: index.php');
+}
+
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;

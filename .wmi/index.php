@@ -9,6 +9,13 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
   header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
   exit();
 }
+
+if(isset($_SESSION['loggedIn'])){
+  if($_SESSION['loggedIn']){
+    header('Location: main.php');
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

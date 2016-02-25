@@ -5,6 +5,13 @@ ini_set('session.save_path', '../session_saver');
 header('Content-Type: text/html; charset=utf-8');
 include 'dbp.php';
 
+if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
+  header('Location: index.php');
+} else {
+  session_unset();
+  session_destroy();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

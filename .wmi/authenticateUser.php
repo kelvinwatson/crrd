@@ -39,7 +39,7 @@ if (!$stmt->execute()) {
   return;
 }
 
-if(!$stmt->bind_result($uId,$uName,$uEmail,$uPassword)){
+if(!$stmt->bind_result($uId,$uName,$uEmail,$uPassword,$uSuperUser)){
   $obj->httpResponseCode = 400;
   $obj->response = "authenticateFailure";
   $obj->errorMessage = "Bind result failed:".$mysqli->error;
@@ -47,19 +47,27 @@ if(!$stmt->bind_result($uId,$uName,$uEmail,$uPassword)){
   return;
 }
 
-$retrievedUserId=$retrievedUsername=$retrievedEmail=$hashedPassword=null;
+$retrievedUserId=$retrievedUsername=$retrievedEmail=$hashedPassword=$isSuperUser=null;
 
 while($stmt->fetch()){
   $retrievedUserId = $uId;
   $retrievedUsername = $uName;
   $retrievedEmail = $uEmail;
   $hashedPassword = $uPassword;
+  $isSuperUser = $uSuperUser;
 }
-
 
 $isValid = password_verify($plainTextPassword, $hashedPassword);
 
 if($isValid==true){
+  $_SESSION['loggedIn']=true;
+  $_SESSION['username']=$retrievedUsername;
+  $_SESSION['userEmail']=$retrievedEmail;
+  if($isSuperUser){
+    $_SESSION['superUser']=true;
+  } else{
+    $_SESSION['superUser']=false;  
+  }
   $obj->httpResponseCode = 200;
   $obj->response = "authenticateSuccess";
   $obj->errorMessage = "User found!";
@@ -67,7 +75,7 @@ if($isValid==true){
 }else{
   $obj->httpResponseCode = 400;
   $obj->response = "authenticateFailure";
-  $obj->errorMessage = "Password does not match $hashedPassword, $isValid";
+  $obj->errorMessage = "Password does not match.";
   echo json_encode($obj);  
 }
 

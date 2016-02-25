@@ -5,6 +5,10 @@ ini_set('session.save_path', '../session_saver');
 header('Content-Type: text/html; charset=utf-8');
 include 'dbp.php';
 
+if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
+  header('Location: index.php');
+}
+
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -175,7 +179,7 @@ if ($mysqli->connect_errno) {
                       </div>
                       <div class=\"modal-body\">
                         <div class=\"panel panel-default\">";
-                          if(!empty($arrN)){
+                          if(!empty($arrN) && count($arrN)>0 && !isset($arrN[""])){
                             ksort($arrN);
                             foreach($arrN as $categoryName=>$itemArr){
                               echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryName</h3></div><div class=\"panel-body\">";
@@ -250,7 +254,7 @@ if ($mysqli->connect_errno) {
                       </div>
                       <div class=\"modal-body\">
                         <div class=\"panel panel-default\">";
-                          if(!empty($arrN)){
+                          if(!empty($arrN) && count($arrN)>0 && !isset($arrN[""])){
                             ksort($arrN);
                             foreach($arrN as $categoryName=>$itemArr){
                               echo "<div class=\"panel-heading\"><h3 class=\"panel-title\">$categoryName</h3></div><div class=\"panel-body\">";

@@ -11,6 +11,10 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
   exit();
 }
 
+if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
+  header('Location: index.php');
+}
+
 /* CONNECT TO DATABASE */
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
 if ($mysqli->connect_errno) {
@@ -88,11 +92,12 @@ if ($mysqli->connect_errno) {
 
 
 <div class="container">
-
-<h1>Administrator Portal: Manage Users</h1>
+  <div class="row">
+    <h1>Administrator Portal</h1>
+  </div>
 
   <div class="row"> <!--START VIEW TABLE ROW -->
-    <h3>View Current Users</h3>
+    <h3>View/Edit Current Users</h3>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -107,26 +112,39 @@ if ($mysqli->connect_errno) {
 
             //display table of users
             if (!($stmt = $mysqli->prepare(
-              "SELECT u.id, u.username, u.email, u.password FROM users u ORDER BY u.username ASC"))) {
+              "SELECT u.id, u.username, u.email, u.password, u.superuser FROM users u ORDER BY u.username ASC"))) {
               echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
             }
             if (!$stmt->execute()) {
               echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
-            if(!$stmt->bind_result($uID,$uName,$uEmail,$uPassword)){
+            if(!$stmt->bind_result($uID,$uName,$uEmail,$uPassword,$uSuperuser)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
             }
             while($stmt->fetch()){
               echo 
-              "<tr>
-                <form action=\"users.php#edit\" method=\"post\">
-                  <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"user-id\" value=\"$uID\"></td>
-                  <td>".$uName."<input type=\"hidden\" name=\"user-name\" value=\"".$uName."\"></td>
-                  <td>".$uEmail."<input type=\"hidden\" name=\"user-email\" value=\"".$uEmail."\"></td>
-                  <input type=\"hidden\" name=\"user-password\" value=\"$uPassword\">
-                  <input type=\"hidden\" name=\"user-action\" value=\"edit-user\">
-                </form>
-              </tr>";              
+              "<tr>";
+                if($_SESSION['superUser']){ //only one user is the super user
+                  echo "<form action=\"users.php#edit\" method=\"post\">
+                    <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"user-id\" value=\"$uID\"></td>
+                    <td>".$uName."<input type=\"hidden\" name=\"user-name\" value=\"".$uName."\"></td>
+                    <td>".$uEmail."<input type=\"hidden\" name=\"user-email\" value=\"".$uEmail."\"></td>
+                    <input type=\"hidden\" name=\"user-password\" value=\"$uPassword\">
+                    <input type=\"hidden\" name=\"user-superuser\" value=\"$uSuperuser\">
+                    <input type=\"hidden\" name=\"user-action\" value=\"edit-user\">
+                  </form>";
+                } else{
+                  if(!$uSuperuser){
+                    echo "<form action=\"users.php#edit\" method=\"post\">
+                      <td style=\"padding-left:0px;\"><input class=\"btn btn-warning\" type=\"submit\" value=\"edit\"><input type=\"hidden\" name=\"user-id\" value=\"$uID\"></td>
+                      <td>".$uName."<input type=\"hidden\" name=\"user-name\" value=\"".$uName."\"></td>
+                      <td>".$uEmail."<input type=\"hidden\" name=\"user-email\" value=\"".$uEmail."\"></td>
+                      <input type=\"hidden\" name=\"user-password\" value=\"$uPassword\">
+                      <input type=\"hidden\" name=\"user-superuser\" value=\"$uSuperuser\">
+                      <input type=\"hidden\" name=\"user-action\" value=\"edit-user\">
+                    </form>";
+                  }
+                }              
             }
             $stmt->close();
             ?>
@@ -151,7 +169,7 @@ if ($mysqli->connect_errno) {
         </div>
 
         <div class="form-group">
-        <label for="uEmail" class="col-sm-2 control-label">Street</label>
+        <label for="uEmail" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="uEmail" value="<?php echo htmlspecialchars($_POST['user-email']); ?>">
         </div>
