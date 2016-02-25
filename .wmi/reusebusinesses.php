@@ -666,13 +666,11 @@ if ($mysqli->connect_errno) {
     }
     Toast.defaults.displayDuration=2000; 
     Toast.warning('Processing your request...','Please wait');
-    console.log(action);
     var geocoder = new google.maps.Geocoder();
     var businessId;
     if(action=='edit'){
       businessId = document.getElementById("bId").value;
       var checkboxes = document.getElementsByName("edit-reuse-catid-itemid");
-      //console.log(checkboxes);
       var cbCheckedIds = [];
       var cbNotCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
@@ -688,15 +686,9 @@ if ($mysqli->connect_errno) {
       }
       var cbCheckedIdsJSON = JSON.stringify(cbCheckedIds);
       var cbNotCheckedIdsJSON = JSON.stringify(cbNotCheckedIds);
-      console.log('==checkboxes checked==');
-      console.log(cbCheckedIdsJSON);
-      console.log('==checkboxes NOT checked==');
-      console.log(cbNotCheckedIdsJSON);
     }
     if(action=='add'){
-      debugger;
       var checkboxes = document.getElementsByName("add-reuse-catid-itemid");
-      console.log(checkboxes);
       var cbCheckedIds = [];
       for(var k=0, len=checkboxes.length; k<len; k++){
         if(checkboxes[k].checked){
@@ -708,8 +700,6 @@ if ($mysqli->connect_errno) {
         return; //cannot have a business that does not accept any items
       }
       var cbCheckedIdsJSON = JSON.stringify(cbCheckedIds);
-      console.log('==ADD checkboxes checked==');
-      console.log(cbCheckedIdsJSON);
     }
     var street = document.getElementById("bStreet").value;
     var city = document.getElementById("bCity").value;
@@ -772,7 +762,6 @@ if ($mysqli->connect_errno) {
 
   function processResponse(){
     try{
-      console.log(httpRequest.readyState);
       if(httpRequest.readyState===4 && httpRequest.status===200){
         var obj = JSON.parse(httpRequest.responseText);
         console.log(obj);
@@ -791,7 +780,6 @@ if ($mysqli->connect_errno) {
         }
       }else {
         console.log('Problem with the request');
-
       }
     }catch(e){
       console.log('Caught Exception: ' + e);

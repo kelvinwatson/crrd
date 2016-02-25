@@ -209,11 +209,9 @@ if ($mysqli->connect_errno) {
       return;
     }
     if(action=='edit'){
-      console.log(action);
       var itemId = document.getElementById("iId").value;
       constructRequest('edit',itemId,itemName,null);
     } else if (action=='add'){
-      console.log(action);
       constructRequest('add',null,itemName,null);
     }
   }
@@ -252,7 +250,6 @@ if ($mysqli->connect_errno) {
   
   function processResponse(){
     try{
-      console.log(httpRequest.readyState);
       if(httpRequest.readyState===4 && httpRequest.status===200){
         var obj = JSON.parse(httpRequest.responseText);
         console.log(obj);

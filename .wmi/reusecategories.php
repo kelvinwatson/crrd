@@ -218,7 +218,6 @@ if ($mysqli->connect_errno) {
   function manageCategory(action){
     var categoryName = document.getElementById("cName").value;
     if (action=='add'){
-      console.log(action);
       constructRequest('add',null,categoryName,null);
     }
   }
@@ -255,7 +254,6 @@ if ($mysqli->connect_errno) {
   
   function processResponse(){
     try{
-      console.log(httpRequest.readyState);
       if(httpRequest.readyState===4 && httpRequest.status===200){
         var obj = JSON.parse(httpRequest.responseText);
         console.log(obj);

@@ -209,9 +209,6 @@ if ($mysqli->connect_errno) {
     }
     var c = document.getElementById("reuse-category-select");
     var categoryId = parseInt(c.options[c.selectedIndex].value);
-    console.log(itemName);
-    console.log(categoryId);
-    console.log(action);
     constructRequest('add',categoryId,itemName);
   }
   
