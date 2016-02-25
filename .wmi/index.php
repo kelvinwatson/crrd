@@ -1,3 +1,15 @@
+<?php session_start();
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+ini_set('session.save_path', '../session_saver');
+header('Content-Type: text/html; charset=utf-8');
+include 'dbp.php';
+//Always redirect user to HTTPS
+if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
+  header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,7 +52,9 @@
 
 
 <div class="container">
+
 <h1>Administrator Portal</h1>
+
 <!--LOGIN FORM-->
 <div class="row">
   <div class="col-xs-0 col-md-3"></div>
@@ -73,11 +87,16 @@
   </div>
   <div class="col-xs-0 col-md-3"></div>
 </div><!--END ROW-->
+
+
+
+
 </div> <!-- END CONTAINER -->
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-  <script src="js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>

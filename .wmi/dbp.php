@@ -1,3 +1,1 @@
- <?php
- $dbpass='CujQY1ONd5WrdiZL';
- ?>
+<?php $dbpass='CujQY1ONd5WrdiZL';?>
