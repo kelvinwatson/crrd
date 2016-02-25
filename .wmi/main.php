@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/navbar-fixed-top.css" rel="stylesheet">

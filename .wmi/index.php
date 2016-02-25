@@ -18,10 +18,11 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/navbar-fixed-top.css" rel="stylesheet">
+    <link href="css/toast.css" rel="stylesheet">
   </head>
 
   <body>
@@ -60,13 +61,13 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
   <div class="col-xs-0 col-md-3"></div>
   <div class="col-xs-12 col-md-6">
     <div class="well bs-component">
-      <form action="main.php" method="post" class="form-horizontal">
+      <form class="form-horizontal">
         <fieldset>
           <legend>Login to continue</legend>
           <div class="form-group">
-            <label for="inputEmail" class="col-md-2 control-label">Email</label>
+            <label for="inputUsername" class="col-md-2 control-label">Username</label>
             <div class="col-md-10">
-              <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+              <input type="text" class="form-control" id="inputUsername" placeholder="Email">
             </div>
           </div>
           <div class="form-group">
@@ -78,7 +79,7 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
           <div class="form-group">
             <div class="col-md-10 col-md-offset-2">
               <button type="reset" class="btn btn-default">Reset</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary" onclick="authenticate(); return false;">Submit</button>
             </div>
           </div>
         </fieldset>
@@ -93,10 +94,65 @@ if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on"){
 
 </div> <!-- END CONTAINER -->
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/toast.js"></script>
+<script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script>
+
+function authenticate(){
+  var userName = $('#inputUsername').val();
+  var password = $('#inputPassword').val();
+  if(validateInput(userName, password)){ //check for empty inputs
+    Toast.success('fields good','fields good');
+    //ajaxCall(userName, password);//ajax call,pass params to db
+  } 
+}
+
+function ajaxCall(userName, password){
+  $.ajax({
+    url: "authenticateUser.php",
+    type: "POST",
+    data: formData,
+    dataType: 'json',
+    success: function(data){
+      //data - response from server
+      console.log(data);
+      if(data.httpResponseCode==200){
+          window.location = 'authenticateUser.php?authenticated=True';
+      } else{ //httpResponseCode is 400
+        window.location = 'authenticateUser.php?authenticated=False'; 
+      }  
+    },
+    error: function (jqXHR, textStatus, errorThrown){
+      console.log("==AJAX ERR==");
+      console.log(jqXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  });
+}
+
+function validateInput(userName, password){
+  console.log("Validating inputs...");
+  console.log(userName+ " "+password);
+  var errString=null;
+  if(!userName || !password){ //empty fields
+    if(!userName){
+      errString="You must enter a user name. ";
+    } 
+    if(!password){
+      errString = errString==null?"You must enter an password. " : errString+"You must enter an password. ";
+    }
+    Toast.error(errString,'Failed to login.');
+    return false;
+  } else{
+    return true;
+  }
+}
+
+
+</script>
+
 
 </body>
 </html>

@@ -18,7 +18,7 @@ if ($mysqli->connect_errno) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel= "shortcut icon" media="all" type="image/x-icon" href="https://web.engr.oregonstate.edu/~watsokel/crrd/wmi/favicon.ico" />
+  <link rel= "shortcut icon" media="all" type="image/x-icon" href="favicon.ico" />
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/navbar-fixed-top.css" rel="stylesheet">
   <link href="css/toast.css" rel="stylesheet">

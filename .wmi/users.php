@@ -30,7 +30,7 @@ if ($mysqli->connect_errno) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <title>Admin Portal: Corvallis Reuse and Repair Directory</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/navbar-fixed-top.css" rel="stylesheet">
@@ -139,7 +139,7 @@ if ($mysqli->connect_errno) {
         <div class="col-sm-10">
           <!-- Not sure if this should be prepopulated -->
           <!--should be <input type="text" class="form-control" id="uPassword" value="<?php //echo htmlspecialchars($_POST['user-password']);?>">-->
-          <input type="text" class="form-control" id="uPassword" value="<?php echo htmlspecialchars($_POST['user-password']); ?>">
+          <input type="password" class="form-control" id="uPassword" placeholder="New Password">
         </div>
         </div>
 
@@ -230,8 +230,9 @@ function manageUser(action) {
     var password = $('#inputPassword').val();    var params = [userName,email,password];
     if(validateInput(userName, email, password)){ //check for empty inputs
       ajaxCall('add', params);//ajax call,pass params to db
+    } else{
+      return;
     } 
-    return;
   } else if(action=='edit'){
     console.log("edit user");
     var userId = $('#uId').val();
@@ -241,7 +242,9 @@ function manageUser(action) {
     var params = [userId,userName,email,password];
     if(validateInput(userName, email, password)){ //check for empty inputs
       ajaxCall('edit', params);//ajax call,pass params to db
-    } 
+    } else{
+      return;
+    }
   }
 }
 
