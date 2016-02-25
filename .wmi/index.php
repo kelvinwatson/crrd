@@ -136,7 +136,6 @@ function ajaxCall(userName, password){
     dataType: 'json',
     success: function(data){
       //data - response from server
-      console.log(data);
       if(data.httpResponseCode==200){
         window.location = 'index.php?authenticated=True';
       } else{ //httpResponseCode is 400
@@ -144,17 +143,11 @@ function ajaxCall(userName, password){
       }  
     },
     error: function (jqXHR, textStatus, errorThrown){
-      console.log("==AJAX ERR==");
-      console.log(jqXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
     }
   });
 }
 
 function validateInput(userName, password){
-  console.log("Validating inputs...");
-  console.log(userName+ " "+password);
   var errString=null;
   if(!userName || !password){ //empty fields
     if(!userName){

@@ -257,7 +257,6 @@ window.onload = function(){
 
 function manageUser(action) { 
   if(action=='add'){
-    console.log("add user");
     var userName = $('#inputUsername').val(); 
     var email = $('#inputEmail').val();
     var password = $('#inputPassword').val();    var params = [userName,email,password];
@@ -267,7 +266,6 @@ function manageUser(action) {
       return;
     } 
   } else if(action=='edit'){
-    console.log("edit user");
     var userId = $('#uId').val();
     var userName = $('#uName').val();
     var email = $('#uEmail').val();
@@ -294,7 +292,6 @@ function ajaxCall(action, params){
     dataType: 'json',
     success: function(data){
       //data - response from server
-      console.log(data);
       if(data.httpResponseCode==200){
         if(data.response=='addSuccess'){
           window.location = 'users.php?addSuccess=True';
@@ -311,23 +308,14 @@ function ajaxCall(action, params){
         } else if (data.response=='editFailure'){
           window.location = 'users.php?editSuccess=False';
         }
-        
       }
-        
     },
     error: function (jqXHR, textStatus, errorThrown){
-      console.log("==AJAX ERR==");
-      console.log(jqXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
     }
   });
 }
 
 function validateInput(userName, email, password){
-    console.log("Validating inputs...");
-    console.log(userName+ " "+email+" "+password);
-    debugger;
     var errString=null;
     if(!userName || !email || !password){ //empty fields
       if(!userName){
