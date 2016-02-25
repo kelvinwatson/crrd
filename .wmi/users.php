@@ -20,11 +20,6 @@ $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'wats
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
-
-//verify that the user is authorized to be here, using sessions:
-
-//
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -347,8 +342,19 @@ function validateInput(userName, email, password){
       Toast.error(errString,'Failed to add user');
       return false;
   } else{
-    return true;
+    if(/\s/.test(userName)){ //contains white space
+      errString="User name cannot contain spaces, or tabs. "; 
+    }
+    if(/\s/.test(email)){ //contains white space
+      errString= errString==null? "Email address cannot contain spaces, or tabs. ": errString+"Email address cannot contain spaces, or tabs. "; 
+    }
+    if(/\s/.test(password)){ //contains white space
+      errString=errString==null? "Password cannot contain spaces, or tabs. ": errString+"Password cannot contain spaces, or tabs. "; 
+    }    
+    Toast.error(errString,'Failed to add user');
+    return false;
   }
+  return true;
 }
 
 </script>
