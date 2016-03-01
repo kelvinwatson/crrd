@@ -65,8 +65,6 @@ if (Meteor.isClient) {
     },
   });
 
-
-
   /* MAP */
   Template.android_map.onCreated(function() {
     Blaze._allowJavascriptUrls();
