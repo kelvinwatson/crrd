@@ -294,8 +294,10 @@ if ($mysqli->connect_errno) {
     //echo print_r($_POST);
     //echo var_dump($_POST['reuse-cats-items-accepted']);
     //error_log(print_r($_POST,true),3,"/nfs/stak/students/w/watsokel/public_html/crrd/wmi/err.log");
-    
-    $catItemNameArr = $_POST['reuse-cats-items-accepted'];
+    $catItemNameArr = null;
+    if(isset($_POST['reuse-cats-items-accepted'])){
+      $catItemNameArr = $_POST['reuse-cats-items-accepted'];
+    }
     //echo var_dump($catItemNameArr);
     /*for($k=0, $len=count($catItemNameArr); $k<$len; $k++){
       $kvar=explode("=",$catItemNameArr[$k]);
@@ -312,7 +314,7 @@ if ($mysqli->connect_errno) {
       <div class="form-group">
       <label for="bName" class="col-sm-2 control-label">Reuse Business Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="bName" value="<?php echo htmlspecialchars($_POST['reuse-business-name']); ?>" required>
+        <input type="text" class="form-control" id="bName" value="<?php echo $_POST['reuse-business-name']; ?>" required>
       </div>
       </div>
 
@@ -421,7 +423,7 @@ if ($mysqli->connect_errno) {
                 foreach($arr as $k=>$v){ //arr is itemID:itemName pair
                   $currCatItemName=$prevcN."=".$v;
                   //echo $currCatItemName;
-                  if(in_array($currCatItemName,$catItemNameArr)){
+                  if($catItemNameArr != null && in_array($currCatItemName,$catItemNameArr)){
                     echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  //value format is cID:iID
                   } else{
                     echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
@@ -444,7 +446,7 @@ if ($mysqli->connect_errno) {
               foreach($arr as $k=>$v){ //arr is itemID:itemName pair
                   $currCatItemName=$prevcN."=".$v;
                   //echo $currCatItemName;
-                  if(in_array($currCatItemName,$catItemNameArr)){
+                  if($catItemNameArr != null && in_array($currCatItemName,$catItemNameArr)){
                     echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\" checked>"." ".$v."</li>";  //value format is cID:iID
                   } else{
                     echo "<li><input type=\"checkbox\" name=\"edit-reuse-catid-itemid\" value=\"".$prevcID."=".$k."\">"." ".$v."</li>";
@@ -567,25 +569,21 @@ if ($mysqli->connect_errno) {
             $arr=array();
             $prevcID=$prevcN=NULL;
             while($stmt->fetch()){
-              //echo "WTF4";
               if($prevcID==null){
                 $prevcID=$cID;
                 $prevcN=$cN;
                 //echo "<br><br>$cN==<br>";
                 //echo print_r($arr);
-                //echo "wtf5<br>";
               }
               if($prevcID==$cID){
                 $arr[$iID]=$iN; //associative array
                 $prevcID=$cID;
                 $prevcN=$cN;
                 //echo print_r($arr);
-                //echo "wtf6<br>";
               } else {
                 //echo "<br><br>$prevcN==<br>";
                 //echo print_r($arr,true);
-                //echo "wtf7<br>";
-
+              
                 echo "<tr><td>".$prevcN."</td>
                 <td><ul class=\"list-unstyled\">";
                 foreach($arr as $k=>$v){
@@ -599,7 +597,6 @@ if ($mysqli->connect_errno) {
                 $arr[$iID]=$iN;
                 //echo "<br><br>$cN==<br>";
                 //echo print_r($arr,true);
-                //echo "wtf8<br>";
               }
             }
             echo
@@ -611,7 +608,6 @@ if ($mysqli->connect_errno) {
             echo "</ul></td></tr>";
             //echo "<br><br>$cN==<br>";
             //echo print_r($arr,true);
-            //echo "wtf9<br>";
             ?>
             </tbody>
           </table>
@@ -660,6 +656,7 @@ if ($mysqli->connect_errno) {
 
   function prepareParams(action){
     var businessName = document.getElementById("bName").value;
+    console.log(businessName);
     if(!businessName.match(/\S/)){ //if empty name, short circuit
       window.location = "reusebusinesses.php?err=NoBusinessName";
       return;

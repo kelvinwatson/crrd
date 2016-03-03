@@ -5,9 +5,18 @@ header('Content-Type: application/json');
 include 'dbp.php';
 $arr = array();
 $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
+
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
+
+if (!$mysqli->set_charset("utf8")) {
+	$obj->http_response_code = 400;
+	$obj->error_description = 'Error loading character set utf8.';
+	echo json_encode($obj);		
+	return;
+}
+
 $action = $_POST['action'];
 $businessName = $_POST['business_name'];
 $street = $_POST['street'];

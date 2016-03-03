@@ -166,7 +166,7 @@ if ($mysqli->connect_errno) {
           $stmt->close();   
           ?>          
         </select>
-        <input type="hidden" name="user-action" value="add-item"></form></tr>";              
+        <input type="hidden" name="user-action" value="add-item"></form></tr>              
       </div>
       </div>
       
