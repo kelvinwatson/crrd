@@ -257,7 +257,6 @@ window.onload = function(){
 
 function manageUser(action) { 
   if(action=='add'){
-    console.log('add');
     var userName = $('#inputUsername').val(); 
     var email = $('#inputEmail').val();
     var password = $('#inputPassword').val();    var params = [userName,email,password];
@@ -317,10 +316,8 @@ function ajaxCall(action, params){
 }
 
 function validateInput(userName, email, password){
-    console.log(userName+' '+email+' '+password);
     var errString=null;
     if(!userName || !email || !password){ //empty fields
-      console.log('here');
       if(!userName){
         errString="You must enter a user name. ";
       } 
@@ -333,7 +330,6 @@ function validateInput(userName, email, password){
       Toast.error(errString,'Failed to add user');
       return false;
   } else{
-    console.log('here2');
     if(/\s/.test(userName)){ //contains white space
       errString="User name cannot contain spaces, or tabs. "; 
       Toast.error(errString,'Failed to add user');
