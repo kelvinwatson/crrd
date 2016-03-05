@@ -9,7 +9,7 @@ if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
   header('Location: index.php');
 }
 
-$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
+$mysqli = new mysqli($hostname, $dbuser, $dbpass, $dbname);
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }

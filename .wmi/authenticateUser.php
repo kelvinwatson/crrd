@@ -3,9 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors',1);
 header('Content-Type: application/json');
 include 'dbp.php';
+//require 'password_compat/lib/password.php';
 
 /* CONNECT TO DATABASE */
-$mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
+$mysqli = new mysqli($hostname, $dbuser, $dbpass, $dbname);
 if ($mysqli->connect_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
