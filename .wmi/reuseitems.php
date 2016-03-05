@@ -69,7 +69,7 @@ if ($mysqli->connect_errno) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-asterisk" style="color:#7FFF00"></span> Logged In<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-asterisk" style="color:#7FFF00"></span> Logged In (<?php echo $_SESSION['username']; ?>)<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span>  Logout</a></li>
           </ul>
