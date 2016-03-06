@@ -382,17 +382,6 @@ if(!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']){
                 </div>
               </div>
             </a>
-            <a class="list-group-item">
-              <div class="row">
-                <div class="col-xs-1" style="margin-top:10px;">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </div>
-                <div class="col-xs-11">
-                  <h4 class="list-group-item-heading">Remove user</h4>
-                  <p class="list-group-item-text">Deactivate and delete a user account.</span></p>
-                </div>
-              </div>
-            </a>
           </div>
         </div>
       </div>
