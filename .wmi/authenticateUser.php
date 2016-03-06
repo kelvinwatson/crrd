@@ -1,4 +1,5 @@
 <?php session_start();
+ini_set('session.save_path', '../session_saver');
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 header('Content-Type: application/json');

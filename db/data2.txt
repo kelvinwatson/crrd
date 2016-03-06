@@ -1,9 +1,9 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 2.11.9.4
 -- http://www.phpmyadmin.net
 --
 -- Host: oniddb
--- Generation Time: Mar 05, 2016 at 12:55 PM
+-- Generation Time: Mar 05, 2016 at 12:56 PM
 -- Server version: 5.5.47
 -- PHP Version: 5.2.6-1+lenny16
 
@@ -19,6 +19,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
 -- Table structure for table `business`
+--
+-- Creation: Feb 12, 2016 at 03:55 PM
 --
 
 DROP TABLE IF EXISTS `business`;
@@ -122,7 +124,7 @@ INSERT INTO `business` (`id`, `name`, `type`, `phone`, `website`, `street`, `cit
 (76, 'Covallis Technical', 'Repair', '541-704-7009', 'http://www.corvallistechnical.com/', '966 NW Circle Blvd', 'Corvallis', 'OR', 97330, 44.5889, -123.258, 'Repair computers and laptops', 'Mon-Fri 9am-5pm'),
 (77, 'Bellevue Computers', 'Repair', '541-757-3487', 'http://www.bellevuepc.com/', '1865 NW 9th St', 'Corvallis', 'OR', 97330, 44.5864, -123.255, 'Repair computers and laptops', 'Mon-Fri 9am-6pm, Sat 10am-5pm'),
 (78, 'OSU Repair Fair', 'Repair', '541-737-7777', 'http://fa.oregonstate.edu/surplus', '644 S.W. 14th St', 'Corvallis', 'OR', 97333, 44.5609, -123.273, 'Occurs twice per quarter in the evenings Small appliances, Bicycles, Clothing, Computers (hardware and software) Electronics (small items only) Housewares (furniture, ceramics, lamps, etc.)', NULL),
-(79, 'P.K Furniture Repair and Refinishing ', 'Repair', '541-230-1727', 'http://www.pkfurniturerefinishing.net/', '5270 Corvallis-Newport Hwy', 'Toledo', 'OR', 97391, 44.6297, -123.955, 'Complete restoration, complete refinishing, modifications, custom color matching, furniture stripping, chair press caning, repairs', 'Mon-Fri 10am-6pm'),
+(79, 'P.K Furniture Repair and Refinishing ', 'Repair', '541-230-1727', 'http://www.pkfurniturerefinishing.net/', '5270 Corvallis-Newport Hwy', 'Toledo', 'OR', 97391, 44.6297, -123.955, 'Complete restoration, complete refinishing, modifications, custom color matching, furniture stripping, chair�press caning, repairs', 'Mon-Fri 10am-6pm'),
 (80, 'Furniture Restoration Center', 'Repair', '541-929-6681', 'http://restorationsupplies.com/', '1321 Main St', 'Philomath', 'OR', 97370, 44.5403, -123.367, 'Restores all typers of furniture and has hardware for doing it yourself.', 'Mon-Thu 9am-5pm, Fri 11am-3pm'),
 (81, 'Power Equipment', 'Repair', '541-757-8075', 'https://corvallispowerequipment.stihldealer.net/', '713 NE Circle Blvd', 'Corvallis', 'OR', 97330, 44.5893, -123.25, 'Lawn and garden equipment, chain saws (Stihl, honda, shindiawh), hand held equipment.', 'Mon-Fri 8am-5pm, Sat 8:30am-12pm'),
 (82, 'Robnett''s', 'Repair', '541-753-5531', 'http://ww3.truevalue.com/robnetts/Home.aspx', '400 SW 2nd St', 'Corvallis', 'OR', 97333, 44.5611, -123.262, 'Adjustment and sharpening', 'Mon-Fri 7:30am-6pm, Sat 8:30am-5:30pm, Sun 10am-4pm'),
@@ -136,6 +138,8 @@ INSERT INTO `business` (`id`, `name`, `type`, `phone`, `website`, `street`, `cit
 
 --
 -- Table structure for table `business_category_item`
+--
+-- Creation: Jan 30, 2016 at 08:30 AM
 --
 
 DROP TABLE IF EXISTS `business_category_item`;
@@ -2582,6 +2586,8 @@ INSERT INTO `business_category_item` (`bid`, `cid`, `iid`) VALUES
 --
 -- Table structure for table `category`
 --
+-- Creation: Jan 30, 2016 at 08:30 AM
+--
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
@@ -2617,6 +2623,8 @@ INSERT INTO `category` (`id`, `name`) VALUES
 
 --
 -- Table structure for table `item`
+--
+-- Creation: Jan 30, 2016 at 08:30 AM
 --
 
 DROP TABLE IF EXISTS `item`;
@@ -2815,6 +2823,8 @@ INSERT INTO `item` (`id`, `name`, `url`) VALUES
 
 --
 -- Table structure for table `users`
+--
+-- Creation: Feb 25, 2016 at 11:39 AM
 --
 
 DROP TABLE IF EXISTS `users`;

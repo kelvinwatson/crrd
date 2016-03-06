@@ -113,7 +113,7 @@ function removeBusiness($bID){
         <tbody>
         <?php
         if (!($stmt = $mysqli->prepare(
-          "SELECT b.id, b.name FROM business b WHERE b.type='Repair'"))) {
+          "SELECT b.id, b.name FROM business b WHERE b.type='Repair' AND b.name!='generic_repair_business'"))) {
           echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
         }
         if (!$stmt->execute()) {
