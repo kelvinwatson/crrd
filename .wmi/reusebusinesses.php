@@ -532,7 +532,7 @@ if ($mysqli->connect_errno) {
       </div>
       
       <div class="form-group">
-      <label for="bHours" class="col-sm-2 control-label">Website</label>
+      <label for="bHours" class="col-sm-2 control-label">Hours</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="bHours" placeholder="Operating hours (e.g. Mon-Fri 9am-5:30pm, Sat 8:30am-4pm, Sun 10am-3pm)">
       </div>
