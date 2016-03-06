@@ -163,7 +163,7 @@ if ($mysqli->connect_errno) {
                   <td style=\"font-size:0.77em;word-wrap:break-word;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
                   <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
                   <td style=\"padding-left:0px;\">
-                  <ul style=\"padding-left: 0;\">";
+                  <ul>";
                 
                 foreach($arr as $v){
                   echo "<li>".$v."</li>";
@@ -205,7 +205,7 @@ if ($mysqli->connect_errno) {
               <td style=\"font-size:0.77em;word-wrap: break-word;\">".$prevbW."<input type=\"hidden\" name=\"repair-business-website\" value=\"".$prevbW."\"></td>
               <td style=\"padding-left:0px;\">".$prevbH."<input type=\"hidden\" name=\"repair-business-hours\" value=\"".$prevbH."\"></td>
               <td>
-              <ul style=\"padding-left: 0;\">";
+              <ul>";
               foreach($arr as $v){
                 echo "<li>".$v."</li>";
                 echo "<input type=\"hidden\" name=\"repair-items-accepted[]\" value=\"".$v."\">";
