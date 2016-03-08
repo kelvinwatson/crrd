@@ -30,7 +30,7 @@
   "appName": "crrd",
 
   // Location of app (local directory)
-  "app": "/home/kwatson/Documents/cs419/crrd",
+  "app": "../../",
 
   // Configure environment
   "env": {
