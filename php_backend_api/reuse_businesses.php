@@ -22,48 +22,58 @@ if (!$mysqli->set_charset("utf8")) {
 
 
 if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on repair item
-	if(!isset($_GET['reuseCategory'])){
+	if(!isset($_GET['reuseItem'])){
 		$obj = new stdClass();
 		$obj->http_response_code = 400;
-		$obj->error_description = 'A reuse category was not selected.';
+		$obj->error_description = 'A reuse item was not selected.';
 		echo json_encode($obj);
 	} else{
-		$category=htmlspecialchars($_GET['reuseCategory']);
+		$itemName=htmlspecialchars($_GET['reuseItem']);
 
-		if (!($stmt = $mysqli->prepare("SELECT DISTINCT i.url, i.name FROM item i
-		  INNER JOIN business_category_item bci ON bci.iid=i.id
-		  INNER JOIN category c ON c.id=bci.cid
-		  WHERE c.name=? ORDER BY i.name ASC"))) {
-		  $obj->http_response_code = 400;
-  		$obj->error_description = 'Prepare failed.';
-  		echo json_encode($obj);
-    }
+		if (!($stmt = $mysqli->prepare("SELECT DISTINCT b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.hours, b.website, b.latitude, b.longitude, b.info FROM business b
+		  INNER JOIN business_category_item bci ON bci.bid=b.id
+		  INNER JOIN item i ON i.id=bci.iid
+		  WHERE b.type='Reuse' AND i.name=? ORDER BY b.name ASC"))) {
+		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+		}
 
-    if (!$stmt->bind_param("s", $category)) {
+    if (!$stmt->bind_param("s", $itemName)) {
       $obj->http_response_code = 400;
   		$obj->error_description = 'Bind param failed.';
   		echo json_encode($obj);
     }
 
 		if (!$stmt->execute()) {
-		  $obj->http_response_code = 400;
+      $obj->http_response_code = 400;
   		$obj->error_description = 'Execute failed.';
-  		echo json_encode($obj);		
-    }
+  		echo json_encode($obj);
+		}
 
-		if(!$stmt->bind_result($itemURL,$itemName)){
-		  $obj->http_response_code = 400;
+		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bP,$bH,$bW,$bLat,$bLng,$bI)){
+      $obj->http_response_code = 400;
   		$obj->error_description = 'Bind result failed.';
-  		echo json_encode($obj);		
-    }
+  		echo json_encode($obj);
+		}
 
 		$i=0;
 
 		while($stmt->fetch()){
+      if($bN=='generic_reuse_business'){
+        continue;
+      }
       $obj = new stdClass();
-		  $obj->type = 'reuseItem';
-		  $obj->url = $itemURL;
-		  $obj->name = $itemName;
+		  $obj->type = 'reuseBusiness';
+		  $obj->name = $bN;
+		  $obj->street = $bStr;
+		  $obj->city = $bC;
+		  $obj->state = $bSta;
+		  $obj->zip = $bZ;
+		  $obj->phone = $bP;
+      $obj->hours = $bH;
+		  $obj->website = $bW;
+		  $obj->lat = $bLat;
+		  $obj->lng = $bLng;
+      $obj->info = $bI;
 		  $arr[$i++] = $obj;
 		}
 		if(!empty($arr)){
@@ -71,11 +81,10 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		} else{
 			$obj = new stdClass();
 			$obj->http_response_code = 400;
-			$obj->error_description = "No reuse items retrieved. The reuse item may not exist, or there may be no items associated with that reuse category.";
+			$obj->error_description = "No reuse businesses retrieved.";
 			echo json_encode($obj);
 		}
 		$stmt->close();
 	}
 }
-
 ?>

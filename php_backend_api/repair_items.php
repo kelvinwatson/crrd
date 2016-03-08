@@ -10,14 +10,6 @@ if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-if (!$mysqli->set_charset("utf8")) {
-	$obj->http_response_code = 400;
-	$obj->error_description = 'Error loading character set utf8.';
-	echo json_encode($obj);		
-	return;
-}
-
-
 if (!($stmt = $mysqli->prepare("SELECT DISTINCT i.name,i.url FROM item i
 	INNER JOIN business_category_item bci ON bci.iid=i.id
 	INNER JOIN category c ON c.id=bci.cid

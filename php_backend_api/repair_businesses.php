@@ -16,53 +16,44 @@ if ($mysqli->connect_errno) {
 if (!$mysqli->set_charset("utf8")) {
 	$obj->http_response_code = 400;
 	$obj->error_description = 'Error loading character set utf8.';
-	echo json_encode($obj);
+	echo json_encode($obj);		
 	return;
 }
 
 
 if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on repair item
-	if(!isset($_GET['reuseItem'])){
+	if(!isset($_GET['repairItem'])){
 		$obj = new stdClass();
 		$obj->http_response_code = 400;
-		$obj->error_description = 'A reuse item was not selected.';
+		$obj->error_description = 'A repair item was not selected.';
 		echo json_encode($obj);
 	} else{
-		$itemName=htmlspecialchars($_GET['reuseItem']);
+		$itemName=$_GET['repairItem'];
 
-		if (!($stmt = $mysqli->prepare("SELECT DISTINCT b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.hours, b.website, b.latitude, b.longitude, b.info FROM business b
+		if (!($stmt = $mysqli->prepare("SELECT b.name, b.street, b.city, b.state, b.zipcode, b.phone, b.hours, b.website, b.latitude, b.longitude, b.info, i.name FROM business b
 		  INNER JOIN business_category_item bci ON bci.bid=b.id
 		  INNER JOIN item i ON i.id=bci.iid
-		  WHERE b.type='Reuse' AND i.name=? ORDER BY b.name ASC"))) {
+		  INNER JOIN category c ON c.id=bci.cid
+		  WHERE b.type='Repair' AND i.name='".$itemName."' ORDER BY b.name ASC"))) {
 		  echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 		}
 
-    if (!$stmt->bind_param("s", $itemName)) {
-      $obj->http_response_code = 400;
-  		$obj->error_description = 'Bind param failed.';
-  		echo json_encode($obj);
-    }
-
 		if (!$stmt->execute()) {
-      $obj->http_response_code = 400;
-  		$obj->error_description = 'Execute failed.';
-  		echo json_encode($obj);
+			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 		}
 
-		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bP,$bH,$bW,$bLat,$bLng,$bI)){
-      $obj->http_response_code = 400;
-  		$obj->error_description = 'Bind result failed.';
-  		echo json_encode($obj);
+		if(!$stmt->bind_result($bN,$bStr,$bC,$bSta,$bZ,$bP,$bH,$bW,$bLat,$bLng,$bI,$iN)){
+		  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqlii->connect_error;
 		}
 
 		$i=0;
 
 		while($stmt->fetch()){
-      if($bN=='generic_reuse_business'){
+      if($bN=='generic_repair_business'){
         continue;
       }
       $obj = new stdClass();
-		  $obj->type = 'reuseBusiness';
+		  $obj->type = 'repairBusiness';
 		  $obj->name = $bN;
 		  $obj->street = $bStr;
 		  $obj->city = $bC;
@@ -81,10 +72,18 @@ if($_SERVER['REQUEST_METHOD']==='GET'){	//Retrieve repair businesses based on re
 		} else{
 			$obj = new stdClass();
 			$obj->http_response_code = 400;
-			$obj->error_description = "No reuse businesses retrieved.";
+			$obj->error_description = "No repair businesses retrieved. The repair item may not exist, or there may be no businesses associated with that repair item.";
 			echo json_encode($obj);
 		}
 		$stmt->close();
 	}
+} else if ($_SERVER['REQUEST_METHOD']==='POST'){ //record a new repair business
+
+} else if($_SERVER['REQUEST_METHOD']==='PUT'){ //update a business
+
+
+} else if($_SERVER['REQUEST_METHOD']==='DELETE'){ //delete a business
+
 }
+
 ?>
