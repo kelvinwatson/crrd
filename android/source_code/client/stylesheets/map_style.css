@@ -1,0 +1,7 @@
+#map { display: inline-block; min-height: 250px; width: 100% }
+
+.map-container {
+  width: 100%;
+  display:inline-block;
+  max-height: 200px;
+}

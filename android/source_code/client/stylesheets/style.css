@@ -1,0 +1,15 @@
+#top-logo{
+  padding-left:0px;
+}
+
+.list-group-item .material-icons + span{
+  position: absolute;
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
+@media screen and (max-width:322px){
+  .navbar-crrd-text{
+    display:none;
+  }
+}
